@@ -1,4 +1,3 @@
-// Типы для импорта из собранной библиотеки
 declare module '*/dist/rich-editor.es.js' {
   export const RichEditor: any;
   export const MarkdownPreview: any;

@@ -22,7 +22,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5174, // Другой порт, чтобы не конфликтовать с основным dev сервером
+    port: 5174, // A different port to avoid conflicts with the main dev server
     open: true
   }
 }); 

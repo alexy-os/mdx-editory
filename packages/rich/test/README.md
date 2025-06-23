@@ -1,43 +1,43 @@
 # Rich Editor Library Test
 
-Этот каталог содержит тестовое приложение для проверки собранной библиотеки Rich Editor.
+This directory contains a test application to verify the assembled Rich Editor library.
 
-## Как использовать
+## How to Use
 
-### 1. Сначала соберите библиотеку
+### 1. First, build the library
 ```bash
 cd packages/rich
 npm run build
 ```
 
-### 2. Запустите тест в dev режиме
+### 2. Run the test in dev mode
 ```bash
 npm run dev:test
 ```
-Откроется на порту 5174: http://localhost:5174
+It will open on port 5174: http://localhost:5174
 
-### 3. Или соберите и preview тест
+### 3. Or build and preview the test
 ```bash
 npm run build:test
 npm run preview:test
 ```
 
-## Что тестируется
+## What is Tested
 
-- ✅ Импорт из собранной библиотеки `dist/rich-editor.es.js`
-- ✅ Корректность экспортов компонентов
-- ✅ Работа стилей
-- ✅ Функциональность библиотеки как внешний пользователь
+- ✅ Import from the assembled library `dist/rich-editor.es.js`
+- ✅ Correctness of component exports
+- ✅ Style functionality
+- ✅ Functionality of the library as an external user
 
-## Структура
+## Structure
 
-- `index.html` - HTML страница для тестирования
-- `test.tsx` - React компонент, использующий библиотеку
-- `vite.config.ts` - Конфигурация Vite для тестирования
-- `types.d.ts` - Типы для импорта из dist/
+- `index.html` - HTML page for testing
+- `test.tsx` - React component using the library
+- `vite.config.ts` - Vite configuration for testing
+- `types.d.ts` - Types for importing from dist/
 
 ## Workflow
 
-1. Изменили код библиотеки → `npm run build`
-2. Тестируем изменения → `npm run dev:test`
-3. Проверяем сборку → `npm run build:test && npm run preview:test` 
+1. Modify the library code → `npm run build`
+2. Test the changes → `npm run dev:test`
+3. Check the build → `npm run build:test && npm run preview:test` 
