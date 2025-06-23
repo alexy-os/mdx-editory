@@ -1,40 +1,40 @@
 # Rich Editor
 
-Полнофункциональный редактор статей для блога на основе TipTap с поддержкой Markdown/MDX файлов и интеграцией с WordPress типами данных.
+A fully functional blog article editor based on TipTap, supporting Markdown/MDX files and integrating with WordPress data types.
 
-## Особенности
+## Features
 
-- 🚀 **Современный редактор** на основе TipTap с богатым функционалом
-- 📝 **Поддержка Markdown/MDX** с автоматическим парсингом frontmatter
-- 🌙 **Темная тема** с полной поддержкой dark: модификаторов
-- 📊 **Управление метаданными** с автогенерацией slug, excerpt, id
-- 👀 **Предпросмотр в реальном времени** в полноэкранном модальном окне
-- 📁 **Менеджер файлов** с drag & drop поддержкой
-- 💾 **Экспорт в MDX** с сохранением всех метаданных
-- 🔄 **Интеграция с WordPress** типами данных
+- 🚀 **Modern editor** based on TipTap with rich functionality
+- 📝 **Support for Markdown/MDX** with automatic frontmatter parsing
+- 🌙 **Dark mode** with full support for dark: modifiers
+- 📊 **Metadata management** with auto-generation of slug, excerpt, and id
+- 👀 **Real-time preview** in a fullscreen modal
+- 📁 **File manager** with drag & drop support
+- 💾 **Export to MDX** while preserving all metadata
+- 🔄 **Integration with WordPress** data types
 
-## Установка
+## Installation
 
 ```bash
 cd packages/rich
 bun install
 ```
 
-## Запуск разработки
+## Development
 
 ```bash
 bun run dev
 ```
 
-## Сборка
+## Build
 
 ```bash
 bun run build
 ```
 
-## Использование
+## Usage
 
-### Базовое использование
+### Basic Usage
 
 ```tsx
 import { RichEditorApp } from '@editory/rich';
@@ -45,7 +45,7 @@ function App() {
 }
 ```
 
-### Отдельные компоненты
+### Individual Components
 
 ```tsx
 import { 
@@ -76,79 +76,79 @@ function MyEditor() {
 }
 ```
 
-## Структура проекта
+## Project Structure
 
 ```
 packages/rich/
 ├── src/
-│   ├── components/          # React компоненты
-│   │   ├── RichEditor.tsx   # Основной редактор TipTap
-│   │   ├── PostMetaEditor.tsx # Редактор метаданных
-│   │   ├── MarkdownPreview.tsx # Предпросмотр
-│   │   ├── FileManager.tsx  # Менеджер файлов
-│   │   └── RichEditorApp.tsx # Главное приложение
-│   ├── hooks/               # React хуки
-│   │   ├── useEditor.ts     # Управление состоянием редактора
-│   │   ├── useFileManager.ts # Управление файлами
-│   │   └── useDarkMode.ts   # Управление темой
-│   ├── types/               # TypeScript типы
-│   │   ├── editor.ts        # Типы редактора
-│   │   ├── post.ts          # WordPress Post типы
-│   │   └── menu.ts          # WordPress Menu типы
-│   ├── utils/               # Утилиты
-│   │   └── index.ts         # Парсинг MD, генерация slug и т.д.
-│   ├── styles/              # Стили
-│   │   └── index.css        # Основные стили с Tailwind
-│   └── ~data/               # Данные (будет создано автоматически)
-│       ├── context.json     # База данных постов
-│       └── menu.json        # Меню для сайдбара
-└── dist/                    # Сборка
+│   ├── components/          # React components
+│   │   ├── RichEditor.tsx   # Main TipTap editor
+│   │   ├── PostMetaEditor.tsx # Metadata editor
+│   │   ├── MarkdownPreview.tsx # Preview
+│   │   ├── FileManager.tsx  # File manager
+│   │   └── RichEditorApp.tsx # Main application
+│   ├── hooks/               # React hooks
+│   │   ├── useEditor.ts     # Editor state management
+│   │   ├── useFileManager.ts # File management
+│   │   └── useDarkMode.ts   # Theme management
+│   ├── types/               # TypeScript types
+│   │   ├── editor.ts        # Editor types
+│   │   ├── post.ts          # WordPress Post types
+│   │   └── menu.ts          # WordPress Menu types
+│   ├── utils/               # Utilities
+│   │   └── index.ts         # MD parsing, slug generation, etc.
+│   ├── styles/              # Styles
+│   │   └── index.css        # Main styles with Tailwind
+│   └── ~data/               # Data (will be created automatically)
+│       ├── context.json     # Posts database
+│       └── menu.json        # Sidebar menu
+└── dist/                    # Build output
 ```
 
-## Поддерживаемые форматы
+## Supported Formats
 
-### Markdown файлы (.md)
+### Markdown Files (.md)
 ```markdown
 ---
-title: "Заголовок статьи"
-slug: "zagolovok-stati"
-excerpt: "Краткое описание"
+title: "Article Title"
+slug: "article-title"
+excerpt: "Short description"
 ---
 
-# Содержимое статьи
+# Article Content
 
-Текст статьи в формате Markdown.
+Text of the article in Markdown format.
 ```
 
-### MDX файлы (.mdx)
+### MDX Files (.mdx)
 ```mdx
 ---
-title: "Интерактивная статья"
-slug: "interaktivnaya-statya"
+title: "Interactive Article"
+slug: "interactive-article"
 categories: ["React", "MDX"]
 ---
 
 import { CustomComponent } from './components';
 
-# Статья с компонентами
+# Article with Components
 
 <CustomComponent prop="value" />
 ```
 
-## Метаданные поста
+## Post Metadata
 
-Редактор поддерживает следующие обязательные поля:
+The editor supports the following required fields:
 
-- **title** - Заголовок статьи
-- **slug** - URL slug (автогенерация из title)
-- **id** - Уникальный ID (автогенерация)
-- **excerpt** - Краткое описание (автогенерация из содержимого)
+- **title** - Title of the article
+- **slug** - URL slug (auto-generated from title)
+- **id** - Unique ID (auto-generated)
+- **excerpt** - Short description (auto-generated)
 
-Дополнительные поля:
+Additional fields:
 
-- **featuredImage** - Главное изображение
-- **categories** - Категории
-- **date** - Дата публикации
+- **featuredImage** - Main image
+- **categories** - Categories
+- **date** - Publication date
 
 ## API
 
@@ -157,30 +157,30 @@ import { CustomComponent } from './components';
 ```tsx
 const { state, actions } = useEditor();
 
-// state содержит:
-// - currentFile: текущий файл
-// - files: список всех файлов
-// - isPreviewOpen: состояние предпросмотра
-// - isDarkMode: состояние темы
-// - context: база данных постов
-// - menu: меню для навигации
+// state contains:
+// - currentFile: the current file
+// - files: list of all files
+// - isPreviewOpen: preview state
+// - isDarkMode: theme state
+// - context: posts database
+// - menu: navigation menu
 
-// actions содержит:
-// - loadFile: загрузка файла
-// - saveFile: сохранение файла
-// - updateContent: обновление содержимого
-// - updateMeta: обновление метаданных
-// - togglePreview: переключение предпросмотра
-// - toggleDarkMode: переключение темы
-// - exportToMDX: экспорт в MDX
+// actions contains:
+// - loadFile: load a file
+// - saveFile: save a file
+// - updateContent: update content
+// - updateMeta: update metadata
+// - togglePreview: toggle preview
+// - toggleDarkMode: toggle theme
+// - exportToMDX: export to MDX
 ```
 
-## Интеграция с WordPress
+## Integration with WordPress
 
-Редактор полностью совместим с типами данных WordPress:
+The editor is fully compatible with WordPress data types:
 
 ```typescript
-// Автоматическое преобразование в WordPress Post формат
+// Automatic conversion to WordPress Post format
 const wordpressPost: Post = {
   title: meta.title,
   content: content,
@@ -190,18 +190,18 @@ const wordpressPost: Post = {
   featuredImage: meta.featuredImage,
   categories: meta.categories,
   date: formatDate(new Date()),
-  // ... остальные поля WordPress
+  // ... other WordPress fields
 };
 ```
 
-## Кастомизация
+## Customization
 
-### Темы
+### Themes
 
-Редактор поддерживает кастомизацию через CSS переменные и Tailwind классы:
+The editor supports customization through CSS variables and Tailwind classes:
 
 ```css
-/* Кастомная тема */
+/* Custom theme */
 .my-editor-theme {
   --editor-bg: #f8f9fa;
   --editor-text: #212529;
@@ -215,14 +215,14 @@ const wordpressPost: Post = {
 }
 ```
 
-### Расширения TipTap
+### TipTap Extensions
 
 ```tsx
 import { Extension } from '@tiptap/core';
 
 const CustomExtension = Extension.create({
   name: 'customExtension',
-  // конфигурация расширения
+  // extension configuration
 });
 
 <RichEditor
@@ -232,13 +232,13 @@ const CustomExtension = Extension.create({
 />
 ```
 
-## Разработка
+## Development
 
-1. Клонируйте репозиторий
-2. Установите зависимости: `bun install`
-3. Запустите разработку: `bun run dev`
-4. Откройте http://localhost:5173
+1. Clone the repository
+2. Install dependencies: `bun install`
+3. Start development: `bun run dev`
+4. Open http://localhost:5173
 
-## Лицензия
+## License
 
-MIT 
+MIT
