@@ -1,0 +1,33 @@
+{
+  "name": "editory",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "buildy-ui",
+    "url": "https://github.com/buildy-ui/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buildy-ui/editory.git"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "blog:dev":      "bun run --cwd apps/blog dev",
+    "blog:build":    "bun run --cwd apps/blog build",
+    "blog:preview":  "bun run --cwd apps/blog preview",
+    "admin:dev":      "bun run --cwd apps/admin dev",
+    "admin:build":    "bun run --cwd apps/admin build",
+    "admin:preview":  "bun run --cwd apps/admin preview",
+    "rich:dev":      "bun run --cwd packages/rich dev",
+    "rich:build":    "bun run --cwd packages/rich build",
+    "rich:preview":  "bun run --cwd packages/rich preview",
+    "ui:init":  "bun run --cwd packages/ui bun x buildy-ui@latest init",
+    "ui:add":   "bun run --cwd packages/ui bun x buildy-ui@latest add",
+    "optimize:images": "tsx scripts/optimize-images.ts",
+    "generate": "bun run build && tsx scripts/public-generate.tsx"
+  }
+}

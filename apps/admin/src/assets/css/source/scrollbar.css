@@ -1,0 +1,27 @@
+/* Custom scrollbar styles with shadcn colors */
+/* width */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+aside::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded cursor-pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}

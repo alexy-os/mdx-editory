@@ -1,0 +1,44 @@
+{
+  "name": "@editory/blog",
+  "version": "0.0.3",
+  "type": "module",
+  "private": true,
+  "author": {
+    "name": "buildy-ui",
+    "url": "https://github.com/buildy-ui/"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build:analyze": "tsc && vite build --mode analyze"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.515.0",
+    "pretty": "^2.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.9",
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react-swc": "^3.10.2",
+    "glob": "^11.0.3",
+    "postcss": "^8.5.4",
+    "sharp": "^0.33.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.9",
+    "tsx": "^4.0.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vite-bundle-analyzer": "^0.7.0",
+    "vite-plugin-compression": "^0.5.1"
+  }
+}
