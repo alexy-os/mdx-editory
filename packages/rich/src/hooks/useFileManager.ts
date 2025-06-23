@@ -41,7 +41,7 @@ export function useFileManager() {
       return acc;
     }, {} as Record<string, any>);
 
-    // Здесь будет логика сохранения в src/~data/context.json
+    // Here will be logic to save in src/~data/context.json
     console.log('Saving context:', context);
     return context;
   }, [files]);
@@ -57,7 +57,7 @@ export function useFileManager() {
       current: file.id === currentFileId
     }));
 
-    // Здесь будет логика сохранения в src/~data/menu.json
+    // Here will be logic to save in src/~data/menu.json
     console.log('Generating menu:', menu);
     return menu;
   }, [files, currentFileId]);

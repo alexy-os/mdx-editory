@@ -54,12 +54,12 @@ export function FileManager({
         onFileLoad(file);
       }
     });
-    // Сброс input для возможности повторного выбора того же файла
+    // Reset input to allow selecting the same file again
     e.target.value = '';
   }, [onFileLoad]);
 
   const handleLoadExample = useCallback((content: string, filename: string) => {
-    // Создаем File объект из строки для совместимости с onFileLoad
+    // Create File object from string for compatibility with onFileLoad
     const blob = new Blob([content], { type: 'text/markdown' });
     const file = new File([blob], filename, { 
       type: 'text/markdown',
@@ -85,7 +85,7 @@ export function FileManager({
       'bg-white dark:bg-gray-900',
       className
     )}>
-      {/* Заголовок */}
+      {/* Header */}
       <div className={cn(
         'p-4 border-b',
         'border-gray-200 dark:border-gray-700',
@@ -97,14 +97,14 @@ export function FileManager({
               'text-lg font-semibold',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Файлы ({files.length})
+              Files ({files.length})
             </h3>
             {files.length > 0 && (
               <p className={cn(
                 'text-xs mt-1',
                 'text-gray-500 dark:text-gray-400'
               )}>
-                Автосохранение context.json и menu.json
+                Auto-save context.json and menu.json
               </p>
             )}
           </div>
@@ -116,7 +116,7 @@ export function FileManager({
             'hover:bg-blue-700 dark:hover:bg-blue-600',
             'transition-colors'
           )}>
-            Загрузить
+            Upload
             <input
               type="file"
               multiple
@@ -128,7 +128,7 @@ export function FileManager({
         </div>
       </div>
 
-      {/* Зона перетаскивания */}
+      {/* Drag and drop zone */}
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -148,7 +148,7 @@ export function FileManager({
               'text-lg font-semibold',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Файлы ({files.length})
+              Files ({files.length})
             </h3>
           </div>
           {/*<QuickStart 
@@ -222,7 +222,7 @@ export function FileManager({
                       'text-gray-400 hover:text-red-600 dark:hover:text-red-400',
                       'transition-colors'
                     )}
-                    title="Удалить файл"
+                    title="Delete file"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -235,7 +235,7 @@ export function FileManager({
         )}
       </div>
 
-      {/* Статистика */}
+      {/* Statistics */}
       {files.length > 0 && (
         <div className={cn(
           'p-4 border-t',
@@ -246,7 +246,7 @@ export function FileManager({
             <div className={cn(
               'text-gray-600 dark:text-gray-400'
             )}>
-              Всего файлов: {files.length}
+              Total files: {files.length}
             </div>
             
             <div className="flex gap-4">

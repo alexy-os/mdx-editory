@@ -1,13 +1,13 @@
 import { marked } from 'marked';
 import TurndownService from 'turndown';
 
-// Настройка marked для парсинга Markdown в HTML
+// Setup marked for parsing Markdown to HTML
 marked.setOptions({
-  breaks: true, // Поддержка переносов строк
+  breaks: true, // Support line breaks
   gfm: true,    // GitHub Flavored Markdown
 });
 
-// Настройка Turndown для конвертации HTML в Markdown
+// Setup Turndown for converting HTML to Markdown
 const turndownService = new TurndownService({
   headingStyle: 'atx',
   codeBlockStyle: 'fenced',
@@ -18,7 +18,7 @@ const turndownService = new TurndownService({
   linkReferenceStyle: 'full'
 });
 
-// Добавляем правила для лучшей конвертации
+// Add rules for better conversion
 turndownService.addRule('strikethrough', {
   filter: ['del', 's', 'strike'],
   replacement: function (content) {
@@ -61,7 +61,7 @@ turndownService.addRule('tableCell', {
 });
 
 /**
- * Конвертирует Markdown в HTML
+ * Convert Markdown to HTML
  */
 export function markdownToHtml(markdown: string): string {
   try {
@@ -74,7 +74,7 @@ export function markdownToHtml(markdown: string): string {
 }
 
 /**
- * Конвертирует HTML в Markdown
+ * Convert HTML to Markdown
  */
 export function htmlToMarkdown(html: string): string {
   try {
@@ -86,10 +86,10 @@ export function htmlToMarkdown(html: string): string {
 }
 
 /**
- * Очищает HTML от лишних тегов и атрибутов для лучшей конвертации
+ * Clean HTML of extra tags and attributes for better conversion
  */
 export function sanitizeHtmlForMarkdown(html: string): string {
-  // Удаляем классы и стили, которые добавляет TipTap
+  // Remove classes and styles that TipTap adds
   return html
     .replace(/\sclass="[^"]*"/g, '')
     .replace(/\sstyle="[^"]*"/g, '')
@@ -97,19 +97,19 @@ export function sanitizeHtmlForMarkdown(html: string): string {
     .replace(/\scontenteditable="[^"]*"/g, '')
     .replace(/\sdraggable="[^"]*"/g, '')
     .replace(/\sspellcheck="[^"]*"/g, '')
-    .replace(/<p><\/p>/g, '') // Удаляем пустые параграфы
-    .replace(/\n\s*\n\s*\n/g, '\n\n') // Убираем лишние переносы
+    .replace(/<p><\/p>/g, '') // Remove empty paragraphs
+    .replace(/\n\s*\n\s*\n/g, '\n\n') // Remove extra line breaks
     .trim();
 }
 
 /**
- * Подготавливает Markdown для отображения в TipTap редакторе
+ * Prepare Markdown for display in the TipTap editor
  */
 export function prepareMarkdownForEditor(markdown: string): string {
-  // Конвертируем markdown в HTML для TipTap
+  // Convert markdown to HTML for TipTap
   const html = markdownToHtml(markdown);
   
-  // Дополнительные преобразования для лучшей совместимости с TipTap
+  // Additional transformations for better compatibility with TipTap
   return html
     .replace(/<br\s*\/?>/gi, '<br>')
     .replace(/&nbsp;/g, ' ')
@@ -117,7 +117,7 @@ export function prepareMarkdownForEditor(markdown: string): string {
 }
 
 /**
- * Подготавливает HTML из TipTap для сохранения как Markdown
+ * Prepare HTML from TipTap for saving as Markdown
  */
 export function prepareHtmlForMarkdown(html: string): string {
   const sanitized = sanitizeHtmlForMarkdown(html);
@@ -125,7 +125,7 @@ export function prepareHtmlForMarkdown(html: string): string {
 }
 
 /**
- * Проверяет, является ли контент валидным HTML
+ * Check if the content is valid HTML
  */
 export function isValidHtml(content: string): boolean {
   try {
@@ -138,19 +138,19 @@ export function isValidHtml(content: string): boolean {
 }
 
 /**
- * Проверяет, является ли контент Markdown
+ * Check if the content is Markdown
  */
 export function isMarkdownContent(content: string): boolean {
-  // Простая эвристика для определения Markdown
+  // Simple heuristic for determining Markdown
   const markdownPatterns = [
-    /^#{1,6}\s/, // заголовки
-    /^\*\s/, // списки
-    /^\d+\.\s/, // нумерованные списки
-    /^\>\s/, // цитаты
-    /```/, // блоки кода
-    /\*\*.*\*\*/, // жирный текст
-    /\*.*\*/, // курсив
-    /\[.*\]\(.*\)/, // ссылки
+    /^#{1,6}\s/, // headings
+    /^\*\s/, // lists
+    /^\d+\.\s/, // numbered lists
+    /^\>\s/, // quotes
+    /```/, // code blocks
+    /\*\*.*\*\*/, // bold text
+    /\*.*\*/, // italic
+    /\[.*\]\(.*\)/, // links
   ];
   
   return markdownPatterns.some(pattern => pattern.test(content));

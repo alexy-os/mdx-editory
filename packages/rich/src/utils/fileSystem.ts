@@ -3,31 +3,31 @@ import { Post } from '../types/post';
 import { Menu } from '../types/menu';
 import { formatDate } from './index';
 
-// Создаем папку ~data если она не существует
+// Create ~data folder if it doesn't exist
 export function ensureDataDirectory(): Promise<void> {
   return new Promise((resolve) => {
-    // В браузере мы не можем создавать реальные папки
-    // Это заглушка для будущей интеграции с файловой системой
+    // In the browser we can't create real folders
+    // This is a placeholder for future integration with the file system
     console.log('Ensuring ~data directory exists...');
     resolve();
   });
 }
 
-// Преобразование EditorFile в WordPress Post формат
+// Convert EditorFile to WordPress Post format
 export function convertToWordPressPost(file: EditorFile): Post {
   const meta = file.frontmatter || {};
   const date = formatDate(file.lastModified);
   
-  // Используем HTML контент для экспорта в JSON, а не Markdown
-  const htmlContent = file.content; // Это уже HTML из TipTap
+  // Use HTML content for export to JSON, not Markdown
+  const htmlContent = file.content; // This is already HTML from TipTap
   
   return {
     title: meta.title || file.name,
-    content: htmlContent, // Сохраняем HTML контент
+    content: htmlContent, // Save HTML content
     slug: meta.slug || file.name.replace(/\.(md|mdx)$/, ''),
     url: `/${meta.slug || file.name.replace(/\.(md|mdx)$/, '')}`,
     id: meta.id || parseInt(file.id),
-    excerpt: meta.excerpt || htmlContent.replace(/<[^>]*>/g, '').substring(0, 160) + '...', // Убираем HTML теги для excerpt
+    excerpt: meta.excerpt || htmlContent.replace(/<[^>]*>/g, '').substring(0, 160) + '...', // Remove HTML tags for excerpt
     featuredImage: meta.featuredImage || {
       url: '',
       width: 0,
@@ -60,7 +60,7 @@ export function convertToWordPressPost(file: EditorFile): Post {
   };
 }
 
-// Генерация context.json
+// Generate context.json
 export function generateContext(files: EditorFile[]): Record<string, any> {
   const context: Record<string, any> = {};
   
@@ -77,7 +77,7 @@ export function generateContext(files: EditorFile[]): Record<string, any> {
   return context;
 }
 
-// Генерация menu.json
+// Generate menu.json
 export function generateMenu(files: EditorFile[]): Menu {
   const items = files.map((file, index) => {
     const meta = file.frontmatter || {};
@@ -99,18 +99,18 @@ export function generateMenu(files: EditorFile[]): Menu {
   };
 }
 
-// Сохранение context.json (в реальном приложении это будет API вызов)
+// Save context.json (in the real application this will be an API call)
 export async function saveContext(context: Record<string, any>): Promise<void> {
   try {
     await ensureDataDirectory();
     
-    // В браузере мы можем только логировать или использовать localStorage
+    // In the browser we can only log or use localStorage
     const contextJson = JSON.stringify(context, null, 2);
     localStorage.setItem('rich-editor-context', contextJson);
     
     console.log('Context saved to localStorage:', contextJson);
     
-    // Здесь в будущем будет реальное сохранение файла
+    // Here in the future there will be real file saving
     // await fs.writeFile('src/~data/context.json', contextJson);
     
   } catch (error) {
@@ -119,7 +119,7 @@ export async function saveContext(context: Record<string, any>): Promise<void> {
   }
 }
 
-// Сохранение menu.json
+// Save menu.json
 export async function saveMenu(menu: Menu): Promise<void> {
   try {
     await ensureDataDirectory();
@@ -129,7 +129,7 @@ export async function saveMenu(menu: Menu): Promise<void> {
     
     console.log('Menu saved to localStorage:', menuJson);
     
-    // Здесь в будущем будет реальное сохранение файла
+    // Here in the future there will be real file saving
     // await fs.writeFile('src/~data/menu.json', menuJson);
     
   } catch (error) {
@@ -138,7 +138,7 @@ export async function saveMenu(menu: Menu): Promise<void> {
   }
 }
 
-// Загрузка context.json
+// Load context.json
 export async function loadContext(): Promise<Record<string, any>> {
   try {
     const contextJson = localStorage.getItem('rich-editor-context');
@@ -152,7 +152,7 @@ export async function loadContext(): Promise<Record<string, any>> {
   }
 }
 
-// Загрузка menu.json
+// Load menu.json
 export async function loadMenu(): Promise<Menu> {
   try {
     const menuJson = localStorage.getItem('rich-editor-menu');
@@ -166,13 +166,13 @@ export async function loadMenu(): Promise<Menu> {
   }
 }
 
-// Сохранение отдельного MDX файла
+// Save individual MDX file
 export async function saveMDXFile(file: EditorFile): Promise<void> {
   try {
     const { stringifyMarkdownFile } = await import('./index');
     const content = stringifyMarkdownFile(file.frontmatter || {}, file.content);
     
-    // В браузере мы можем только скачать файл
+    // In the browser we can only download the file
     const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -185,7 +185,7 @@ export async function saveMDXFile(file: EditorFile): Promise<void> {
     
     console.log(`File ${file.name} saved as MDX`);
     
-    // Здесь в будущем будет реальное сохранение файла
+    // Here in the future there will be real file saving
     // await fs.writeFile(`src/data/${file.frontmatter?.slug || file.name}`, content);
     
   } catch (error) {
@@ -194,19 +194,19 @@ export async function saveMDXFile(file: EditorFile): Promise<void> {
   }
 }
 
-// Экспорт context.json из localStorage
+// Export context.json from localStorage
 export async function exportContextFile(): Promise<void> {
   try {
     const contextJson = localStorage.getItem('rich-editor-context');
     if (!contextJson) {
-      throw new Error('Нет данных для экспорта. Сначала загрузите и отредактируйте файлы.');
+      throw new Error('No data to export. First load and edit the files.');
     }
     
-    // Проверяем, что данные валидные
+    // Check if the data is valid
     const context = JSON.parse(contextJson);
     const formattedJson = JSON.stringify(context, null, 2);
     
-    // Скачиваем файл
+    // Download the file
     const blob = new Blob([formattedJson], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

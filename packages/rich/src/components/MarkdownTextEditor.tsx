@@ -12,7 +12,7 @@ interface MarkdownTextEditorProps {
 export function MarkdownTextEditor({ 
   content, 
   onChange, 
-  placeholder = 'Начните писать в Markdown...', 
+  placeholder = 'Start writing in Markdown...',  
   className,
   isDarkMode = false 
 }: MarkdownTextEditorProps) {
@@ -28,7 +28,7 @@ export function MarkdownTextEditor({
       'bg-white dark:bg-gray-900',
       className
     )}>
-      {/* Заголовок */}
+      {/* Header */}
       <div className={cn(
         'px-4 py-3 border-b',
         'border-gray-200 dark:border-gray-700',
@@ -39,15 +39,15 @@ export function MarkdownTextEditor({
             'text-sm font-medium',
             'text-gray-900 dark:text-gray-100'
           )}>
-            Markdown редактор
+            Markdown editor
           </h3>
           <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-            <span>Поддержка GitHub Flavored Markdown</span>
+            <span>GitHub Flavored Markdown support</span>
           </div>
         </div>
       </div>
 
-      {/* Текстовая область */}
+      {/* Text area */}
       <div className="flex-1 p-4">
         <textarea
           value={content}
@@ -64,7 +64,7 @@ export function MarkdownTextEditor({
         />
       </div>
 
-      {/* Подсказки по синтаксису */}
+      {/* Syntax tips */}
       <div className={cn(
         'px-4 py-2 border-t text-xs',
         'border-gray-200 dark:border-gray-700',
@@ -72,13 +72,13 @@ export function MarkdownTextEditor({
         'text-gray-500 dark:text-gray-400'
       )}>
         <div className="flex flex-wrap gap-4">
-          <span><strong>**жирный**</strong></span>
-          <span><em>*курсив*</em></span>
-          <span><code>`код`</code></span>
-          <span># Заголовок</span>
-          <span>- Список</span>
-          <span>[Ссылка](url)</span>
-          <span>![Картинка](url)</span>
+          <span><strong>**bold**</strong></span>
+          <span><em>*italic*</em></span>
+          <span><code>`code`</code></span>
+          <span># Header</span>
+          <span>- List</span>
+          <span>[Link](url)</span>
+          <span>![Image](url)</span>
         </div>
       </div>
     </div>

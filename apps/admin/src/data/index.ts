@@ -2,18 +2,18 @@ import { site, menu } from './wpfasty/context';
 import { about } from './pages/about';
 import { home } from './pages/home';
 import { blog } from './pages/blog';
-// Убираем старый импорт постов
+// Remove old posts import
 // import { posts } from './posts';
 
-// Импортируем новый адаптер
+// Import new adapter
 import { 
   loadPostsFromContext
 } from './adapters/contextAdapter';
 
-// Получаем посты из context.json в том же формате
+// Get posts from context.json in the same format
 export const posts = loadPostsFromContext();
 
-// Current implementation - теперь с данными из context.json
+// Current implementation - now with data from context.json
 export const renderContext = {
   about,
   home,

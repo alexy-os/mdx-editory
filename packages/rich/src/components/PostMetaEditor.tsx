@@ -45,47 +45,47 @@ export function PostMetaEditor({
         'text-lg font-semibold mb-4',
         'text-gray-900 dark:text-gray-100'
       )}>
-        Метаданные поста
+        Post metadata
       </h3>
 
       <div className="space-y-4">
         <div>
           <label className={labelClass}>
-            Заголовок *
+            Title *
           </label>
           <input
             type="text"
             value={meta.title || ''}
             onChange={(e) => handleChange('title', e.target.value)}
             className={inputClass}
-            placeholder="Введите заголовок поста"
+            placeholder="Enter the post title"
             required
           />
         </div>
 
         <div>
           <label className={labelClass}>
-            Слаг *
+            Slug *
           </label>
           <input
             type="text"
             value={meta.slug || ''}
             onChange={(e) => handleChange('slug', e.target.value)}
             className={inputClass}
-            placeholder="url-slug-posta"
+            placeholder="url-slug-post"
             required
           />
           <p className={cn(
             'mt-1 text-xs',
             'text-gray-500 dark:text-gray-400'
           )}>
-            URL-адрес поста. Автоматически генерируется из заголовка.
+            URL-address of the post. Automatically generated from the title.
           </p>
         </div>
 
         <div>
           <label className={labelClass}>
-            ID *
+            ID
           </label>
           <input
             type="number"
@@ -99,32 +99,32 @@ export function PostMetaEditor({
             'mt-1 text-xs',
             'text-gray-500 dark:text-gray-400'
           )}>
-            Уникальный идентификатор поста. Автоматически генерируется.
+            Unique identifier of the post. Automatically generated.
           </p>
         </div>
 
         <div>
           <label className={labelClass}>
-            Краткое описание *
+            Short description
           </label>
           <textarea
             value={meta.excerpt || ''}
             onChange={(e) => handleChange('excerpt', e.target.value)}
             className={cn(inputClass, 'h-20 resize-none')}
-            placeholder="Краткое описание поста для превью"
+            placeholder="Short description of the post for preview"
             required
           />
           <p className={cn(
             'mt-1 text-xs',
             'text-gray-500 dark:text-gray-400'
           )}>
-            Автоматически генерируется из содержимого поста.
+            Automatically generated from the post content.
           </p>
         </div>
 
         <div>
           <label className={labelClass}>
-            Изображение
+            Image
           </label>
           <input
             type="url"
@@ -142,7 +142,7 @@ export function PostMetaEditor({
         {meta.featuredImage?.url && (
           <div>
             <label className={labelClass}>
-              Alt текст изображения
+              Alt text of the image
             </label>
             <input
               type="text"
@@ -153,14 +153,14 @@ export function PostMetaEditor({
                 alt: e.target.value
               })}
               className={inputClass}
-              placeholder="Описание изображения"
+              placeholder="Description of the image"
             />
           </div>
         )}
 
         <div>
           <label className={labelClass}>
-            Категории
+            Categories
           </label>
           <input
             type="text"
@@ -175,13 +175,13 @@ export function PostMetaEditor({
               handleChange('categories', categories);
             }}
             className={inputClass}
-            placeholder="Технологии, Программирование, React"
+            placeholder="Technology, Programming, React"
           />
           <p className={cn(
             'mt-1 text-xs',
             'text-gray-500 dark:text-gray-400'
           )}>
-            Разделите категории запятыми.
+            Separate categories by commas.
           </p>
         </div>
       </div>
@@ -195,13 +195,13 @@ export function PostMetaEditor({
             'text-sm',
             'text-gray-500 dark:text-gray-400'
           )}>
-            * - обязательные поля
+            * - required fields
           </span>
           
           <div className="flex gap-2">
             <button
               onClick={() => {
-                // Автозаполнение недостающих полей
+                // Autofill missing fields
                 const updates: Partial<PostMeta> = {};
                 
                 if (!meta.slug && meta.title) {
@@ -225,7 +225,7 @@ export function PostMetaEditor({
                 'transition-colors'
               )}
             >
-              Автозаполнение
+              Autofill
             </button>
           </div>
         </div>

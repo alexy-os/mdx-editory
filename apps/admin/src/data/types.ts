@@ -37,7 +37,7 @@ export interface BlogPost {
   publishedAt: string;
 }
 
-// Добавляем новые типы для context.json
+// Add new types for context.json
 export interface ContextPost {
   title: string;
   content: string;
@@ -88,7 +88,7 @@ export interface ContextData {
   [key: string]: ContextPost;
 }
 
-// Адаптированный тип для совместимости с существующим кодом
+// Adapted type for compatibility with existing code
 export interface AdaptedBlogPost extends BlogPost {
   slug: string;
   url: string;

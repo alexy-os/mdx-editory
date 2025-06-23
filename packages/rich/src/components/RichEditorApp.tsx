@@ -37,7 +37,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
   const handleSave = async () => {
     if (state.currentFile) {
       await actions.saveFile(state.currentFile);
-      // Здесь можно добавить уведомление об успешном сохранении
+      // Here you can add a notification about successful saving
     }
   };
 
@@ -45,10 +45,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
     try {
       const { exportContextFile } = await import('../utils/fileSystem');
       await exportContextFile();
-      // Здесь можно добавить уведомление об успешном экспорте
+      // Here you can add a notification about successful export
     } catch (error) {
       console.error('Export failed:', error);
-      alert(`Ошибка экспорта: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`);
+      alert(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -56,22 +56,22 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
     setViewMode(prev => prev === 'visual' ? 'markdown' : 'visual');
   };
 
-  // Получаем контент в зависимости от режима просмотра
+  // Get content depending on the view mode
   const getCurrentContent = () => {
     if (!state.currentFile) return '';
     
     if (viewMode === 'markdown') {
-      // Конвертируем HTML в Markdown для текстового редактора
+      // Convert HTML to Markdown for the text editor
       return prepareHtmlForMarkdown(state.currentFile.content);
     }
     
-    return state.currentFile.content; // HTML для визуального редактора
+    return state.currentFile.content; // HTML for the visual editor
   };
 
-  // Обработчик изменения контента в зависимости от режима
+  // Handler for content change depending on the view mode
   const handleContentChange = (content: string) => {
     if (viewMode === 'markdown') {
-      // Конвертируем Markdown в HTML для сохранения
+      // Convert Markdown to HTML for saving
       const htmlContent = prepareMarkdownForEditor(content);
       actions.updateContent(htmlContent);
     } else {
@@ -87,7 +87,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
       isDarkMode && 'dark',
       className
     )}>
-      {/* Заголовок приложения */}
+      {/* Application header */}
       <header className={cn(
         'border-b',
         'border-gray-200 dark:border-gray-700',
@@ -120,7 +120,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Переключатель макета */}
+            {/* Layout switcher */}
             <div className={cn(
               'flex rounded-lg p-1',
               'bg-gray-100 dark:bg-gray-700'
@@ -134,7 +134,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                 )}
               >
-                Разделение
+                Split
               </button>
               <button
                 onClick={() => setLayout('editor')}
@@ -145,7 +145,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                 )}
               >
-                Редактор
+                Editor
               </button>
               <button
                 onClick={() => setLayout('meta')}
@@ -156,11 +156,11 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                 )}
               >
-                Метаданные
+                Metadata
               </button>
             </div>
 
-            {/* Dropdown с действиями */}
+            {/* Dropdown with actions */}
             <Dropdown
               isDarkMode={isDarkMode}
               trigger={
@@ -173,7 +173,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     'transition-colors'
                   )}
                 >
-                  <span>Действия</span>
+                  <span>Actions</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -182,7 +182,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               items={[
                 {
                   id: 'preview',
-                  label: 'Предпросмотр',
+                  label: 'Preview',
                   onClick: actions.togglePreview,
                   variant: 'success',
                   icon: (
@@ -194,10 +194,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 },
                 {
                   id: 'view-mode',
-                  label: `Режим: ${viewMode === 'visual' ? 'Визуальный' : 'Markdown'}`,
+                  label: `View mode: ${viewMode === 'visual' ? 'Visual' : 'Markdown'}`,
                   onClick: handleViewModeToggle,
                   variant: 'default',
-                  title: 'Переключить между визуальным редактором и Markdown',
+                  title: 'Switch between visual editor and Markdown',
                   icon: (
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -207,10 +207,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 ...(state.currentFile ? [
                   {
                     id: 'save',
-                    label: 'Сохранить MDX',
+                    label: 'Save MDX',
                     onClick: handleSave,
                     variant: 'primary' as const,
-                    title: 'Сохранить текущий файл как MDX',
+                    title: 'Save the current file as MDX',
                     icon: (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
@@ -219,10 +219,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   },
                   {
                     id: 'export',
-                    label: 'Экспорт Context',
+                    label: 'Export Context',
                     onClick: handleExport,
                     variant: 'warning' as const,
-                    title: 'Экспортировать context.json из localStorage',
+                    title: 'Export context.json from localStorage',
                     icon: (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -231,10 +231,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   },
                   {
                     id: 'update',
-                    label: 'Обновить',
+                    label: 'Update',
                     onClick: actions.saveAllData,
                     variant: 'warning' as const,
-                    title: 'Обновить context.json и menu.json',
+                    title: 'Update context.json and menu.json',
                     icon: (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -245,7 +245,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               ]}
             />
 
-            {/* Кнопка помощи */}
+            {/* Help button */}
             <button
               onClick={() => setShowInfo(true)}
               className={cn(
@@ -254,14 +254,14 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 'hover:bg-gray-100 dark:hover:bg-gray-700',
                 'transition-colors'
               )}
-              title="Помощь и инструкция"
+              title="Help and instructions"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </button>
 
-            {/* Переключатель темы */}
+            {/* Theme switcher */}
             <button
               onClick={toggleDarkMode}
               className={cn(
@@ -270,7 +270,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 'hover:bg-gray-100 dark:hover:bg-gray-700',
                 'transition-colors'
               )}
-              title={isDarkMode ? 'Светлая тема' : 'Темная тема'}
+              title={isDarkMode ? 'Light theme' : 'Dark theme'}
             >
               {isDarkMode ? (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -286,9 +286,9 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         </div>
       </header>
 
-      {/* Основной контент */}
+      {/* Main content */}
       <div className="flex h-[calc(100vh-73px)]">
-        {/* Боковая панель с файлами */}
+        {/* Sidebar with files */}
         <aside className={cn(
           'w-80 border-r overflow-y-auto',
           'border-gray-200 dark:border-gray-700',
@@ -304,7 +304,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
           />
         </aside>
 
-        {/* Основная рабочая область */}
+        {/* Main working area */}
         <main className="flex-1 overflow-hidden">
           {!state.currentFile ? (
             <div className="h-full flex items-center justify-center">
@@ -321,19 +321,19 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   'text-lg font-medium mb-2',
                   'text-gray-900 dark:text-gray-100'
                 )}>
-                  Выберите файл для редактирования
+                  Select a file for editing
                 </h3>
                 <p className={cn(
                   'text-sm',
                   'text-gray-500 dark:text-gray-400'
                 )}>
-                  Загрузите файл .md или .mdx для начала работы
+                  Load a .md or .mdx file to start working
                 </p>
               </div>
             </div>
           ) : (
             <div className="h-full flex">
-              {/* Редактор */}
+              {/* Editor */}
               {(layout === 'split' || layout === 'editor') && (
                 <div className={cn(
                   'flex-1 p-6 overflow-auto',
@@ -344,20 +344,20 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                       content={getCurrentContent()}
                       onChange={handleContentChange}
                       isDarkMode={isDarkMode}
-                      placeholder="Начните писать свою статью..."
+                      placeholder="Start writing your article..."
                     />
                   ) : (
                     <MarkdownTextEditor
                       content={getCurrentContent()}
                       onChange={handleContentChange}
                       isDarkMode={isDarkMode}
-                      placeholder="Начните писать в Markdown..."
+                      placeholder="Start writing in Markdown..."
                     />
                   )}
                 </div>
               )}
 
-              {/* Панель метаданных */}
+              {/* Metadata panel */}
               {(layout === 'split' || layout === 'meta') && (
                 <div className={cn(
                   layout === 'split' ? 'w-96' : 'flex-1',
@@ -375,7 +375,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         </main>
       </div>
 
-      {/* Модальное окно предпросмотра */}
+      {/* Preview modal window */}
       <MarkdownPreview
         content={state.currentFile?.content || ''}
         frontmatter={state.currentFile?.frontmatter}
@@ -384,7 +384,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         isDarkMode={isDarkMode}
       />
 
-      {/* Информационная панель */}
+      {/* Information panel */}
       {showInfo && (
         <InfoPanel
           isDarkMode={isDarkMode}

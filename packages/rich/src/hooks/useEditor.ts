@@ -28,15 +28,15 @@ export function useEditor() {
 
     const saveAllData = useCallback(async () => {
     try {
-      // Генерируем и сохраняем context.json
+      // Generate and save context.json
       const context = generateContext(state.files);
       await saveContext(context);
       
-      // Генерируем и сохраняем menu.json
+      // Generate and save menu.json
       const menu = generateMenu(state.files);
       await saveMenu(menu);
       
-      // Обновляем состояние
+      // Update state
       setState(prev => ({
         ...prev,
         context,
@@ -49,7 +49,7 @@ export function useEditor() {
     }
   }, [state.files]);
 
-  // Загружаем сохраненные данные при инициализации
+  // Load saved data when initializing
   useEffect(() => {
     const loadSavedData = async () => {
       try {
@@ -71,12 +71,12 @@ export function useEditor() {
     loadSavedData();
   }, []);
 
-  // Автоматически сохраняем context и menu при изменении файлов
+  // Automatically save context and menu when files change
   useEffect(() => {
     if (state.files.length > 0) {
       const timeoutId = setTimeout(() => {
         saveAllData();
-      }, 1000); // Дебаунс 1 секунда
+      }, 1000); // Debounce 1 second
       
       return () => clearTimeout(timeoutId);
     }
@@ -86,15 +86,15 @@ export function useEditor() {
     const content = await file.text();
     const { frontmatter, body } = parseMarkdownFile(content);
     
-    // Конвертируем Markdown в HTML для редактора TipTap
+    // Convert Markdown to HTML for the TipTap editor
     const htmlContent = isMarkdownContent(body) ? prepareMarkdownForEditor(body) : body;
     
     const editorFile: EditorFile = {
       id: generateId().toString(),
       name: file.name,
       path: file.name,
-      content: htmlContent, // Сохраняем HTML для редактора
-      originalMarkdown: body, // Сохраняем оригинальный Markdown
+      content: htmlContent, // Save HTML for the editor
+      originalMarkdown: body, // Save original Markdown
       frontmatter,
       type: file.name.endsWith('.mdx') ? 'mdx' : 'md',
       lastModified: new Date(file.lastModified)
@@ -109,19 +109,19 @@ export function useEditor() {
 
   const saveFile = useCallback(async (file: EditorFile) => {
     try {
-      // Конвертируем HTML обратно в Markdown для сохранения
+      // Convert HTML back to Markdown for saving
       const markdownContent = prepareHtmlForMarkdown(file.content);
       
-      // Создаем копию файла с Markdown контентом для сохранения
+      // Create a copy of the file with Markdown content for saving
       const fileToSave: EditorFile = {
         ...file,
         content: markdownContent
       };
       
-      // Сохраняем MDX файл
+      // Save MDX file
       await saveMDXFile(fileToSave);
       
-      // Обновляем состояние с новыми данными
+      // Update state with new data
       setState(prev => {
         const updatedFiles = prev.files.map(f => f.id === file.id ? file : f);
         return {
@@ -155,13 +155,13 @@ export function useEditor() {
         frontmatter: {
           ...prev.currentFile.frontmatter,
           ...meta,
-          // Автогенерация slug если не указан
+          // Generate slug if not specified
           slug: meta.slug || (meta.title ? generateSlug(meta.title) : prev.currentFile.frontmatter?.slug),
-          // Автогенерация excerpt если не указан
+          // Generate excerpt if not specified
           excerpt: meta.excerpt || generateExcerpt(prev.currentFile.content),
-          // Автогенерация ID если не указан
+          // Generate ID if not specified
           id: meta.id || prev.currentFile.frontmatter?.id || generateId(),
-          // Обновление даты
+          // Update date
           date: formatDate(new Date())
         }
       } : null
@@ -227,12 +227,12 @@ export function useEditor() {
 
   const exportToMDX = useCallback(() => {
     if (!state.currentFile) return '';
-    // Конвертируем HTML обратно в Markdown для экспорта
+    // Convert HTML back to Markdown for export
     const markdownContent = prepareHtmlForMarkdown(state.currentFile.content);
     return stringifyMarkdownFile(state.currentFile.frontmatter || {}, markdownContent);
   }, [state.currentFile]);
 
-  // Обновляем файл в списке при изменении контента или метаданных
+  // Update file in the list when content or metadata changes
   const updateContentWithSync = useCallback((content: string) => {
     setState(prev => ({
       ...prev,
@@ -242,7 +242,7 @@ export function useEditor() {
         lastModified: new Date()
       } : null
     }));
-    // Синхронизируем с списком файлов
+    // Sync with the list of files
     setTimeout(updateCurrentFileInList, 0);
   }, [updateCurrentFileInList]);
 
@@ -254,18 +254,18 @@ export function useEditor() {
         frontmatter: {
           ...prev.currentFile.frontmatter,
           ...meta,
-          // Автогенерация slug если не указан
+          // Generate slug if not specified
           slug: meta.slug || (meta.title ? generateSlug(meta.title) : prev.currentFile.frontmatter?.slug),
-          // Автогенерация excerpt если не указан
+          // Generate excerpt if not specified
           excerpt: meta.excerpt || generateExcerpt(prev.currentFile.content),
-          // Автогенерация ID если не указан
+          // Generate ID if not specified
           id: meta.id || prev.currentFile.frontmatter?.id || generateId(),
-          // Обновление даты
+          // Update date
           date: formatDate(new Date())
         }
       } : null
     }));
-    // Синхронизируем с списком файлов
+    // Sync with the list of files
     setTimeout(updateCurrentFileInList, 0);
   }, [updateCurrentFileInList]);
 

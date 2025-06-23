@@ -24,7 +24,7 @@ interface RichEditorProps {
 export function RichEditor({ 
   content, 
   onChange, 
-  placeholder = 'Начните писать...', 
+  placeholder = 'Start writing...',  
   className,
   isDarkMode = false 
 }: RichEditorProps) {
@@ -100,7 +100,7 @@ export function RichEditor({
         className
       )}>
         <div className="text-gray-500 dark:text-gray-400">
-          Загрузка редактора...
+          Loading editor...
         </div>
       </div>
     );
@@ -152,7 +152,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? activeButtonClass : buttonClass}
-        title="Жирный"
+        title="Bold"
       >
         <strong>B</strong>
       </button>
@@ -160,7 +160,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={editor.isActive('italic') ? activeButtonClass : buttonClass}
-        title="Курсив"
+        title="Italic"
       >
         <em>I</em>
       </button>
@@ -168,7 +168,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         className={editor.isActive('code') ? activeButtonClass : buttonClass}
-        title="Код"
+        title="Code"
       >
         {'</>'}
       </button>
@@ -178,7 +178,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? activeButtonClass : buttonClass}
-        title="Заголовок 1"
+        title="Heading 1"
       >
         H1
       </button>
@@ -186,7 +186,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? activeButtonClass : buttonClass}
-        title="Заголовок 2"
+        title="Heading 2"
       >
         H2
       </button>
@@ -194,7 +194,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={editor.isActive('heading', { level: 3 }) ? activeButtonClass : buttonClass}
-        title="Заголовок 3"
+        title="Heading 3"
       >
         H3
       </button>
@@ -204,7 +204,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? activeButtonClass : buttonClass}
-        title="Маркированный список"
+        title="Bullet list"
       >
         •
       </button>
@@ -212,7 +212,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? activeButtonClass : buttonClass}
-        title="Нумерованный список"
+        title="Ordered list"
       >
         1.
       </button>
@@ -220,7 +220,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? activeButtonClass : buttonClass}
-        title="Цитата"
+        title="Quote"
       >
         "
       </button>
@@ -228,7 +228,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? activeButtonClass : buttonClass}
-        title="Блок кода"
+        title="Code block"
       >
         {'{}'}
       </button>
@@ -237,26 +237,26 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
       
       <button
         onClick={() => {
-          const url = window.prompt('URL изображения:');
+          const url = window.prompt('Image URL:');
           if (url) {
             editor.chain().focus().setImage({ src: url }).run();
           }
         }}
         className={buttonClass}
-        title="Изображение"
+        title="Image"
       >
         🖼️
       </button>
       
       <button
         onClick={() => {
-          const url = window.prompt('URL ссылки:');
+          const url = window.prompt('Link URL:');
           if (url) {
             editor.chain().focus().setLink({ href: url }).run();
           }
         }}
         className={editor.isActive('link') ? activeButtonClass : buttonClass}
-        title="Ссылка"
+        title="Link"
       >
         🔗
       </button>

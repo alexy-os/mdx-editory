@@ -18,24 +18,24 @@ export function MarkdownPreview({
 }: MarkdownPreviewProps) {
   if (!isOpen) return null;
 
-  // Простой парсер Markdown для превью
+  // Simple Markdown parser for preview
   const parseMarkdown = (markdown: string) => {
     return markdown
-      // Заголовки
+      // Headers
       .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mt-6 mb-3">$1</h3>')
       .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-8 mb-4">$1</h2>')
       .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mt-8 mb-6">$1</h1>')
-      // Жирный текст
+      // Bold text
       .replace(/\*\*(.*)\*\*/gim, '<strong class="font-semibold">$1</strong>')
-      // Курсив
+      // Italic
       .replace(/\*(.*)\*/gim, '<em class="italic">$1</em>')
-      // Код
+      // Code
       .replace(/`([^`]*)`/gim, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">$1</code>')
-      // Ссылки
+      // Links
       .replace(/\[([^\]]*)\]\(([^\)]*)\)/gim, '<a href="$2" class="text-blue-600 dark:text-blue-400 hover:underline">$1</a>')
-      // Параграфы
+      // Paragraphs
       .replace(/\n\n/gim, '</p><p class="mb-4">')
-      // Переносы строк
+      // Line breaks
       .replace(/\n/gim, '<br>');
   };
 
@@ -50,7 +50,7 @@ export function MarkdownPreview({
         'rounded-lg shadow-2xl',
         'flex flex-col overflow-hidden'
       )}>
-        {/* Заголовок модального окна */}
+        {/* Modal window header */}
         <div className={cn(
           'flex items-center justify-between p-4 border-b',
           'border-gray-200 dark:border-gray-700',
@@ -61,7 +61,7 @@ export function MarkdownPreview({
               'text-lg font-semibold',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Предпросмотр
+              Preview
             </h2>
             {frontmatter?.title && (
               <span className={cn(
@@ -81,7 +81,7 @@ export function MarkdownPreview({
               'text-gray-500 dark:text-gray-400',
               'transition-colors'
             )}
-            title="Закрыть"
+            title="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -89,10 +89,10 @@ export function MarkdownPreview({
           </button>
         </div>
 
-        {/* Контент предпросмотра */}
+        {/* Preview content */}
         <div className="flex-1 overflow-auto">
           <div className="flex h-full">
-            {/* Панель метаданных */}
+            {/* Metadata panel */}
             {frontmatter && Object.keys(frontmatter).length > 0 && (
               <div className={cn(
                 'w-80 p-6 border-r overflow-y-auto',
@@ -103,7 +103,7 @@ export function MarkdownPreview({
                   'text-sm font-semibold mb-4',
                   'text-gray-700 dark:text-gray-300'
                 )}>
-                  Метаданные
+                  Metadata
                 </h3>
                 
                 <div className="space-y-3">
@@ -127,7 +127,7 @@ export function MarkdownPreview({
               </div>
             )}
 
-            {/* Основной контент */}
+            {/* Main content */}
             <div className="flex-1 p-8 overflow-y-auto">
               <article className={cn(
                 'prose prose-lg max-w-none',
@@ -170,15 +170,15 @@ export function MarkdownPreview({
           </div>
         </div>
 
-        {/* Подвал модального окна */}
+        {/* Modal window footer */}
         <div className={cn(
           'flex items-center justify-between p-4 border-t',
           'border-gray-200 dark:border-gray-700',
           'bg-gray-50 dark:bg-gray-800'
         )}>
           <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <span>Символов: {content.length}</span>
-            <span>Слов: {content.split(/\s+/).filter(Boolean).length}</span>
+            <span>Characters: {content.length}</span>
+            <span>Words: {content.split(/\s+/).filter(Boolean).length}</span>
           </div>
           
           <div className="flex gap-2">
@@ -194,7 +194,7 @@ export function MarkdownPreview({
                 'transition-colors'
               )}
             >
-              Копировать
+              Copy
             </button>
             
             <button
@@ -207,7 +207,7 @@ export function MarkdownPreview({
                 'transition-colors'
               )}
             >
-              Закрыть
+              Close
             </button>
           </div>
         </div>

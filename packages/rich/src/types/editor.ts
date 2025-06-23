@@ -2,8 +2,8 @@ export interface EditorFile {
   id: string;
   name: string;
   path: string;
-  content: string; // HTML контент для TipTap редактора
-  originalMarkdown?: string; // Оригинальный Markdown контент
+  content: string; // HTML content for the TipTap editor
+  originalMarkdown?: string; // Original Markdown content
   frontmatter?: Record<string, any>;
   type: 'md' | 'mdx';
   lastModified: Date;

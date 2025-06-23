@@ -56,15 +56,15 @@ interface ContextData {
 }
 
 /**
- * Преобразует ContextPost в формат WPFastyContext['archive']['posts']
+ * Converts ContextPost to WPFastyContext['archive']['posts'] format
  */
 function adaptContextPostToWPFormat(contextPost: ContextPost): WPFastyContext['archive']['posts'] {
-  // Обрабатываем featuredImage
+  // Process featuredImage
   let featuredImage: WPFastyContext['archive']['posts']['featuredImage'];
   if (contextPost.featuredImage && typeof contextPost.featuredImage === 'object') {
     featuredImage = contextPost.featuredImage;
   } else {
-    // Дефолтные значения если featuredImage отсутствует или это строка
+    // Default values if featuredImage is missing or a string
     featuredImage = {
       url: typeof contextPost.featuredImage === 'string' && contextPost.featuredImage !== 'undefined' 
         ? contextPost.featuredImage 
@@ -75,7 +75,7 @@ function adaptContextPostToWPFormat(contextPost: ContextPost): WPFastyContext['a
     };
   }
 
-  // Обрабатываем thumbnail аналогично
+  // Process thumbnail similarly
   let thumbnail: WPFastyContext['archive']['posts']['thumbnail'];
   if (contextPost.thumbnail && typeof contextPost.thumbnail === 'object') {
     thumbnail = contextPost.thumbnail;
@@ -106,7 +106,7 @@ function adaptContextPostToWPFormat(contextPost: ContextPost): WPFastyContext['a
 }
 
 /**
- * Загружает посты из context.json и возвращает в формате PostsCollection
+ * Loads posts from context.json and returns in PostsCollection format
  */
 export function loadPostsFromContext(): PostsCollection {
   const contextData = contextJson as ContextData;
@@ -114,7 +114,7 @@ export function loadPostsFromContext(): PostsCollection {
   const adaptedPosts = Object.values(contextData)
     .map(adaptContextPostToWPFormat)
     .sort((a, b) => {
-      // Сортируем по timestamp (новые сначала)
+      // Sort by timestamp (newest first)
       return b.date.timestamp - a.date.timestamp;
     });
 
@@ -124,7 +124,7 @@ export function loadPostsFromContext(): PostsCollection {
 }
 
 /**
- * Получает конкретный пост по ID
+ * Gets a specific post by ID
  */
 export function getPostById(id: number): WPFastyContext['archive']['posts'] | undefined {
   const posts = loadPostsFromContext();
@@ -132,7 +132,7 @@ export function getPostById(id: number): WPFastyContext['archive']['posts'] | un
 }
 
 /**
- * Получает конкретный пост по slug
+ * Gets a specific post by slug
  */
 export function getPostBySlug(slug: string): WPFastyContext['archive']['posts'] | undefined {
   const posts = loadPostsFromContext();
@@ -140,7 +140,7 @@ export function getPostBySlug(slug: string): WPFastyContext['archive']['posts'] 
 }
 
 /**
- * Получает посты с пагинацией
+ * Gets posts with pagination
  */
 export function getPostsPaginated(page: number = 1, limit: number = 10): {
   posts: WPFastyContext['archive']['posts'][];
@@ -168,7 +168,7 @@ export function getPostsPaginated(page: number = 1, limit: number = 10): {
 }
 
 /**
- * Получает посты по категории
+ * Gets posts by category
  */
 export function getPostsByCategory(category: string): WPFastyContext['archive']['posts'][] {
   const posts = loadPostsFromContext();
@@ -180,7 +180,7 @@ export function getPostsByCategory(category: string): WPFastyContext['archive'][
 }
 
 /**
- * Получает все уникальные категории
+ * Gets all unique categories
  */
 export function getAllCategories(): string[] {
   const posts = loadPostsFromContext();

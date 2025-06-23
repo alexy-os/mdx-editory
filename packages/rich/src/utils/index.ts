@@ -6,14 +6,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function parseMarkdownFile(content: string) {
-  // Простой парсер frontmatter без gray-matter
+  // Simple frontmatter parser without gray-matter
   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
   
   if (match) {
     const [, frontmatterString, body] = match;
     try {
-      // Простой YAML парсер для основных случаев
+      // Simple YAML parser for basic cases
       const frontmatter = parseFrontmatter(frontmatterString);
       return { frontmatter, body: body.trim() };
     } catch (error) {
@@ -59,32 +59,32 @@ function parseFrontmatter(frontmatterString: string): Record<string, any> {
     
     if (!key) continue;
     
-    // Парсинг значений
+    // Parsing values
     if (valueStr.startsWith('"') && valueStr.endsWith('"')) {
-      // Строка в кавычках
+      // String in quotes
       result[key] = valueStr.slice(1, -1);
     } else if (valueStr.startsWith('[') && valueStr.endsWith(']')) {
-      // Массив
+      // Array
       try {
         result[key] = JSON.parse(valueStr);
       } catch {
         result[key] = valueStr;
       }
     } else if (valueStr.startsWith('{') && valueStr.endsWith('}')) {
-      // Объект
+      // Object
       try {
         result[key] = JSON.parse(valueStr);
       } catch {
         result[key] = valueStr;
       }
     } else if (valueStr === 'true' || valueStr === 'false') {
-      // Булево значение
+      // Boolean value
       result[key] = valueStr === 'true';
     } else if (!isNaN(Number(valueStr))) {
-      // Число
+      // Number
       result[key] = Number(valueStr);
     } else {
-      // Обычная строка
+      // Regular string
       result[key] = valueStr;
     }
   }

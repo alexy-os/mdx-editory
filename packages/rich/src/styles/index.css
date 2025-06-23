@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Кастомные стили для редактора */
+/* Custom styles for the editor */
 .ProseMirror {
   outline: none;
 }
@@ -70,7 +70,7 @@
   cursor: col-resize;
 }
 
-/* Темная тема для таблиц */
+/* Dark theme for tables */
 .dark .ProseMirror table td,
 .dark .ProseMirror table th {
   border-color: #374151;
@@ -80,7 +80,7 @@
   background: rgba(100, 100, 200, 0.4);
 }
 
-/* Стили для блоков кода */
+/* Styles for code blocks */
 .ProseMirror pre {
   background: #0d1117;
   color: #e6edf3;
@@ -108,7 +108,7 @@
   color: #e6edf3;
 }
 
-/* Анимации */
+/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -124,7 +124,7 @@
   animation: fadeIn 0.2s ease-out;
 }
 
-/* Скроллбар */
+/* Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;

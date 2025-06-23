@@ -14,7 +14,7 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
         'bg-white dark:bg-gray-900',
         'border border-gray-200 dark:border-gray-700'
       )}>
-        {/* Заголовок */}
+        {/* Header */}
         <div className={cn(
           'p-6 border-b',
           'border-gray-200 dark:border-gray-700',
@@ -25,7 +25,7 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
               'text-xl font-semibold',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Rich Editor - Инструкция по использованию
+              Rich Editor - Instructions
             </h2>
             <button
               onClick={onClose}
@@ -43,15 +43,15 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           </div>
         </div>
 
-        {/* Содержимое */}
+        {/* Content */}
         <div className="p-6 space-y-6">
-          {/* Основные возможности */}
+          {/* Main features */}
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Основные возможности
+              Main features
             </h3>
             <ul className={cn(
               'space-y-2 text-sm',
@@ -59,90 +59,90 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
             )}>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Редактирование Markdown и MDX файлов с rich-text интерфейсом</span>
+                <span>Editing Markdown and MDX files with rich-text interface</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Управление метаданными статей (title, slug, excerpt, categories)</span>
+                <span>Managing article metadata (title, slug, excerpt, categories)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Полноэкранный предпросмотр с рендерингом MDX</span>
+                <span>Full-screen preview with MDX rendering</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Переключение между несколькими файлами</span>
+                <span>Switching between multiple files</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Автоматическое сохранение в context.json и menu.json</span>
+                <span>Automatic saving in context.json and menu.json</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Экспорт в MDX формат</span>
+                <span>Export to MDX format</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span>Темная и светлая темы</span>
+                <span>Dark and light themes</span>
               </li>
             </ul>
           </section>
 
-          {/* Быстрый старт */}
+          {/* Quick start */}
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Быстрый старт
+              Quick start
             </h3>
             <ol className={cn(
               'space-y-2 text-sm list-decimal list-inside',
               'text-gray-700 dark:text-gray-300'
             )}>
-              <li>Перетащите .md или .mdx файлы в левую панель или используйте кнопку "Загрузить"</li>
-              <li>Выберите файл для редактирования из списка</li>
-              <li>Используйте панель инструментов для форматирования текста</li>
-              <li>Заполните метаданные в правой панели (или переключитесь на вид "Метаданные")</li>
-              <li>Нажмите "Предпросмотр" для полноэкранного просмотра</li>
-              <li>Используйте "Сохранить" для сохранения отдельного файла или "Обновить" для обновления всех данных</li>
+              <li>Drag and drop .md or .mdx files to the left panel or use the "Upload" button</li>
+              <li>Select a file for editing from the list</li>
+              <li>Use the toolbar to format text</li>
+              <li>Fill in the metadata in the right panel (or switch to the "Metadata" view)</li>
+              <li>Click "Preview" for full-screen view</li>
+              <li>Use "Save" to save a single file or "Update" to update all data</li>
             </ol>
           </section>
 
-          {/* Автоматические функции */}
+          {/* Automatic functions */}
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Автоматические функции
+              Automatic functions
             </h3>
             <div className={cn(
               'space-y-3 text-sm',
               'text-gray-700 dark:text-gray-300'
             )}>
               <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                <strong className="text-blue-800 dark:text-blue-200">Автогенерация slug:</strong>
-                <p className="mt-1">Если slug не указан, он автоматически генерируется из заголовка</p>
+                <strong className="text-blue-800 dark:text-blue-200">Slug auto-generation:</strong>
+                <p className="mt-1">If slug is not specified, it is automatically generated from the title</p>
               </div>
               <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                <strong className="text-green-800 dark:text-green-200">Автогенерация excerpt:</strong>
-                <p className="mt-1">Если описание не указано, создается автоматически из первых 160 символов контента</p>
+                <strong className="text-green-800 dark:text-green-200">Excerpt auto-generation:</strong>
+                <p className="mt-1">If excerpt is not specified, it is automatically generated from the first 160 characters of the content</p>
               </div>
               <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
-                <strong className="text-purple-800 dark:text-purple-200">Автогенерация ID:</strong>
-                <p className="mt-1">Каждому файлу автоматически присваивается уникальный ID</p>
+                <strong className="text-purple-800 dark:text-purple-200">ID auto-generation:</strong>
+                <p className="mt-1">Each file is automatically assigned a unique ID</p>
               </div>
             </div>
           </section>
 
-          {/* Файловая структура */}
+          {/* File structure */}
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Сохранение данных
+              Saving data
             </h3>
             <div className={cn(
               'p-4 rounded-lg',
@@ -153,57 +153,57 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
                 'text-sm mb-2',
                 'text-gray-700 dark:text-gray-300'
               )}>
-                В текущей версии данные сохраняются в localStorage браузера:
+                In the current version, data is saved in the browser's localStorage:
               </p>
               <ul className={cn(
                 'space-y-1 text-sm',
                 'text-gray-600 dark:text-gray-400'
               )}>
-                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-context</code> - база данных постов</li>
-                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-menu</code> - структура меню</li>
+                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-context</code> - database of posts</li>
+                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-menu</code> - menu structure</li>
               </ul>
               <p className={cn(
                 'text-xs mt-2 text-yellow-600 dark:text-yellow-400'
               )}>
-                В продакшн версии данные будут сохраняться в файлы src/~data/context.json и src/~data/menu.json
+                In the production version, data will be saved in the files src/~data/context.json and src/~data/menu.json
               </p>
             </div>
           </section>
 
-          {/* Горячие клавиши */}
+          {/* Hotkeys */}
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
               'text-gray-900 dark:text-gray-100'
             )}>
-              Горячие клавиши
+              Hotkeys
             </h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Жирный</span>
+                  <span className="text-gray-700 dark:text-gray-300">Bold</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+B</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Курсив</span>
+                  <span className="text-gray-700 dark:text-gray-300">Italic</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+I</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Код</span>
+                  <span className="text-gray-700 dark:text-gray-300">Code</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+E</kbd>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Отмена</span>
+                  <span className="text-gray-700 dark:text-gray-300">Cancel</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+Z</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Повтор</span>
+                  <span className="text-gray-700 dark:text-gray-300">Repeat</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+Y</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Сохранить</span>
+                  <span className="text-gray-700 dark:text-gray-300">Save</span>
                   <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+S</kbd>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           </section>
         </div>
 
-        {/* Подвал */}
+        {/* Footer */}
         <div className={cn(
           'p-4 border-t',
           'border-gray-200 dark:border-gray-700',
@@ -234,7 +234,7 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
                 'transition-colors'
               )}
             >
-              Понятно
+              I understand
             </button>
           </div>
         </div>

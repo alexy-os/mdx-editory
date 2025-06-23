@@ -8,237 +8,167 @@ interface QuickStartProps {
 
 const exampleFiles = [
   {
-    name: 'example-blog-post.mdx',
-    title: 'Пример блог-поста',
+    name: 'three-pillars-modern-frontend-architecture.md',
+    title: 'Three Pillars of Modern Frontend Architecture',
     content: `---
-title: "Введение в современную веб-разработку"
-slug: "intro-to-modern-web-dev"
-excerpt: "Обзор ключевых технологий и подходов в современной веб-разработке"
-categories: ["Веб-разработка", "JavaScript", "React"]
+title: "Three Pillars of Modern Frontend Architecture"
+slug: "three-pillars-modern-frontend-architecture"
+excerpt: "Discover the three foundational pillars that define modern frontend architecture: semantic HTML5, component-driven development, and utility-to-semantic transformation."
+categories: ["Architecture", "Semantic HTML"]
 featuredImage:
-  url: "/images/web-dev-intro.jpg"
-  alt: "Современная веб-разработка"
-  width: 1200
-  height: 630
+  url: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop"
+  alt: "Three pillars of modern frontend architecture visualization"
+  width: 800
+  height: 600
 ---
 
-# Введение в современную веб-разработку
+# Three Pillars of Modern Frontend Architecture
 
-Современная веб-разработка — это динамично развивающаяся область, которая постоянно предлагает новые инструменты, фреймворки и подходы.
+The future of scalable frontend development rests on three fundamental pillars that transform how we build web applications.
 
-## Ключевые технологии
+## Semantic HTML5 Foundation
 
-### Frontend
+**Semantic HTML5 Foundation** ensures accessibility, SEO optimization, and future-proof markup that follows W3C standards. Every component generates clean, semantic HTML5 elements with meaningful class names that screen readers, search engines, and developers can understand instantly.
 
-- **React** — библиотека для создания пользовательских интерфейсов
-- **TypeScript** — типизированный JavaScript
-- **Tailwind CSS** — utility-first CSS фреймворк
+## Component-Driven Architecture
 
-### Backend
+**Component-Driven Architecture** leverages atomic design principles with TypeScript-first development, creating reusable, testable components that scale across enterprise applications.
 
-- **Node.js** — серверная платформа JavaScript
-- **Express** — минималистичный веб-фреймворк
-- **PostgreSQL** — реляционная база данных
+## Utility-to-Semantic Transformation
 
-## Современные подходы
+**Utility-to-Semantic Transformation** bridges the gap between rapid prototyping with Tailwind CSS and production-ready semantic classes, delivering the best of both worlds: developer experience and maintainable code.
 
-1. **Component-based архитектура**
-2. **JAMstack** (JavaScript, APIs, Markup)
-3. **Serverless функции**
-4. **Static Site Generation**
+These three pillars work together to create a robust foundation for modern web applications that are both developer-friendly and production-ready.
+`
+  },
+  {
+    name: 'clean-code-principles-semantic-html5-components.md',
+    title: 'Clean Code Principles for Semantic HTML5 Components',
+    content: `---
+title: "Clean Code Principles for Semantic HTML5 Components"
+slug: "clean-code-principles-semantic-html5-components"
+excerpt: "Learn how to write clean, maintainable frontend code using semantic HTML5 elements, BEM methodology, and component composition patterns."
+categories: ["Clean Code", "Component Design"]
+featuredImage:
+  url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop"
+  alt: "Clean code principles and semantic HTML5 structure"
+  width: 800
+  height: 600
+---
 
-## Заключение
+# Clean Code Principles for Semantic HTML5 Components
 
-Веб-разработка продолжает эволюционировать, и важно оставаться в курсе последних тенденций и лучших практик.
+Writing clean, maintainable frontend code starts with semantic HTML5 foundations and extends through every layer of your component architecture.
 
-> "Лучший способ изучить веб-разработку — это практика и постоянное обучение."
+## Meaningful Markup
 
-\`\`\`javascript
-// Пример современного React компонента
-function WelcomeMessage({ name }) {
+**Meaningful Markup** means every HTML element serves a semantic purpose - using \`<article>\`, \`<section>\`, \`<nav>\`, and \`<aside>\` elements correctly improves accessibility scores and SEO rankings.
+
+## BEM-Inspired Class Naming
+
+**BEM-Inspired Class Naming** creates self-documenting CSS that follows \`.block__element--modifier\` conventions, making your stylesheets readable and maintainable.
+
+## Component Composition
+
+**Component Composition** over inheritance ensures your React components remain testable, reusable, and easy to debug.
+
+## TypeScript Integration
+
+**TypeScript Integration** provides compile-time safety with proper prop validation and IntelliSense support.
+
+Clean code isn't just about aesthetics - it's about building systems that scale, perform, and remain maintainable as your team grows.
+
+\`\`\`jsx
+// Example of clean semantic component
+function ArticleCard({ title, excerpt, date }) {
   return (
-    <div className="p-4 bg-blue-100 rounded-lg">
-      <h2 className="text-xl font-bold">Добро пожаловать, {name}!</h2>
-    </div>
+    <article className="article-card">
+      <header className="article-card__header">
+        <h2 className="article-card__title">{title}</h2>
+        <time className="article-card__date">{date}</time>
+      </header>
+      <div className="article-card__content">
+        <p className="article-card__excerpt">{excerpt}</p>
+      </div>
+    </article>
   );
 }
 \`\`\`
 `
   },
   {
-    name: 'tutorial-guide.md',
-    title: 'Руководство по туториалу',
+    name: 'tailwind-utilities-production-semantic-classes.md',
+    title: 'From Tailwind Utilities to Production-Ready Semantic Classes',
     content: `---
-title: "Как создать свой первый React приложение"
-slug: "first-react-app-tutorial"
-excerpt: "Пошаговое руководство по созданию React приложения с нуля"
-categories: ["Туториал", "React", "Начинающим"]
----
-
-# Как создать свой первый React приложение
-
-В этом руководстве мы пошагово создадим простое React приложение.
-
-## Требования
-
-Перед началом убедитесь, что у вас установлены:
-
-- Node.js (версия 14 или выше)
-- npm или yarn
-- Редактор кода (VS Code рекомендуется)
-
-## Шаг 1: Создание проекта
-
-\`\`\`bash
-npx create-react-app my-first-app
-cd my-first-app
-npm start
-\`\`\`
-
-## Шаг 2: Структура проекта
-
-После создания проекта вы увидите следующую структуру:
-
-\`\`\`
-my-first-app/
-├── public/
-├── src/
-│   ├── App.js
-│   ├── index.js
-│   └── ...
-├── package.json
-└── ...
-\`\`\`
-
-## Шаг 3: Создание первого компонента
-
-Создайте файл \`src/Welcome.js\`:
-
-\`\`\`jsx
-import React from 'react';
-
-function Welcome({ name }) {
-  return (
-    <div>
-      <h1>Привет, {name}!</h1>
-      <p>Добро пожаловать в мир React!</p>
-    </div>
-  );
-}
-
-export default Welcome;
-\`\`\`
-
-## Заключение
-
-Поздравляем! Вы создали свое первое React приложение. Теперь вы можете:
-
-- [ ] Добавить больше компонентов
-- [ ] Изучить состояние (state)
-- [ ] Попробовать хуки (hooks)
-- [ ] Добавить стилизацию
-`
-  },
-  {
-    name: 'tech-review.mdx',
-    title: 'Обзор технологий',
-    content: `---
-title: "Обзор фронтенд технологий 2024"
-slug: "frontend-tech-review-2024"
-excerpt: "Актуальный обзор технологий фронтенд разработки в 2024 году"
-categories: ["Обзор", "Frontend", "Технологии"]
+title: "From Tailwind Utilities to Production-Ready Semantic Classes"
+slug: "tailwind-utilities-production-semantic-classes"
+excerpt: "Transform Tailwind utility classes into production-ready semantic HTML5 with automated extraction, CVA patterns, and framework-agnostic output."
+categories: ["Tailwind CSS", "Semantic HTML"]
 featuredImage:
-  url: "/images/tech-2024.jpg"
-  alt: "Технологии 2024"
-  width: 1200
-  height: 630
+  url: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=600&fit=crop"
+  alt: "Tailwind CSS transformation to semantic HTML5 classes"
+  width: 800
+  height: 600
 ---
 
-import { TechCard } from '../components/TechCard';
-import { ComparisonTable } from '../components/ComparisonTable';
+# From Tailwind Utilities to Production-Ready Semantic Classes
 
-# Обзор фронтенд технологий 2024
+The journey from utility-first development to semantic HTML5 production code represents a paradigm shift in modern frontend workflows.
 
-2024 год принес множество интересных изменений в мире фронтенд разработки.
+## Development Velocity
 
-## Топ фреймворков
+**Development Velocity** with Tailwind CSS enables rapid prototyping using utility classes like \`flex items-center justify-between\`, while **Automated Extraction** transforms these utilities into semantic classes like \`.header-navigation\` and \`.button-primary\`.
 
-<TechCard 
-  name="React 18" 
-  description="Concurrent features и улучшенная производительность"
-  popularity={95}
-/>
+## Class Variance Authority (CVA)
 
-<TechCard 
-  name="Vue 3" 
-  description="Composition API и улучшенная TypeScript поддержка"
-  popularity={85}
-/>
+**Class Variance Authority (CVA)** patterns provide the bridge between utility chaos and semantic clarity, generating type-safe component variants that compile to clean CSS.
 
-<TechCard 
-  name="Svelte 4" 
-  description="Компактность и высокая производительность"
-  popularity={75}
-/>
+\`\`\`typescript
+import { cva } from "class-variance-authority";
 
-## Сравнение производительности
-
-<ComparisonTable 
-  data={[
-    { framework: 'React', bundleSize: '42KB', renderTime: '16ms' },
-    { framework: 'Vue', bundleSize: '38KB', renderTime: '14ms' },
-    { framework: 'Svelte', bundleSize: '10KB', renderTime: '12ms' }
-  ]}
-/>
-
-## Новые тренды
-
-### 1. Server Components
-
-React Server Components меняют подход к рендерингу:
-
-\`\`\`jsx
-// Серверный компонент
-async function BlogPost({ id }) {
-  const post = await fetchPost(id);
-  return <article>{post.content}</article>;
-}
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input hover:bg-accent hover:text-accent-foreground",
+      },
+      size: {
+        default: "h-10 py-2 px-4",
+        sm: "h-9 px-3 rounded-md",
+        lg: "h-11 px-8 rounded-md",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
 \`\`\`
 
-### 2. Edge Computing
+## Production Optimization
 
-Развертывание на edge серверах для лучшей производительности.
+**Production Optimization** results in smaller bundle sizes, improved Core Web Vitals scores, and better accessibility compliance.
 
-### 3. AI-powered Development
+## Framework-Agnostic Output
 
-Инструменты с ИИ помогают в написании кода:
+**Framework-Agnostic Output** means your semantic HTML5 and CSS work perfectly in React, Vue, Angular, or vanilla JavaScript environments.
 
-- GitHub Copilot
-- Tabnine
-- Kite
-
-## Заключение
-
-Фронтенд разработка продолжает развиваться быстрыми темпами. Важно следить за трендами, но не забывать о фундаментальных принципах.
-
----
-
-**Статистика использования:**
-- React: 40.14%
-- Vue: 18.82%
-- Angular: 17.96%
-- Svelte: 4.58%
+This approach eliminates the traditional trade-off between developer experience and code quality - you get both.
 `
   }
 ];
 
 export function QuickStart({ onLoadExample, isDarkMode = false }: QuickStartProps) {
   const handleLoadExample = (example: typeof exampleFiles[0]) => {
-    // Создаем File объект из строки
+    // Create File object from string
     const blob = new Blob([example.content], { type: 'text/markdown' });
     const file = new File([blob], example.name, { type: 'text/markdown' });
     
-    // Используем FileReader для чтения как обычного файла
+    // Use FileReader to read as a regular file
     const reader = new FileReader();
     reader.onload = () => {
       onLoadExample(reader.result as string, example.name);
@@ -253,13 +183,13 @@ export function QuickStart({ onLoadExample, isDarkMode = false }: QuickStartProp
           'text-lg font-semibold mb-2',
           'text-gray-900 dark:text-gray-100'
         )}>
-          Быстрый старт
+          Quick Start
         </h3>
         <p className={cn(
           'text-sm',
           'text-gray-500 dark:text-gray-400'
         )}>
-          Загрузите пример файла для знакомства с редактором
+          Load an example file to get started with the editor
         </p>
       </div>
 
@@ -301,7 +231,7 @@ export function QuickStart({ onLoadExample, isDarkMode = false }: QuickStartProp
                     'text-xs',
                     'text-gray-500 dark:text-gray-500'
                   )}>
-                    ~{Math.ceil(example.content.length / 100)} строк
+                    ~{Math.ceil(example.content.length / 100)} lines
                   </span>
                 </div>
               </div>
@@ -334,13 +264,13 @@ export function QuickStart({ onLoadExample, isDarkMode = false }: QuickStartProp
               'text-sm font-medium mb-1',
               'text-yellow-800 dark:text-yellow-200'
             )}>
-              Совет
+              Tip
             </p>
             <p className={cn(
               'text-sm',
               'text-yellow-700 dark:text-yellow-300'
             )}>
-              После загрузки примера вы можете редактировать его, менять метаданные и экспортировать результат.
+              After loading an example, you can edit it, change metadata, and export the result.
             </p>
           </div>
         </div>
