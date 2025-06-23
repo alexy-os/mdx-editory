@@ -23,8 +23,7 @@
       "@/hooks/*": ["src/hooks/*"],
       "@/data": ["src/data/index.ts"],
       "@ui8kit/*": ["../../packages/ui/utility/*"],
-      "@editory/rich": ["../../packages/rich/src/index.ts"],
-      "@rich-editor": ["../../packages/rich/dist/rich-editor.es.js"]
+      "@editory/rich": ["../../packages/rich/src/index.ts"]
     },
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },

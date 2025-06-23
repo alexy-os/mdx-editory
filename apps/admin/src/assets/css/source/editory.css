@@ -1,4 +1,7 @@
 /* Custom scrollbar styles with shadcn colors */
+@source "../../../../../../packages/rich/src/components/";
+@config "../../../../../../packages/rich/tailwind.config.js";
+
 /* width */
 ::-webkit-scrollbar {
   width: 0.5rem;

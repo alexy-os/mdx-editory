@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { EditorFile } from '../types/editor';
-// import { QuickStart } from './QuickStart';
+import { QuickStart } from './QuickStart';
 import { cn } from '../utils';
 // import { parseMarkdownFile, generateSlug, generateExcerpt, generateId } from '../utils';
 
@@ -142,20 +142,9 @@ export function FileManager({
         )}
       >
         {files.length === 0 ? (
-          <>
-          <div>
-            <h3 className={cn(
-              'text-lg font-semibold',
-              'text-gray-900 dark:text-gray-100'
-            )}>
-              Files ({files.length})
-            </h3>
-          </div>
-          {/*<QuickStart 
+          <QuickStart 
             onLoadExample={handleLoadExample}
-            isDarkMode={isDarkMode}
-          />*/}
-          </>
+          />
         ) : (
           <div className="space-y-2">
             {files.map((file) => (

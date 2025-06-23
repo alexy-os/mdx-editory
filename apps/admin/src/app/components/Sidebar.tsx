@@ -1,11 +1,9 @@
-import { renderContext } from '@/data';
-
-import { OptimizedImage } from '@/app/components/Image';
 import { Card, CardContent, CardTitle, CardDescription, CardFigure, CardFigcaption } from '@ui8kit/ui/card';
 import { Aside } from '@ui8kit/components/aside';
 import { NavMobileList, NavMobileItem, NavMobileLink, NavMobileDropdown, NavMobileDropdownItem } from '@ui8kit/components/nav';
 import { SiteLogo } from '@/app/components/SiteLogo';
 
+import { renderContext } from '@/data';
 export const { site, menu } = renderContext;
 export const { features } = renderContext.about;
 
