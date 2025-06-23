@@ -10,6 +10,7 @@ import { useEditor } from '../hooks/useEditor';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { cn } from '../utils';
 import { prepareHtmlForMarkdown, prepareMarkdownForEditor } from '../utils/markdown';
+import { exportContextFile } from '../utils/fileSystem';
 
 interface RichEditorAppProps {
   className?: string;
@@ -43,7 +44,6 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
 
   const handleExport = async () => {
     try {
-      const { exportContextFile } = await import('../utils/fileSystem');
       await exportContextFile();
       // Here you can add a notification about successful export
     } catch (error) {
@@ -59,12 +59,12 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
   // Get content depending on the view mode
   const getCurrentContent = () => {
     if (!state.currentFile) return '';
-    
+
     if (viewMode === 'markdown') {
       // Convert HTML to Markdown for the text editor
       return prepareHtmlForMarkdown(state.currentFile.content);
     }
-    
+
     return state.currentFile.content; // HTML for the visual editor
   };
 
@@ -102,7 +102,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
             )}>
               Rich Editor
             </h1>
-            
+
             {state.currentFile && (
               <div className="flex items-center gap-2">
                 <div className={cn(
@@ -118,132 +118,142 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               </div>
             )}
           </div>
-
           <div className="flex items-center gap-2">
-            {/* Layout switcher */}
-            <div className={cn(
-              'flex rounded-lg p-1',
-              'bg-gray-100 dark:bg-gray-700'
-            )}>
-              <button
-                onClick={() => setLayout('split')}
-                className={cn(
-                  'px-3 py-1 text-sm rounded transition-colors',
-                  layout === 'split'
-                    ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                )}
-              >
-                Split
-              </button>
-              <button
-                onClick={() => setLayout('editor')}
-                className={cn(
-                  'px-3 py-1 text-sm rounded transition-colors',
-                  layout === 'editor'
-                    ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                )}
-              >
-                Editor
-              </button>
-              <button
-                onClick={() => setLayout('meta')}
-                className={cn(
-                  'px-3 py-1 text-sm rounded transition-colors',
-                  layout === 'meta'
-                    ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                )}
-              >
-                Metadata
-              </button>
-            </div>
 
-            {/* Dropdown with actions */}
-            <Dropdown
-              isDarkMode={isDarkMode}
-              trigger={
+            {state.currentFile && (
+              <>
                 <button
+                  onClick={() => handleViewModeToggle()}
                   className={cn(
-                    'px-3 py-2 text-sm rounded-lg flex items-center gap-2',
-                    'bg-gray-100 dark:bg-gray-700',
-                    'text-gray-700 dark:text-gray-300',
-                    'hover:bg-gray-200 dark:hover:bg-gray-600',
-                    'transition-colors'
+                    'px-3 py-1 text-sm rounded transition-colors',
+                    viewMode === 'visual'
+                      ? 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                      : 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
                   )}
                 >
-                  <span>Actions</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  {viewMode === 'visual' ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" /></svg>}
                 </button>
-              }
-              items={[
-                {
-                  id: 'preview',
-                  label: 'Preview',
-                  onClick: actions.togglePreview,
-                  variant: 'success',
-                  icon: (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )
-                },
-                {
-                  id: 'view-mode',
-                  label: `View mode: ${viewMode === 'visual' ? 'Visual' : 'Markdown'}`,
-                  onClick: handleViewModeToggle,
-                  variant: 'default',
-                  title: 'Switch between visual editor and Markdown',
-                  icon: (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  )
-                },
-                ...(state.currentFile ? [
-                  {
-                    id: 'save',
-                    label: 'Save MDX',
-                    onClick: handleSave,
-                    variant: 'primary' as const,
-                    title: 'Save the current file as MDX',
-                    icon: (
+                <div className={cn(
+                  'flex rounded-lg p-1',
+                  'bg-gray-100 dark:bg-gray-700'
+                )}>
+                  <button
+                    onClick={() => setLayout('split')}
+                    className={cn(
+                      'px-3 py-1 text-sm rounded transition-colors',
+                      layout === 'split'
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                    )}
+                  >
+                    Split
+                  </button>
+                  <button
+                    onClick={() => setLayout('editor')}
+                    className={cn(
+                      'px-3 py-1 text-sm rounded transition-colors',
+                      layout === 'editor'
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                    )}
+                  >
+                    Editor
+                  </button>
+                  <button
+                    onClick={() => setLayout('meta')}
+                    className={cn(
+                      'px-3 py-1 text-sm rounded transition-colors',
+                      layout === 'meta'
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                    )}
+                  >
+                    Metadata
+                  </button>
+                </div>
+                <Dropdown
+                  isDarkMode={isDarkMode}
+                  trigger={
+                    <button
+                      className={cn(
+                        'px-3 py-2 text-sm rounded-lg flex items-center gap-2',
+                        'bg-gray-100 dark:bg-gray-700',
+                        'text-gray-700 dark:text-gray-300',
+                        'hover:bg-gray-200 dark:hover:bg-gray-600',
+                        'transition-colors'
+                      )}
+                    >
+                      <span>Actions</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
-                    )
-                  },
-                  {
-                    id: 'export',
-                    label: 'Export Context',
-                    onClick: handleExport,
-                    variant: 'warning' as const,
-                    title: 'Export context.json from localStorage',
-                    icon: (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    )
-                  },
-                  {
-                    id: 'update',
-                    label: 'Update',
-                    onClick: actions.saveAllData,
-                    variant: 'warning' as const,
-                    title: 'Update context.json and menu.json',
-                    icon: (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                    )
+                    </button>
                   }
-                ] : [])
-              ]}
-            />
+                  items={[
+                    {
+                      id: 'view-mode',
+                      label: `View mode: ${viewMode === 'visual' ? 'Visual' : 'Markdown'}`,
+                      onClick: handleViewModeToggle,
+                      variant: 'default',
+                      title: 'Switch between visual editor and Markdown',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'preview',
+                      label: 'Preview',
+                      onClick: actions.togglePreview,
+                      variant: 'success',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'save',
+                      label: 'Save MDX',
+                      onClick: handleSave,
+                      variant: 'primary' as const,
+                      title: 'Save the current file as MDX',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'export',
+                      label: 'Export Context',
+                      onClick: handleExport,
+                      variant: 'warning' as const,
+                      title: 'Export context.json from localStorage',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      )
+                    },
+                    {
+                      id: 'update',
+                      label: 'Update',
+                      onClick: actions.saveAllData,
+                      variant: 'warning' as const,
+                      title: 'Update context.json and menu.json',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      )
+                    }
+                  ]}
+                />
+              </>
+            )}
 
             {/* Help button */}
             <button
@@ -393,4 +403,4 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
       )}
     </div>
   );
-} 
+}

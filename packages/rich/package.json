@@ -19,8 +19,11 @@
   ],
   "scripts": {
     "dev": "vite",
+    "dev:test": "vite --config test/vite.config.ts",
     "build": "vite build && tsc --emitDeclarationOnly",
-    "preview": "vite preview"
+    "build:test": "npm run build && vite build --config test/vite.config.ts",
+    "preview": "vite preview",
+    "preview:test": "vite preview --config test/vite.config.ts"
   },
   "dependencies": {
     "@mdx-js/react": "^3.0.0",

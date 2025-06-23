@@ -42,7 +42,7 @@ export function useFileManager() {
     }, {} as Record<string, any>);
 
     // Here will be logic to save in src/~data/context.json
-    console.log('Saving context:', context);
+    // console.log('Saving context:', context);
     return context;
   }, [files]);
 
@@ -58,7 +58,7 @@ export function useFileManager() {
     }));
 
     // Here will be logic to save in src/~data/menu.json
-    console.log('Generating menu:', menu);
+    // console.log('Generating menu:', menu);
     return menu;
   }, [files, currentFileId]);
 

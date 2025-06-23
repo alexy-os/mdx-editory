@@ -1,14 +1,14 @@
 import { EditorFile, PostMeta } from '../types/editor';
 import { Post } from '../types/post';
 import { Menu } from '../types/menu';
-import { formatDate } from './index';
+import { formatDate, stringifyMarkdownFile } from './index';
 
 // Create ~data folder if it doesn't exist
 export function ensureDataDirectory(): Promise<void> {
   return new Promise((resolve) => {
     // In the browser we can't create real folders
     // This is a placeholder for future integration with the file system
-    console.log('Ensuring ~data directory exists...');
+    // console.log('Ensuring ~data directory exists...');
     resolve();
   });
 }
@@ -108,7 +108,7 @@ export async function saveContext(context: Record<string, any>): Promise<void> {
     const contextJson = JSON.stringify(context, null, 2);
     localStorage.setItem('rich-editor-context', contextJson);
     
-    console.log('Context saved to localStorage:', contextJson);
+    // console.log('Context saved to localStorage:', contextJson);
     
     // Here in the future there will be real file saving
     // await fs.writeFile('src/~data/context.json', contextJson);
@@ -127,7 +127,7 @@ export async function saveMenu(menu: Menu): Promise<void> {
     const menuJson = JSON.stringify(menu, null, 2);
     localStorage.setItem('rich-editor-menu', menuJson);
     
-    console.log('Menu saved to localStorage:', menuJson);
+    // console.log('Menu saved to localStorage:', menuJson);
     
     // Here in the future there will be real file saving
     // await fs.writeFile('src/~data/menu.json', menuJson);
@@ -169,7 +169,6 @@ export async function loadMenu(): Promise<Menu> {
 // Save individual MDX file
 export async function saveMDXFile(file: EditorFile): Promise<void> {
   try {
-    const { stringifyMarkdownFile } = await import('./index');
     const content = stringifyMarkdownFile(file.frontmatter || {}, file.content);
     
     // In the browser we can only download the file

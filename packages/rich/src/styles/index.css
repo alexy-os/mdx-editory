@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom scrollbar styles with shadcn colors */
+/* width */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+aside::-webkit-scrollbar {
+  width: 0.375rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #454f5e; /* muted color */
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa; /* secondary color */
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* Custom styles for the editor */
 .ProseMirror {
   outline: none;
