@@ -1,91 +1,91 @@
-# Rich Editor - Реализованный функционал
+# Rich Editor - Implemented Features
 
-## ✅ Выполненные задачи
+## ✅ Completed Tasks
 
-### 1. Переключение между файлами
-- **Статус**: ✅ Реализовано
-- **Функционал**: 
-  - Добавлены функции `selectFile` и `removeFile` в хук `useEditor`
-  - Реализована синхронизация текущего файла со списком файлов
-  - Обновление файлов в списке при изменении контента или метаданных
-  - Кнопка удаления файлов из менеджера
+### 1. Switching Between Files
+- **Status**: ✅ Implemented
+- **Functionality**: 
+  - Added `selectFile` and `removeFile` functions in the `useEditor` hook
+  - Implemented synchronization of the current file with the file list
+  - Updating files in the list when content or metadata changes
+  - Button to delete files from the manager
 
-### 2. Сохранение в context.json и menu.json
-- **Статус**: ✅ Реализовано (localStorage)
-- **Функционал**:
-  - Создан модуль `utils/fileSystem.ts` с функциями работы с данными
-  - Автоматическое сохранение context.json и menu.json при изменении файлов (дебаунс 1 сек)
-  - Кнопка "Обновить" для принудительного сохранения
-  - Загрузка сохраненных данных при инициализации
-  - Преобразование файлов в формат WordPress Post
+### 2. Saving to context.json and menu.json
+- **Status**: ✅ Implemented (localStorage)
+- **Functionality**:
+  - Created `utils/fileSystem.ts` module with data handling functions
+  - Automatic saving of context.json and menu.json when files change (1 second debounce)
+  - "Refresh" button for forced saving
+  - Loading saved data on initialization
+  - Converting files to WordPress Post format
 
-### 3. Улучшения UX
-- **Статус**: ✅ Реализовано
-- **Функционал**:
-  - Информационная панель с инструкциями (`InfoPanel`)
-  - Быстрый старт с примерами файлов (`QuickStart`)
-  - Кнопка помощи в заголовке приложения
-  - Индикатор автосохранения в файловом менеджере
-  - Улучшенная структура интерфейса
+### 3. UX Improvements
+- **Status**: ✅ Implemented
+- **Functionality**:
+  - Information panel with instructions (`InfoPanel`)
+  - Quick start with example files (`QuickStart`)
+  - Help button in the application header
+  - Auto-save indicator in the file manager
+  - Improved interface structure
 
-## 🔧 Технические детали
+## 🔧 Technical Details
 
-### Структура файлов
+### File Structure
 ```
 packages/rich/src/
 ├── components/
-│   ├── FileManager.tsx      # Управление файлами + QuickStart
-│   ├── InfoPanel.tsx        # Панель помощи
-│   ├── QuickStart.tsx       # Примеры для быстрого старта
-│   ├── RichEditor.tsx       # TipTap редактор
-│   ├── PostMetaEditor.tsx   # Редактор метаданных
-│   ├── MarkdownPreview.tsx  # Предпросмотр
-│   └── RichEditorApp.tsx    # Главное приложение
+│   ├── FileManager.tsx      # File management + QuickStart
+│   ├── InfoPanel.tsx        # Help panel
+│   ├── QuickStart.tsx       # Quick start examples
+│   ├── RichEditor.tsx       # TipTap editor
+│   ├── PostMetaEditor.tsx   # Metadata editor
+│   ├── MarkdownPreview.tsx  # Preview
+│   └── RichEditorApp.tsx    # Main application
 ├── hooks/
-│   ├── useEditor.ts         # Основная логика редактора
-│   ├── useFileManager.ts    # Управление файлами
-│   └── useDarkMode.ts       # Темная тема
+│   ├── useEditor.ts         # Main editor logic
+│   ├── useFileManager.ts    # File management
+│   └── useDarkMode.ts       # Dark mode
 ├── utils/
-│   ├── index.ts             # Основные утилиты
-│   └── fileSystem.ts        # Работа с файловой системой
+│   ├── index.ts             # Main utilities
+│   └── fileSystem.ts        # File system operations
 └── types/
-    ├── editor.ts            # Типы редактора
-    ├── post.ts              # WordPress Post типы
-    └── menu.ts              # Типы меню
+    ├── editor.ts            # Editor types
+    ├── post.ts              # WordPress Post types
+    └── menu.ts              # Menu types
 ```
 
-### Ключевые функции
+### Key Functions
 
-#### useEditor хук
-- `selectFile(fileId)` - переключение между файлами
-- `removeFile(fileId)` - удаление файла
-- `saveAllData()` - сохранение context.json и menu.json
-- `loadFile(file)` - загрузка нового файла
-- Автоматическая синхронизация состояния
+#### useEditor Hook
+- `selectFile(fileId)` - switch between files
+- `removeFile(fileId)` - delete a file
+- `saveAllData()` - save context.json and menu.json
+- `loadFile(file)` - load a new file
+- Automatic state synchronization
 
-#### fileSystem утилиты
-- `generateContext(files)` - создание context.json
-- `generateMenu(files)` - создание menu.json
-- `saveContext()` / `saveMenu()` - сохранение в localStorage
-- `loadContext()` / `loadMenu()` - загрузка из localStorage
-- `saveMDXFile()` - экспорт отдельного файла
+#### fileSystem Utilities
+- `generateContext(files)` - create context.json
+- `generateMenu(files)` - create menu.json
+- `saveContext()` / `saveMenu()` - save to localStorage
+- `loadContext()` / `loadMenu()` - load from localStorage
+- `saveMDXFile()` - export a single file
 
-## 📊 Текущее состояние сохранения данных
+## 📊 Current Data Saving State
 
-### В браузере (localStorage)
-- `rich-editor-context` - база данных постов в формате WordPress
-- `rich-editor-menu` - структура меню для навигации
+### In the Browser (localStorage)
+- `rich-editor-context` - database of posts in WordPress format
+- `rich-editor-menu` - menu structure for navigation
 
-### Формат context.json
+### Format of context.json
 ```json
 {
   "file-id-1": {
-    "title": "Заголовок поста",
-    "content": "Содержимое...",
+    "title": "Post Title",
+    "content": "Content...",
     "slug": "post-slug",
     "url": "/post-slug",
     "id": 123,
-    "excerpt": "Краткое описание...",
+    "excerpt": "Short description...",
     "categories": [...],
     "filePath": "example.mdx",
     "fileType": "mdx",
@@ -94,13 +94,13 @@ packages/rich/src/
 }
 ```
 
-### Формат menu.json
+### Format of menu.json
 ```json
 {
   "primary": {
     "items": [
       {
-        "title": "Заголовок поста",
+        "title": "Post Title",
         "url": "/post-slug",
         "id": 123,
         "order": 0,
@@ -113,17 +113,17 @@ packages/rich/src/
 }
 ```
 
-## 🚀 Возможности для продакшн
+## 🚀 Production Capabilities
 
-### Для реальной файловой системы
-1. Заменить localStorage на API вызовы
-2. Реализовать сохранение в `src/~data/context.json` и `src/~data/menu.json`
-3. Сохранение MDX файлов в `src/data/post-name.mdx`
-4. Интеграция с Git для версионного контроля
+### For Real File System
+1. Replace localStorage with API calls
+2. Implement saving to `src/~data/context.json` and `src/~data/menu.json`
+3. Save MDX files to `src/data/post-name.mdx`
+4. Integration with Git for version control
 
-### Пример API интеграции
+### Example API Integration
 ```typescript
-// В fileSystem.ts заменить localStorage на:
+// In fileSystem.ts replace localStorage with:
 export async function saveContext(context: Record<string, any>): Promise<void> {
   await fetch('/api/save-context', {
     method: 'POST',
@@ -133,67 +133,67 @@ export async function saveContext(context: Record<string, any>): Promise<void> {
 }
 ```
 
-## 🎯 Основные особенности
+## 🎯 Key Features
 
-### Автоматические функции
-- ✅ Автогенерация slug из заголовка
-- ✅ Автогенерация excerpt из контента (160 символов)
-- ✅ Автогенерация уникального ID
-- ✅ Автоматическое обновление даты изменения
-- ✅ Автосохранение с дебаунсом
+### Automatic Functions
+- ✅ Auto-generate slug from title
+- ✅ Auto-generate excerpt from content (160 characters)
+- ✅ Auto-generate unique ID
+- ✅ Auto-update modification date
+- ✅ Auto-save with debounce
 
-### Пользовательский интерфейс
-- ✅ Переключение между темами (светлая/темная)
-- ✅ Адаптивный дизайн
-- ✅ Drag & Drop загрузка файлов
-- ✅ Быстрый старт с примерами
-- ✅ Контекстная помощь
-- ✅ Горячие клавиши
+### User Interface
+- ✅ Switch between themes (light/dark)
+- ✅ Responsive design
+- ✅ Drag & Drop file upload
+- ✅ Quick start with examples
+- ✅ Contextual help
+- ✅ Hotkeys
 
-### Редактирование
-- ✅ Rich-text редактор на базе TipTap
-- ✅ Поддержка Markdown и MDX
-- ✅ Панель инструментов форматирования
-- ✅ Предпросмотр в полноэкранном режиме
-- ✅ Редактор метаданных
-- ✅ Экспорт в MDX формат
+### Editing
+- ✅ Rich-text editor based on TipTap
+- ✅ Support for Markdown and MDX
+- ✅ Formatting toolbar
+- ✅ Fullscreen preview
+- ✅ Metadata editor
+- ✅ Export to MDX format
 
-## 📝 Примеры использования
+## 📝 Usage Examples
 
-### Загрузка файла
-1. Перетащите .md/.mdx файл в левую панель
-2. Или используйте кнопку "Загрузить"
-3. Или выберите пример из "Быстрый старт"
+### Uploading a File
+1. Drag a .md/.mdx file to the left panel
+2. Or use the "Upload" button
+3. Or select an example from "Quick Start"
 
-### Редактирование
-1. Выберите файл из списка слева
-2. Редактируйте контент в центральной панели
-3. Заполните метаданные справа
-4. Используйте "Предпросмотр" для проверки
+### Editing
+1. Select a file from the list on the left
+2. Edit content in the central panel
+3. Fill in metadata on the right
+4. Use "Preview" to check
 
-### Сохранение
-1. "Сохранить" - экспорт отдельного файла
-2. "Обновить" - обновление context.json и menu.json
-3. Автосохранение происходит автоматически
+### Saving
+1. "Save" - export a single file
+2. "Refresh" - update context.json and menu.json
+3. Auto-saving occurs automatically
 
-## 🔍 Отладка
+## 🔍 Debugging
 
-### Просмотр сохраненных данных
+### Viewing Saved Data
 ```javascript
-// В консоли браузера
+// In the browser console
 console.log('Context:', JSON.parse(localStorage.getItem('rich-editor-context') || '{}'));
 console.log('Menu:', JSON.parse(localStorage.getItem('rich-editor-menu') || '{}'));
 ```
 
-### Очистка данных
+### Clearing Data
 ```javascript
-// В консоли браузера
+// In the browser console
 localStorage.removeItem('rich-editor-context');
 localStorage.removeItem('rich-editor-menu');
 ```
 
 ---
 
-**Статус проекта**: Базовый функционал полностью реализован ✅  
-**Готовность к использованию**: 95%  
-**Следующие шаги**: Интеграция с реальной файловой системой для продакшн использования 
+**Project Status**: Basic functionality fully implemented ✅  
+**Readiness for Use**: 95%  
+**Next Steps**: Integration with a real file system for production use
