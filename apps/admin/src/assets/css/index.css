@@ -4,6 +4,7 @@
 @import "./source/latty.css";
 @import "./source/scrollbar.css";
 @import "./source/shadcn4.css";
+@import "./source/editory.css";
 
 @layer base {
   * {

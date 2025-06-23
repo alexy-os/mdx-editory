@@ -23,7 +23,9 @@ export default defineConfig({
       '@/lib': path.resolve(__dirname, './src/lib'),
       '@/hooks': path.resolve(__dirname, './src/hooks'),
       '@/data': path.resolve(__dirname, './src/data/index.ts'),
-      '@ui8kit': path.resolve(__dirname, '../../packages/ui/utility')
+      '@ui8kit': path.resolve(__dirname, '../../packages/ui/utility'),
+      '@editory/rich': path.resolve(__dirname, '../../packages/rich/src/index.ts'),
+      '@rich-editor': path.resolve(__dirname, '../../packages/rich/dist/rich-editor.es.js'),
     }
   },
   server: {

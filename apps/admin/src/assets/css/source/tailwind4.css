@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @source "../../../app";
 @source "../../../../../../packages/ui/utility";
-/*@source "../../../../../../packages/rich";*/
+@source "../../../../../../packages/rich/dist/rich-editor.es.js";

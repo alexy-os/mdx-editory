@@ -18,11 +18,13 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "@/lib/*": ["src/lib/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/data": ["src/data/index.ts"],
-      "@ui8kit/*": ["../../packages/ui/utility/*"]
+      "@ui8kit/*": ["../../packages/ui/utility/*"],
+      "@editory/rich": ["../../packages/rich/src/index.ts"],
+      "@rich-editor": ["../../packages/rich/dist/rich-editor.es.js"]
     },
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
