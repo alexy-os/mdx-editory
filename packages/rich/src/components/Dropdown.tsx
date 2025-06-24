@@ -47,11 +47,11 @@ export function Dropdown({
 
   const getVariantStyles = (variant: DropdownItem['variant'] = 'default') => {
     const variants = {
-      default: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700',
-      primary: 'text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20',
-      success: 'text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20',
-      warning: 'text-orange-700 dark:text-orange-300 hover:bg-orange-50 dark:hover:bg-orange-900/20',
-      danger: 'text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20'
+      default: 'text-secondary-foreground hover:bg-accent hover:text-white',
+      primary: 'text-primary hover:bg-accent/10 dark:hover:bg-accent',
+      success: 'text-primary hover:bg-accent/10 dark:hover:bg-accent',
+      warning: 'text-secondary-foreground hover:bg-secondary',
+      danger: 'text-destructive hover:bg-destructive/10'
     };
     return variants[variant];
   };
@@ -73,8 +73,8 @@ export function Dropdown({
         <div className={cn(
           'absolute top-full mt-2 z-50',
           'min-w-48 py-2 rounded-lg shadow-lg',
-          'bg-white dark:bg-gray-800',
-          'border border-gray-200 dark:border-gray-700',
+          'bg-popover',
+          'border border-border',
           align === 'right' ? 'right-0' : 'left-0'
         )}>
           {items.map((item) => (

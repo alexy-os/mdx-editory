@@ -24,24 +24,24 @@ export function MarkdownTextEditor({
   return (
     <div className={cn(
       'rounded-lg border h-full flex flex-col',
-      'border-gray-200 dark:border-gray-700',
-      'bg-white dark:bg-gray-900',
+      'border-border',
+      'bg-background',
       className
     )}>
       {/* Header */}
       <div className={cn(
         'px-4 py-3 border-b',
-        'border-gray-200 dark:border-gray-700',
-        'bg-gray-50 dark:bg-gray-800'
+        'border-border',
+        'bg-muted'
       )}>
         <div className="flex items-center justify-between">
           <h3 className={cn(
             'text-sm font-medium',
-            'text-gray-900 dark:text-gray-100'
+            'text-foreground'
           )}>
             Markdown editor
           </h3>
-          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>GitHub Flavored Markdown support</span>
           </div>
         </div>
@@ -56,8 +56,8 @@ export function MarkdownTextEditor({
           className={cn(
             'w-full h-full resize-none',
             'bg-transparent border-none outline-none',
-            'text-gray-900 dark:text-gray-100',
-            'placeholder-gray-400 dark:placeholder-gray-500',
+            'text-foreground',
+            'placeholder-muted-foreground',
             'font-mono text-sm leading-relaxed'
           )}
           style={{ minHeight: '400px' }}
@@ -67,9 +67,9 @@ export function MarkdownTextEditor({
       {/* Syntax tips */}
       <div className={cn(
         'px-4 py-2 border-t text-xs',
-        'border-gray-200 dark:border-gray-700',
-        'bg-gray-50 dark:bg-gray-800',
-        'text-gray-500 dark:text-gray-400'
+        'border-border',
+        'bg-muted',
+        'text-muted-foreground'
       )}>
         <div className="flex flex-wrap gap-4">
           <span><strong>**bold**</strong></span>

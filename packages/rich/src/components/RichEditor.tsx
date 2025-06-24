@@ -50,7 +50,7 @@ export function RichEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 dark:text-blue-400 hover:underline',
+          class: 'text-primary hover:underline',
         },
       }),
       Table.configure({
@@ -69,14 +69,14 @@ export function RichEditor({
         class: cn(
           'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
           'dark:prose-invert',
-          'prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100',
-          'prose-p:text-gray-700 dark:prose-p:text-gray-300',
-          'prose-a:text-blue-600 dark:prose-a:text-blue-400',
-          'prose-strong:text-gray-900 dark:prose-strong:text-gray-100',
-          'prose-code:text-pink-600 dark:prose-code:text-pink-400',
-          'prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800',
-          'prose-blockquote:border-l-blue-500 dark:prose-blockquote:border-l-blue-400',
-          'prose-hr:border-gray-300 dark:prose-hr:border-gray-600',
+          'prose-headings:font-bold prose-headings:text-foreground',
+          'prose-p:text-foreground',
+          'prose-a:text-primary',
+          'prose-strong:text-foreground',
+          'prose-code:text-accent-foreground',
+          'prose-pre:bg-muted',
+          'prose-blockquote:border-l-primary',
+          'prose-hr:border-border',
           'min-h-[400px] p-4',
           className
         ),
@@ -94,12 +94,12 @@ export function RichEditor({
     return (
       <div className={cn(
         'min-h-[400px] p-4 rounded-lg border-2 border-dashed',
-        'border-gray-300 dark:border-gray-600',
-        'bg-gray-50 dark:bg-gray-800',
+        'border-border',
+        'bg-muted',
         'flex items-center justify-center',
         className
       )}>
-        <div className="text-gray-500 dark:text-gray-400">
+        <div className="text-muted-foreground">
           Loading editor...
         </div>
       </div>
@@ -108,7 +108,7 @@ export function RichEditor({
 
   return (
     <div className={cn(
-      'bg-white dark:bg-gray-900',
+      'bg-muted/35 dark:bg-muted/75',
       className
     )}>
       <EditorToolbar editor={editor} isDarkMode={isDarkMode} />
@@ -128,24 +128,24 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
   if (!editor) return null;
 
   const buttonClass = cn(
-    'p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700',
-    'text-gray-600 dark:text-gray-400',
-    'border border-transparent hover:border-gray-300 dark:hover:border-gray-600',
+    'p-2 rounded hover:bg-accent',
+    'text-muted-foreground',
+    'border border-transparent hover:border-border',
     'transition-colors'
   );
 
   const activeButtonClass = cn(
     buttonClass,
-    'bg-blue-100 dark:bg-blue-900/30',
-    'text-blue-600 dark:text-blue-400',
-    'border-blue-300 dark:border-blue-600'
+    'bg-accent',
+    'text-accent-foreground',
+    'border-border'
   );
 
   return (
     <div className={cn(
       'flex flex-wrap gap-1 p-3 border-b',
-      'border-gray-200 dark:border-gray-700',
-      'bg-gray-50 dark:bg-gray-800'
+      'border-border',
+      'bg-muted'
     )}>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -171,7 +171,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
         {'</>'}
       </button>
       
-      <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
       
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -197,7 +197,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
         H3
       </button>
       
-      <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
       
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -231,7 +231,7 @@ function EditorToolbar({ editor, isDarkMode }: EditorToolbarProps) {
         {'{}'}
       </button>
       
-      <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+      <div className="w-px h-6 bg-border mx-1" />
       
       <button
         onClick={() => {

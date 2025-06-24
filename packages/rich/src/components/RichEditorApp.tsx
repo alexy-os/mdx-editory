@@ -82,7 +82,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
   return (
     <div className={cn(
       'min-h-screen',
-      'bg-gray-50 dark:bg-gray-900',
+      'bg-background',
       'transition-colors duration-200',
       isDarkMode && 'dark',
       className
@@ -90,15 +90,15 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
       {/* Application header */}
       <header className={cn(
         'border-b',
-        'border-gray-200 dark:border-gray-700',
-        'bg-white dark:bg-gray-800',
+        'border-border',
+        'bg-card',
         'px-6 py-4'
       )}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className={cn(
               'text-xl font-bold',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Rich Editor
             </h1>
@@ -107,11 +107,11 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               <div className="flex items-center gap-2">
                 <div className={cn(
                   'w-2 h-2 rounded-full',
-                  state.currentFile.type === 'mdx' ? 'bg-purple-500' : 'bg-blue-500'
+                  state.currentFile.type === 'mdx' ? 'bg-secondary' : 'bg-primary'
                 )} />
                 <span className={cn(
                   'text-sm font-medium',
-                  'text-gray-700 dark:text-gray-300'
+                  'text-muted-foreground'
                 )}>
                   {state.currentFile.frontmatter?.title || state.currentFile.name}
                 </span>
@@ -127,23 +127,23 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   className={cn(
                     'px-3 py-1 text-sm rounded transition-colors',
                     viewMode === 'visual'
-                      ? 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-                      : 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
+                      ? 'text-muted-foreground hover:text-foreground'
+                      : 'bg-card text-foreground shadow-sm'
                   )}
                 >
                   {viewMode === 'visual' ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" /></svg>}
                 </button>
                 <div className={cn(
                   'flex rounded-lg p-1',
-                  'bg-gray-100 dark:bg-gray-700'
+                  'bg-muted'
                 )}>
                   <button
                     onClick={() => setLayout('split')}
                     className={cn(
                       'px-3 py-1 text-sm rounded transition-colors',
                       layout === 'split'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
                     Split
@@ -153,8 +153,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     className={cn(
                       'px-3 py-1 text-sm rounded transition-colors',
                       layout === 'editor'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
                     Editor
@@ -164,8 +164,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     className={cn(
                       'px-3 py-1 text-sm rounded transition-colors',
                       layout === 'meta'
-                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
                     Metadata
@@ -177,9 +177,9 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     <button
                       className={cn(
                         'px-3 py-2 text-sm rounded-lg flex items-center gap-2',
-                        'bg-gray-100 dark:bg-gray-700',
-                        'text-gray-700 dark:text-gray-300',
-                        'hover:bg-gray-200 dark:hover:bg-gray-600',
+                        'bg-muted',
+                        'text-muted-foreground',
+                        'hover:bg-accent',
                         'transition-colors'
                       )}
                     >
@@ -260,8 +260,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               onClick={() => setShowInfo(true)}
               className={cn(
                 'p-2 rounded-lg',
-                'text-gray-500 dark:text-gray-400',
-                'hover:bg-gray-100 dark:hover:bg-gray-700',
+                'text-muted-foreground',
+                'hover:bg-accent',
                 'transition-colors'
               )}
               title="Help and instructions"
@@ -276,8 +276,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               onClick={toggleDarkMode}
               className={cn(
                 'p-2 rounded-lg',
-                'text-gray-500 dark:text-gray-400',
-                'hover:bg-gray-100 dark:hover:bg-gray-700',
+                'text-muted-foreground',
+                'hover:bg-accent',
                 'transition-colors'
               )}
               title={isDarkMode ? 'Light theme' : 'Dark theme'}
@@ -301,8 +301,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         {/* Sidebar with files */}
         <aside className={cn(
           'w-80 border-r overflow-y-auto',
-          'border-gray-200 dark:border-gray-700',
-          'bg-white dark:bg-gray-800'
+          'border-border',
+          'bg-card'
         )}>
           <FileManager
             files={state.files}
@@ -321,21 +321,21 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               <div className="text-center">
                 <div className={cn(
                   'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center',
-                  'bg-gray-100 dark:bg-gray-800'
+                  'bg-muted'
                 )}>
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V16a2 2 0 01-2 2z" />
                   </svg>
                 </div>
                 <h3 className={cn(
                   'text-lg font-medium mb-2',
-                  'text-gray-900 dark:text-gray-100'
+                  'text-foreground'
                 )}>
                   Select a file for editing
                 </h3>
                 <p className={cn(
                   'text-sm',
-                  'text-gray-500 dark:text-gray-400'
+                  'text-muted-foreground'
                 )}>
                   Load a .md or .mdx file to start working
                 </p>
@@ -347,7 +347,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               {(layout === 'split' || layout === 'editor') && (
                 <div className={cn(
                   'flex-1 p-6 overflow-auto',
-                  layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
+                  layout === 'split' ? 'border-r border-border' : ''
                 )}>
                   {viewMode === 'visual' ? (
                     <RichEditor

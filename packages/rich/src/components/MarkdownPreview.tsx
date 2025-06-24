@@ -30,9 +30,9 @@ export function MarkdownPreview({
       // Italic
       .replace(/\*(.*)\*/gim, '<em class="italic">$1</em>')
       // Code
-      .replace(/`([^`]*)`/gim, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono">$1</code>')
+      .replace(/`([^`]*)`/gim, '<code class="bg-muted px-1 py-0.5 rounded text-sm font-mono">$1</code>')
       // Links
-      .replace(/\[([^\]]*)\]\(([^\)]*)\)/gim, '<a href="$2" class="text-blue-600 dark:text-blue-400 hover:underline">$1</a>')
+      .replace(/\[([^\]]*)\]\(([^\)]*)\)/gim, '<a href="$2" class="text-primary hover:underline">$1</a>')
       // Paragraphs
       .replace(/\n\n/gim, '</p><p class="mb-4">')
       // Line breaks
@@ -46,28 +46,28 @@ export function MarkdownPreview({
     )}>
       <div className={cn(
         'w-full h-full max-w-6xl max-h-[90vh] mx-4',
-        'bg-white dark:bg-gray-900',
+        'bg-background',
         'rounded-lg shadow-2xl',
         'flex flex-col overflow-hidden'
       )}>
         {/* Modal window header */}
         <div className={cn(
           'flex items-center justify-between p-4 border-b',
-          'border-gray-200 dark:border-gray-700',
-          'bg-gray-50 dark:bg-gray-800'
+          'border-border',
+          'bg-muted'
         )}>
           <div className="flex items-center gap-3">
             <h2 className={cn(
               'text-lg font-semibold',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Preview
             </h2>
             {frontmatter?.title && (
               <span className={cn(
                 'text-sm px-2 py-1 rounded',
-                'bg-blue-100 dark:bg-blue-900/30',
-                'text-blue-700 dark:text-blue-300'
+                'bg-accent',
+                'text-accent-foreground'
               )}>
                 {frontmatter.title}
               </span>
@@ -77,8 +77,8 @@ export function MarkdownPreview({
           <button
             onClick={onClose}
             className={cn(
-              'p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700',
-              'text-gray-500 dark:text-gray-400',
+              'p-2 rounded-lg hover:bg-accent',
+              'text-muted-foreground',
               'transition-colors'
             )}
             title="Close"
@@ -96,12 +96,12 @@ export function MarkdownPreview({
             {frontmatter && Object.keys(frontmatter).length > 0 && (
               <div className={cn(
                 'w-80 p-6 border-r overflow-y-auto',
-                'border-gray-200 dark:border-gray-700',
-                'bg-gray-50 dark:bg-gray-800'
+                'border-border',
+                'bg-muted'
               )}>
                 <h3 className={cn(
                   'text-sm font-semibold mb-4',
-                  'text-gray-700 dark:text-gray-300'
+                  'text-muted-foreground'
                 )}>
                   Metadata
                 </h3>
@@ -111,13 +111,13 @@ export function MarkdownPreview({
                     <div key={key}>
                       <dt className={cn(
                         'text-xs font-medium mb-1',
-                        'text-gray-500 dark:text-gray-400'
+                        'text-muted-foreground'
                       )}>
                         {key}
                       </dt>
                       <dd className={cn(
                         'text-sm',
-                        'text-gray-900 dark:text-gray-100'
+                        'text-foreground'
                       )}>
                         {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
                       </dd>
@@ -132,13 +132,13 @@ export function MarkdownPreview({
               <article className={cn(
                 'prose prose-lg max-w-none',
                 'dark:prose-invert',
-                'prose-headings:text-gray-900 dark:prose-headings:text-gray-100',
-                'prose-p:text-gray-700 dark:prose-p:text-gray-300',
-                'prose-a:text-blue-600 dark:prose-a:text-blue-400',
-                'prose-strong:text-gray-900 dark:prose-strong:text-gray-100',
-                'prose-code:text-pink-600 dark:prose-code:text-pink-400',
-                'prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800',
-                'prose-blockquote:border-l-blue-500 dark:prose-blockquote:border-l-blue-400'
+                'prose-headings:text-foreground',
+                'prose-p:text-foreground',
+                'prose-a:text-primary',
+                'prose-strong:text-foreground',
+                'prose-code:text-accent-foreground',
+                'prose-pre:bg-muted',
+                'prose-blockquote:border-l-primary'
               )}>
                 {frontmatter?.title && (
                   <header className="mb-8">
@@ -146,12 +146,12 @@ export function MarkdownPreview({
                       {frontmatter.title}
                     </h1>
                     {frontmatter?.excerpt && (
-                      <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
+                      <p className="text-lg text-muted-foreground mb-4">
                         {frontmatter.excerpt}
                       </p>
                     )}
                     {frontmatter?.date && (
-                      <time className="text-sm text-gray-500 dark:text-gray-500">
+                      <time className="text-sm text-muted-foreground">
                         {typeof frontmatter.date === 'object' 
                           ? frontmatter.date.display || frontmatter.date.formatted
                           : frontmatter.date}
@@ -173,10 +173,10 @@ export function MarkdownPreview({
         {/* Modal window footer */}
         <div className={cn(
           'flex items-center justify-between p-4 border-t',
-          'border-gray-200 dark:border-gray-700',
-          'bg-gray-50 dark:bg-gray-800'
+          'border-border',
+          'bg-muted'
         )}>
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span>Characters: {content.length}</span>
             <span>Words: {content.split(/\s+/).filter(Boolean).length}</span>
           </div>
@@ -188,9 +188,9 @@ export function MarkdownPreview({
               }}
               className={cn(
                 'px-3 py-1 text-sm rounded',
-                'bg-gray-200 dark:bg-gray-700',
-                'text-gray-700 dark:text-gray-300',
-                'hover:bg-gray-300 dark:hover:bg-gray-600',
+                'bg-secondary',
+                'text-secondary-foreground',
+                'hover:bg-secondary/80',
                 'transition-colors'
               )}
             >
@@ -201,9 +201,9 @@ export function MarkdownPreview({
               onClick={onClose}
               className={cn(
                 'px-4 py-1 text-sm rounded',
-                'bg-blue-600 dark:bg-blue-500',
-                'text-white',
-                'hover:bg-blue-700 dark:hover:bg-blue-600',
+                'bg-primary',
+                'text-primary-foreground',
+                'hover:bg-primary/90',
                 'transition-colors'
               )}
             >

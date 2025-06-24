@@ -42,7 +42,7 @@ export function Post({ slug: propSlug }: PostProps = {}) {
 
   return (
     <MainLayout title={post.title} description={post.excerpt}>
-      <Article>
+      <article>
 
         {post.featuredImage && (
           <ArticleFigure>
@@ -62,10 +62,8 @@ export function Post({ slug: propSlug }: PostProps = {}) {
             <ArticleTime>Published on {post.date.display}</ArticleTime>
           </ArticleMeta>
         </ArticleHeader>
-
-        <ArticleContent className="prose">
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-        </ArticleContent>
+        
+        <ArticleContent className="prose dark:prose-invert" dangerouslySetInnerHTML={{ __html: post.content }} />
 
         {post.categories && (
           <ArticleFooter>
@@ -80,7 +78,7 @@ export function Post({ slug: propSlug }: PostProps = {}) {
             </ArticleTags>
           </ArticleFooter>
         )}
-      </Article>
+      </article>
     </MainLayout>
   )
 }

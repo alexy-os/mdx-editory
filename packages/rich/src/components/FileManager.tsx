@@ -80,28 +80,28 @@ export function FileManager({
   return (
     <div className={cn(
       'rounded-lg border',
-      'border-gray-200 dark:border-gray-700',
-      'bg-white dark:bg-gray-900',
+      'border-border',
+      'bg-background',
       className
     )}>
       {/* Header */}
       <div className={cn(
-        'p-4 border-b',
-        'border-gray-200 dark:border-gray-700',
-        'bg-gray-50 dark:bg-gray-800'
+        'p-3 border-b',
+        'border-border',
+        'bg-muted'
       )}>
         <div className="flex items-center justify-between">
           <div>
             <h3 className={cn(
               'text-lg font-semibold',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Files ({files.length})
             </h3>
             {files.length > 0 && (
               <p className={cn(
                 'text-xs mt-1',
-                'text-gray-500 dark:text-gray-400'
+                'text-muted-foreground'
               )}>
                 Auto-save context.json and menu.json
               </p>
@@ -110,9 +110,9 @@ export function FileManager({
           
           <label className={cn(
             'px-3 py-1 text-sm rounded cursor-pointer',
-            'bg-blue-600 dark:bg-blue-500',
-            'text-white',
-            'hover:bg-blue-700 dark:hover:bg-blue-600',
+            'bg-primary',
+            'text-primary-foreground',
+            'hover:bg-primary/90',
             'transition-colors'
           )}>
             Upload
@@ -133,10 +133,10 @@ export function FileManager({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={cn(
-          'p-6 border-2 border-dashed transition-colors',
+          'p-3 border-2 border-dashed transition-colors',
           dragOver 
-            ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-            : 'border-gray-300 dark:border-gray-600',
+            ? 'border-primary bg-accent' 
+            : 'border-border',
           files.length === 0 ? 'min-h-[200px] flex items-center justify-center' : ''
         )}
       >
@@ -161,12 +161,12 @@ export function FileManager({
           <div className="space-y-2">
             {files.map((file) => (
               <div
-                key={file.id}
+                key={file.id} 
                 className={cn(
                   'p-3 rounded-lg border cursor-pointer transition-colors',
                   currentFileId === file.id
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
-                    : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    ? 'border-primary bg-primary/10 text-primary-foreground'
+                    : 'border-border bg-card hover:border-accent hover:text-accent-foreground'
                 )}
                 onClick={() => onFileSelect(file.id)}
               >
@@ -180,24 +180,24 @@ export function FileManager({
                       
                       <h4 className={cn(
                         'text-sm font-medium truncate',
-                        'text-gray-900 dark:text-gray-100'
+                        'text-foreground'
                       )}>
                         {file.frontmatter?.title || file.name}
                       </h4>
                       
                       <span className={cn(
                         'text-xs px-1.5 py-0.5 rounded',
-                        'bg-gray-100 dark:bg-gray-700',
-                        'text-gray-600 dark:text-gray-400'
+                        'bg-muted',
+                        'text-muted-foreground'
                       )}>
                         {file.type.toUpperCase()}
                       </span>
                     </div>
                     
-                    <div className="flex items-center gap-4 mt-1">
+                    <div className="flex items-center gap-3 mt-1">
                       <span className={cn(
                         'text-xs',
-                        'text-gray-500 dark:text-gray-400'
+                        'text-muted-foreground'
                       )}>
                         {formatDate(file.lastModified)}
                       </span>
@@ -205,7 +205,7 @@ export function FileManager({
                       {file.frontmatter?.slug && (
                         <span className={cn(
                           'text-xs',
-                          'text-gray-500 dark:text-gray-400'
+                          'text-muted-foreground'
                         )}>
                           /{file.frontmatter.slug}
                         </span>
@@ -219,8 +219,8 @@ export function FileManager({
                       onFileRemove(file.id);
                     }}
                     className={cn(
-                      'p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30',
-                      'text-gray-400 hover:text-red-600 dark:hover:text-red-400',
+                      'p-1 rounded hover:bg-destructive/10',
+                      'text-muted-foreground hover:text-destructive',
                       'transition-colors'
                     )}
                     title="Delete file"
@@ -239,25 +239,25 @@ export function FileManager({
       {/* Statistics */}
       {files.length > 0 && (
         <div className={cn(
-          'p-4 border-t',
-          'border-gray-200 dark:border-gray-700',
-          'bg-gray-50 dark:bg-gray-800'
+          'p-3 border-t',
+          'border-border',
+          'bg-muted'
         )}>
           <div className="flex items-center justify-between text-sm">
             <div className={cn(
-              'text-gray-600 dark:text-gray-400'
+              'text-muted-foreground'
             )}>
               Total files: {files.length}
             </div>
             
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <span className={cn(
-                'text-gray-600 dark:text-gray-400'
+                'text-muted-foreground'
               )}>
                 MD: {files.filter(f => f.type === 'md').length}
               </span>
               <span className={cn(
-                'text-gray-600 dark:text-gray-400'
+                'text-muted-foreground'
               )}>
                 MDX: {files.filter(f => f.type === 'mdx').length}
               </span>

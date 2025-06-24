@@ -11,19 +11,19 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className={cn(
         'max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg',
-        'bg-white dark:bg-gray-900',
-        'border border-gray-200 dark:border-gray-700'
+        'bg-background',
+        'border border-border'
       )}>
         {/* Header */}
         <div className={cn(
           'p-6 border-b',
-          'border-gray-200 dark:border-gray-700',
-          'bg-gray-50 dark:bg-gray-800'
+          'border-border',
+          'bg-muted'
         )}>
           <div className="flex items-center justify-between">
             <h2 className={cn(
               'text-xl font-semibold',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Rich Editor - Instructions
             </h2>
@@ -31,8 +31,8 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
               onClick={onClose}
               className={cn(
                 'p-2 rounded-lg',
-                'text-gray-500 dark:text-gray-400',
-                'hover:bg-gray-100 dark:hover:bg-gray-700',
+                'text-muted-foreground',
+                'hover:bg-accent',
                 'transition-colors'
               )}
             >
@@ -49,40 +49,40 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Main features
             </h3>
             <ul className={cn(
               'space-y-2 text-sm',
-              'text-gray-700 dark:text-gray-300'
+              'text-muted-foreground'
             )}>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Editing Markdown and MDX files with rich-text interface</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Managing article metadata (title, slug, excerpt, categories)</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Full-screen preview with MDX rendering</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Switching between multiple files</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Automatic saving in context.json and menu.json</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Export to MDX format</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-500 mt-1">✓</span>
+                <span className="text-primary mt-1">✓</span>
                 <span>Dark and light themes</span>
               </li>
             </ul>
@@ -92,13 +92,13 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Quick start
             </h3>
             <ol className={cn(
               'space-y-2 text-sm list-decimal list-inside',
-              'text-gray-700 dark:text-gray-300'
+              'text-muted-foreground'
             )}>
               <li>Drag and drop .md or .mdx files to the left panel or use the "Upload" button</li>
               <li>Select a file for editing from the list</li>
@@ -113,24 +113,24 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Automatic functions
             </h3>
             <div className={cn(
               'space-y-3 text-sm',
-              'text-gray-700 dark:text-gray-300'
+              'text-muted-foreground'
             )}>
-              <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                <strong className="text-blue-800 dark:text-blue-200">Slug auto-generation:</strong>
+              <div className="p-3 rounded-lg bg-accent border border-border">
+                <strong className="text-accent-foreground">Slug auto-generation:</strong>
                 <p className="mt-1">If slug is not specified, it is automatically generated from the title</p>
               </div>
-              <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-                <strong className="text-green-800 dark:text-green-200">Excerpt auto-generation:</strong>
+              <div className="p-3 rounded-lg bg-accent border border-border">
+                <strong className="text-accent-foreground">Excerpt auto-generation:</strong>
                 <p className="mt-1">If excerpt is not specified, it is automatically generated from the first 160 characters of the content</p>
               </div>
-              <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
-                <strong className="text-purple-800 dark:text-purple-200">ID auto-generation:</strong>
+              <div className="p-3 rounded-lg bg-accent border border-border">
+                <strong className="text-accent-foreground">ID auto-generation:</strong>
                 <p className="mt-1">Each file is automatically assigned a unique ID</p>
               </div>
             </div>
@@ -140,30 +140,30 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Saving data
             </h3>
             <div className={cn(
               'p-4 rounded-lg',
-              'bg-gray-50 dark:bg-gray-800',
-              'border border-gray-200 dark:border-gray-700'
+              'bg-muted',
+              'border border-border'
             )}>
               <p className={cn(
                 'text-sm mb-2',
-                'text-gray-700 dark:text-gray-300'
+                'text-muted-foreground'
               )}>
                 In the current version, data is saved in the browser's localStorage:
               </p>
               <ul className={cn(
                 'space-y-1 text-sm',
-                'text-gray-600 dark:text-gray-400'
+                'text-muted-foreground'
               )}>
-                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-context</code> - database of posts</li>
-                <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">rich-editor-menu</code> - menu structure</li>
+                <li><code className="bg-secondary px-1 rounded">rich-editor-context</code> - database of posts</li>
+                <li><code className="bg-secondary px-1 rounded">rich-editor-menu</code> - menu structure</li>
               </ul>
               <p className={cn(
-                'text-xs mt-2 text-yellow-600 dark:text-yellow-400'
+                'text-xs mt-2 text-secondary-foreground'
               )}>
                 In the production version, data will be saved in the files src/~data/context.json and src/~data/menu.json
               </p>
@@ -174,37 +174,37 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
           <section>
             <h3 className={cn(
               'text-lg font-semibold mb-3',
-              'text-gray-900 dark:text-gray-100'
+              'text-foreground'
             )}>
               Hotkeys
             </h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Bold</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+B</kbd>
+                  <span className="text-muted-foreground">Bold</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+B</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Italic</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+I</kbd>
+                  <span className="text-muted-foreground">Italic</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+I</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Code</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+E</kbd>
+                  <span className="text-muted-foreground">Code</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+E</kbd>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Cancel</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+Z</kbd>
+                  <span className="text-muted-foreground">Cancel</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Z</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Repeat</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+Y</kbd>
+                  <span className="text-muted-foreground">Repeat</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+Y</kbd>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700 dark:text-gray-300">Save</span>
-                  <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs">Ctrl+S</kbd>
+                  <span className="text-muted-foreground">Save</span>
+                  <kbd className="px-2 py-1 bg-muted rounded text-xs">Ctrl+S</kbd>
                 </div>
               </div>
             </div>
@@ -214,13 +214,13 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
         {/* Footer */}
         <div className={cn(
           'p-4 border-t',
-          'border-gray-200 dark:border-gray-700',
-          'bg-gray-50 dark:bg-gray-800'
+          'border-border',
+          'bg-muted'
         )}>
           <div className="flex justify-between items-center">
             <span className={cn(
               'text-xs',
-              'text-gray-500 dark:text-gray-400'
+              'text-muted-foreground'
             )}>
               Rich Editor v1.0.0 - Powered by TipTap & MDX
             </span>
@@ -228,9 +228,9 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
               onClick={onClose}
               className={cn(
                 'px-4 py-2 text-sm rounded',
-                'bg-blue-600 dark:bg-blue-500',
-                'text-white',
-                'hover:bg-blue-700 dark:hover:bg-blue-600',
+                'bg-primary',
+                'text-primary-foreground',
+                'hover:bg-primary/90',
                 'transition-colors'
               )}
             >

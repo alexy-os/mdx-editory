@@ -21,17 +21,17 @@ export function PostMetaEditor({
 
   const inputClass = cn(
     'w-full px-3 py-2 rounded-md border',
-    'border-gray-300 dark:border-gray-600',
-    'bg-white dark:bg-gray-800',
-    'text-gray-900 dark:text-gray-100',
-    'placeholder-gray-500 dark:placeholder-gray-400',
-    'focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400',
-    'focus:border-blue-500 dark:focus:border-blue-400'
+    'border-input',
+    'bg-background',
+    'text-foreground',
+    'placeholder-muted-foreground',
+    'focus:outline-none focus:ring-2 focus:ring-ring',
+    'focus:border-input'
   );
 
   const labelClass = cn(
     'block text-sm font-medium mb-2',
-    'text-gray-700 dark:text-gray-300'
+    'text-foreground'
   );
 
   return (
@@ -40,7 +40,7 @@ export function PostMetaEditor({
     )}>
       <h3 className={cn(
         'text-lg font-semibold mb-4',
-        'text-gray-900 dark:text-gray-100'
+        'text-foreground'
       )}>
         Post metadata
       </h3>
@@ -74,7 +74,7 @@ export function PostMetaEditor({
           />
           <p className={cn(
             'mt-1 text-xs',
-            'text-gray-500 dark:text-gray-400'
+            'text-muted-foreground'
           )}>
             URL-address of the post. Automatically generated from the title.
           </p>
@@ -94,7 +94,7 @@ export function PostMetaEditor({
           />
           <p className={cn(
             'mt-1 text-xs',
-            'text-gray-500 dark:text-gray-400'
+            'text-muted-foreground'
           )}>
             Unique identifier of the post. Automatically generated.
           </p>
@@ -113,7 +113,7 @@ export function PostMetaEditor({
           />
           <p className={cn(
             'mt-1 text-xs',
-            'text-gray-500 dark:text-gray-400'
+            'text-muted-foreground'
           )}>
             Automatically generated from the post content.
           </p>
@@ -176,7 +176,7 @@ export function PostMetaEditor({
           />
           <p className={cn(
             'mt-1 text-xs',
-            'text-gray-500 dark:text-gray-400'
+            'text-muted-foreground'
           )}>
             Separate categories by commas.
           </p>
@@ -185,12 +185,12 @@ export function PostMetaEditor({
 
       <div className={cn(
         'mt-6 pt-4 border-t',
-        'border-gray-200 dark:border-gray-700'
+        'border-border'
       )}>
         <div className="flex items-center justify-between">
           <span className={cn(
             'text-sm',
-            'text-gray-500 dark:text-gray-400'
+            'text-muted-foreground'
           )}>
             * - required fields
           </span>
@@ -216,9 +216,9 @@ export function PostMetaEditor({
               }}
               className={cn(
                 'px-3 py-1 text-sm rounded',
-                'bg-blue-100 dark:bg-blue-900/30',
-                'text-blue-700 dark:text-blue-300',
-                'hover:bg-blue-200 dark:hover:bg-blue-900/50',
+                'bg-accent',
+                'text-accent-foreground',
+                'hover:bg-accent/80',
                 'transition-colors'
               )}
             >
