@@ -21,7 +21,7 @@
       "@/*": ["./src/*"],
       "@/lib/*": ["src/lib/*"],
       "@/hooks/*": ["src/hooks/*"],
-      "@/data": ["src/data/index.ts"],
+      "@/data/*": ["src/data/*"],
       "@ui8kit/*": ["../../packages/ui/utility/*"],
       "@editory/rich": ["../../packages/rich/src/index.ts"]
     },

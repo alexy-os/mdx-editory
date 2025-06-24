@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { SiteLogo } from "@/app/components/SiteLogo";
 import { DarkMode } from '@/app/components/DarkMode';
 
 import { Main } from '@ui8kit/components/main';
-import { P } from '@ui8kit/components/markup';
 import { Container, SectionFooter } from '@ui8kit/components/section';
 import { SheetLayout, SheetOverlay, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetBody, SheetTrigger } from '@ui8kit/components/sheet';
 import { NavGroupButtons, NavBar, NavMobileList, NavMobileItem, NavMobileLink, NavMobileDropdown, NavMobileDropdownItem } from '@ui8kit/components/nav';
@@ -12,6 +12,7 @@ import { Aside } from '@ui8kit/components/aside';
 import { cn } from '@/lib/utils';
 
 import { renderContext } from '@/data';
+import { quickStartExamples } from '@/data/examples/welcome';
 
 import {
   RichEditor,
@@ -44,6 +45,7 @@ export const EditoryLayout = () => {
   const [layout, setLayout] = React.useState<'split' | 'editor' | 'meta'>('split');
   const [showInfo, setShowInfo] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<'visual' | 'markdown'>('visual');
+  const isMobile = useIsMobile();
 
   const currentMeta = React.useMemo(() => {
     if (!state.currentFile) return {};
@@ -103,7 +105,7 @@ export const EditoryLayout = () => {
 
   const handleLoadExample = useCallback((content: string, filename: string) => {
     const blob = new Blob([content], { type: 'text/markdown' });
-    const file = new File([blob], filename, {
+    const file = new File([blob], filename, { 
       type: 'text/markdown',
       lastModified: Date.now()
     });
@@ -268,8 +270,6 @@ export const EditoryLayout = () => {
                           }
                         ]}
                       />
-                    </>
-                  )}
 
                   {/* Help button */}
                   <button
@@ -286,6 +286,8 @@ export const EditoryLayout = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </button>
+                    </>
+                  )}
                 </div>
 
                 <NavGroupButtons>
@@ -295,72 +297,105 @@ export const EditoryLayout = () => {
                   </SheetTrigger>
                 </NavGroupButtons>
               </NavBar>
-              {/* children */}
-
-              {!state.currentFile ? (
-                <>
-                <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
-                  <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    Welcome to EditorY
+              
+              {isMobile ? (
+                <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
+                  <div className="mb-6">
+                    <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                    Desktop Required
                   </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl">
-                    Professional Markdown editing meets modern web standards. 
-                    Write in Markdown, preview in real-time, export as semantic HTML5. 
-                    Perfect for blogs, documentation, and content creation.
+                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                    EditorY is optimized for desktop use. Please access this editor from a computer for the best experience.
                   </p>
+                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <div className="flex items-start gap-3">
+                      <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <p className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">
+                          Why Desktop?
+                        </p>
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
+                          The rich editor, split-screen preview, and file management features work best with keyboard shortcuts and larger screens.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="h-full flex items-center justify-center">
-                  <QuickStart
-                    variant="cards"
-                    className="mt-8"
-                    showHeader={false}
-                  />
-                </div>
-                </>
               ) : (
-                <div className="h-full flex">
-                  {/* Editor */}
-                  {(layout === 'split' || layout === 'editor') && (
-                    <div className={cn(
-                      'flex-1 p-6 overflow-auto',
-                      layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
-                    )}>
-                      {viewMode === 'visual' ? (
-                        <RichEditor
-                          content={getCurrentContent()}
-                          onChange={handleContentChange}
-                          placeholder="Start writing your article..."
+                <>
+                  {!state.currentFile ? (
+                    <>
+                      <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
+                        <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+                          Welcome to EditorY
+                        </h2>
+                        <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
+                          Professional Markdown editing meets modern web standards. 
+                          Write in Markdown, preview in real-time, export as semantic HTML5. 
+                          Perfect for blogs, documentation, and content creation.
+                        </p>
+                        <QuickStart
+                          onLoadExample={handleLoadExample}
+                          variant="cards"
+                          className="flex-1 mt-8 w-full max-w-4xl"
+                          showHeader={false}
+                          examples={quickStartExamples}
                         />
-                      ) : (
-                        <MarkdownTextEditor
-                          content={getCurrentContent()}
-                          onChange={handleContentChange}
-                          placeholder="Start writing in Markdown..."
-                        />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="h-full flex">
+                      {/* Editor */}
+                      {(layout === 'split' || layout === 'editor') && (
+                        <div className={cn(
+                          'flex-1 p-6 overflow-auto',
+                          layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
+                        )}>
+                          {viewMode === 'visual' ? (
+                            <RichEditor
+                              content={getCurrentContent()}
+                              onChange={handleContentChange}
+                              placeholder="Start writing your article..."
+                            />
+                          ) : (
+                            <MarkdownTextEditor
+                              content={getCurrentContent()}
+                              onChange={handleContentChange}
+                              placeholder="Start writing in Markdown..."
+                            />
+                          )}
+                        </div>
+                      )}
+
+                      {/* Metadata panel */}
+                      {(layout === 'split' || layout === 'meta') && (
+                        <div className={cn(
+                          layout === 'split' ? 'w-96' : 'flex-1',
+                          'p-6 overflow-auto'
+                        )}>
+                          <PostMetaEditor
+                            meta={currentMeta}
+                            onChange={actions.updateMeta}
+                          />
+                        </div>
                       )}
                     </div>
                   )}
-
-                  {/* Metadata panel */}
-                  {(layout === 'split' || layout === 'meta') && (
-                    <div className={cn(
-                      layout === 'split' ? 'w-96' : 'flex-1',
-                      'p-6 overflow-auto'
-                    )}>
-                      <PostMetaEditor
-                        meta={currentMeta}
-                        onChange={actions.updateMeta}
-                      />
-                    </div>
-                  )}
-                </div>
+                </>
               )}
-
-              <SectionFooter>
-                <P className="text-center-py-4">&copy; {new Date().getFullYear()} {site.title}</P>
-                <a href="https://github.com/buildy-ui/ui" className="text-sm text-center-py-4">buildy/ui</a>
-              </SectionFooter>
             </Container>
+
+            <SectionFooter className="sticky bottom-0 z-50 w-full py-2 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <Container>
+                <a href="https://github.com/buildy-ui/ui" className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} buildy/ui</a>
+              </Container>
+            </SectionFooter>
           </Main>
         </div>
         <SheetOverlay />

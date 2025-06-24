@@ -22,7 +22,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@/lib': path.resolve(__dirname, './src/lib'),
       '@/hooks': path.resolve(__dirname, './src/hooks'),
-      '@/data': path.resolve(__dirname, './src/data/index.ts'),
+      '@/data': path.resolve(__dirname, './src/data'),
       '@ui8kit': path.resolve(__dirname, '../../packages/ui/utility'),
       '@editory/rich': path.resolve(__dirname, '../../packages/rich/src/index.ts')
     }

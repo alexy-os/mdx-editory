@@ -8,9 +8,14 @@ interface QuickStartProps {
   showCards?: boolean;
   showTip?: boolean;
   className?: string;
+  examples?: Array<{
+    name: string;
+    title: string;
+    content: string;
+  }>;
 }
 
-const exampleFiles = [
+const defaultExampleFiles = [
   {
     name: 'three-pillars-modern-frontend-architecture.md',
     title: 'Three Pillars of Modern Frontend Architecture',
@@ -172,7 +177,8 @@ export function QuickStart({
   showHeader = true,
   showCards = true,
   showTip = true,
-  className
+  className,
+  examples
 }: QuickStartProps) {
   let contextQuickStart = null;
   try {
@@ -180,6 +186,9 @@ export function QuickStart({
   } catch {
     // context unknown
   }
+
+  // Use external examples or default
+  const exampleFiles = examples || defaultExampleFiles;
 
   const handleLoadExample = (example: typeof exampleFiles[0]) => {
     const loadFn = onLoadExample || contextQuickStart?.onLoadExample;
