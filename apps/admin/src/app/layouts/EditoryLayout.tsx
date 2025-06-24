@@ -447,12 +447,12 @@ function EditorySidebar({ className, state, actions }: SidebarProps) {
               <NavMobileLink className="text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-secondary-foreground/10 rounded-md p-2" href={item.url}>{item.title}</NavMobileLink>
             </NavMobileItem>
           ))}
-          <NavMobileItem>
+          {/*<NavMobileItem>
             <NavMobileDropdown className="text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/90 rounded-md" title="Services">
               <NavMobileDropdownItem href="/web-dev">Web Development</NavMobileDropdownItem>
               <NavMobileDropdownItem href="/mobile-dev">Mobile Development</NavMobileDropdownItem>
             </NavMobileDropdown>
-          </NavMobileItem>
+          </NavMobileItem>*/}
         </NavMobileList>
         <FileManager
           files={state.files}

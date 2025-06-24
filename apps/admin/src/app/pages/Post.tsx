@@ -63,8 +63,8 @@ export function Post({ slug: propSlug }: PostProps = {}) {
           </ArticleMeta>
         </ArticleHeader>
 
-        <ArticleContent>
-          <P>{post.content}</P>
+        <ArticleContent className="prose">
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </ArticleContent>
 
         {post.categories && (

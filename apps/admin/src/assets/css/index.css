@@ -1,6 +1,6 @@
 @import "./source/tailwind4.css";
 
-/*@import "./source/fonts.css";*/
+@import "./source/fonts.css";
 @import "./source/latty.css";
 @import "./source/scrollbar.css";
 @import "./source/shadcn4.css";
