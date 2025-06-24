@@ -300,26 +300,26 @@ export function QuickStart({
 
       {showTip && (
         <div className={cn(
-          'p-4 rounded-lg',
+          'p-4 rounded-lg text-left',
           'bg-yellow-50 dark:bg-yellow-900/20',
           'border border-yellow-200 dark:border-yellow-800'
         )}>
           <div className="flex items-start gap-3">
-            <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <div>
+            <div className="flex-1 min-w-0">
               <p className={cn(
                 'text-sm font-medium mb-1',
                 'text-yellow-800 dark:text-yellow-200'
               )}>
-                Tip
+                Desktop Required
               </p>
               <p className={cn(
-                'text-sm',
+                'text-sm leading-relaxed',
                 'text-yellow-700 dark:text-yellow-300'
               )}>
-                After loading an example, you can edit it, change metadata, and export the result.
+                EditorY is optimized for desktop use. Please access this editor from a computer for the best experience with keyboard shortcuts and split-screen features.
               </p>
             </div>
           </div>
