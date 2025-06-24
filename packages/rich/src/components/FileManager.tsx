@@ -59,7 +59,6 @@ export function FileManager({
   }, [onFileLoad]);
 
   const handleLoadExample = useCallback((content: string, filename: string) => {
-    // Create File object from string for compatibility with onFileLoad
     const blob = new Blob([content], { type: 'text/markdown' });
     const file = new File([blob], filename, { 
       type: 'text/markdown',
@@ -142,9 +141,22 @@ export function FileManager({
         )}
       >
         {files.length === 0 ? (
+          <label className="cursor-pointer">
           <QuickStart 
             onLoadExample={handleLoadExample}
+            variant="list"
+            showHeader={true}
+            showTip={false}
+            showCards={false}
           />
+          <input
+            type="file"
+            multiple
+            accept=".md,.mdx"
+            onChange={handleFileInput}
+            className="hidden"
+          />
+          </label>
         ) : (
           <div className="space-y-2">
             {files.map((file) => (

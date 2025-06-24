@@ -1,9 +1,13 @@
-import React from 'react';
 import { cn } from '../utils';
+import { useQuickStart } from '../hooks/useQuickStart';
 
 interface QuickStartProps {
-  onLoadExample: (content: string, filename: string) => void;
-  isDarkMode?: boolean;
+  onLoadExample?: (content: string, filename: string) => void;
+  variant?: 'full' | 'cards' | 'list';
+  showHeader?: boolean;
+  showCards?: boolean;
+  showTip?: boolean;
+  className?: string;
 }
 
 const exampleFiles = [
@@ -162,119 +166,156 @@ This approach eliminates the traditional trade-off between developer experience 
   }
 ];
 
-export function QuickStart({ onLoadExample, isDarkMode = false }: QuickStartProps) {
+export function QuickStart({
+  onLoadExample,
+  variant = 'full',
+  showHeader = true,
+  showCards = true,
+  showTip = true,
+  className
+}: QuickStartProps) {
+  let contextQuickStart = null;
+  try {
+    contextQuickStart = useQuickStart();
+  } catch {
+    // context unknown
+  }
+
   const handleLoadExample = (example: typeof exampleFiles[0]) => {
+    const loadFn = onLoadExample || contextQuickStart?.onLoadExample;
+    if (!loadFn) return;
+
     // Create File object from string
     const blob = new Blob([example.content], { type: 'text/markdown' });
     const file = new File([blob], example.name, { type: 'text/markdown' });
-    
+
     // Use FileReader to read as a regular file
     const reader = new FileReader();
     reader.onload = () => {
-      onLoadExample(reader.result as string, example.name);
+      loadFn(reader.result as string, example.name);
     };
     reader.readAsText(file);
   };
 
-  return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h3 className={cn(
-          'text-lg font-semibold mb-2',
-          'text-gray-900 dark:text-gray-100'
-        )}>
-          Quick Start
-        </h3>
-        <p className={cn(
-          'text-sm',
-          'text-gray-500 dark:text-gray-400'
-        )}>
-          Load an example file to get started with the editor
-        </p>
-      </div>
-
-      <div className="grid gap-4">
-        {exampleFiles.map((example, index) => (
-          <div
-            key={index}
-            className={cn(
-              'p-4 rounded-lg border cursor-pointer transition-all',
-              'border-gray-200 dark:border-gray-700',
-              'hover:border-blue-300 dark:hover:border-blue-600',
-              'hover:bg-blue-50 dark:hover:bg-blue-900/20'
-            )}
-            onClick={() => handleLoadExample(example)}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <h4 className={cn(
-                  'font-medium mb-1',
-                  'text-gray-900 dark:text-gray-100'
-                )}>
-                  {example.title}
-                </h4>
-                <p className={cn(
-                  'text-sm mb-2',
+  const renderCards = () => (
+    <div className={cn(
+      variant === 'list' ? 'space-y-2' : 'grid gap-4',
+      variant === 'cards' && 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+    )}>
+      {exampleFiles.map((example, index) => (
+        <div
+          key={index}
+          className={cn(
+            'p-4 rounded-lg border cursor-pointer transition-all',
+            'border-gray-200 dark:border-gray-700',
+            'hover:border-blue-300 dark:hover:border-blue-600',
+            'hover:bg-blue-50 dark:hover:bg-blue-900/20',
+            variant === 'list' && 'flex items-center gap-4'
+          )}
+          onClick={() => handleLoadExample(example)}
+        >
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h4 className={cn(
+                'font-medium mb-1',
+                'text-gray-900 dark:text-gray-100'
+              )}>
+                {example.title}
+              </h4>
+              <p className={cn(
+                'text-sm mb-2',
+                'text-gray-600 dark:text-gray-400'
+              )}>
+                {example.name}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  'text-xs px-2 py-1 rounded',
+                  'bg-gray-100 dark:bg-gray-700',
                   'text-gray-600 dark:text-gray-400'
                 )}>
-                  {example.name}
-                </p>
-                <div className="flex items-center gap-2">
-                  <span className={cn(
-                    'text-xs px-2 py-1 rounded',
-                    'bg-gray-100 dark:bg-gray-700',
-                    'text-gray-600 dark:text-gray-400'
-                  )}>
-                    {example.name.endsWith('.mdx') ? 'MDX' : 'MD'}
-                  </span>
-                  <span className={cn(
-                    'text-xs',
-                    'text-gray-500 dark:text-gray-500'
-                  )}>
-                    ~{Math.ceil(example.content.length / 100)} lines
-                  </span>
-                </div>
-              </div>
-              
-              <div className={cn(
-                'p-2 rounded-lg',
-                'bg-blue-100 dark:bg-blue-900/30',
-                'text-blue-600 dark:text-blue-400'
-              )}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+                  {example.name.endsWith('.mdx') ? 'MDX' : 'MD'}
+                </span>
+                <span className={cn(
+                  'text-xs',
+                  'text-gray-500 dark:text-gray-500'
+                )}>
+                  ~{Math.ceil(example.content.length / 100)} lines
+                </span>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
 
-      <div className={cn(
-        'p-4 rounded-lg',
-        'bg-yellow-50 dark:bg-yellow-900/20',
-        'border border-yellow-200 dark:border-yellow-800'
-      )}>
-        <div className="flex items-start gap-3">
-          <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div>
-            <p className={cn(
-              'text-sm font-medium mb-1',
-              'text-yellow-800 dark:text-yellow-200'
+            <div className={cn(
+              'p-2 rounded-lg',
+              'bg-blue-100 dark:bg-blue-900/30',
+              'text-blue-600 dark:text-blue-400'
             )}>
-              Tip
-            </p>
-            <p className={cn(
-              'text-sm',
-              'text-yellow-700 dark:text-yellow-300'
-            )}>
-              After loading an example, you can edit it, change metadata, and export the result.
-            </p>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className={cn('space-y-6', className)}>
+      {showHeader && (
+        <div className="text-center">
+          <div className={cn(
+            'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center',
+            'bg-gray-100 dark:bg-gray-800'
+          )}>
+            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V16a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 className={cn(
+            'text-lg font-medium mb-2',
+            'text-gray-900 dark:text-gray-100'
+          )}>
+            Select a file for editing
+          </h3>
+          <p className={cn(
+            'text-sm',
+            'text-gray-500 dark:text-gray-400'
+          )}>
+            Load a .md or .mdx file to start working
+          </p>
+        </div>
+      )}
+
+      {showCards && renderCards()}
+
+      {showTip && (
+        <div className={cn(
+          'p-4 rounded-lg',
+          'bg-yellow-50 dark:bg-yellow-900/20',
+          'border border-yellow-200 dark:border-yellow-800'
+        )}>
+          <div className="flex items-start gap-3">
+            <svg className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p className={cn(
+                'text-sm font-medium mb-1',
+                'text-yellow-800 dark:text-yellow-200'
+              )}>
+                Tip
+              </p>
+              <p className={cn(
+                'text-sm',
+                'text-yellow-700 dark:text-yellow-300'
+              )}>
+                After loading an example, you can edit it, change metadata, and export the result.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

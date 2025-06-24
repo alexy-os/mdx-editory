@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { SiteLogo } from "@/app/components/SiteLogo";
 import { DarkMode } from '@/app/components/DarkMode';
 
@@ -20,11 +20,13 @@ import {
   MarkdownTextEditor,
   FileManager,
   InfoPanel,
+  QuickStart,
   Dropdown,
   prepareHtmlForMarkdown,
   prepareMarkdownForEditor,
   exportContextFile,
-  useEditor
+  useEditor,
+  QuickStartProvider
 } from '@editory/rich';
 
 export type SidebarProps = {
@@ -98,8 +100,18 @@ export const EditoryLayout = () => {
       actions.updateContent(content);
     }
   };
+
+  const handleLoadExample = useCallback((content: string, filename: string) => {
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const file = new File([blob], filename, {
+      type: 'text/markdown',
+      lastModified: Date.now()
+    });
+    actions.loadFile(file);
+  }, [actions]);
+
   return (
-    <>
+    <QuickStartProvider onLoadExample={handleLoadExample}>
       <SheetLayout>
         <div className="grid grid-cols-4">
           <EditorySidebar className="col-span-4 md:col-span-1" state={state} actions={actions} />
@@ -286,68 +298,63 @@ export const EditoryLayout = () => {
               {/* children */}
 
               {!state.currentFile ? (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <div className={cn(
-                  'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center',
-                  'bg-gray-100 dark:bg-gray-800'
-                )}>
-                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V16a2 2 0 01-2 2z" />
-                  </svg>
+                <>
+                <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
+                  <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+                    Welcome to EditorY
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl">
+                    Professional Markdown editing meets modern web standards. 
+                    Write in Markdown, preview in real-time, export as semantic HTML5. 
+                    Perfect for blogs, documentation, and content creation.
+                  </p>
                 </div>
-                <h3 className={cn(
-                  'text-lg font-medium mb-2',
-                  'text-gray-900 dark:text-gray-100'
-                )}>
-                  Select a file for editing
-                </h3>
-                <p className={cn(
-                  'text-sm',
-                  'text-gray-500 dark:text-gray-400'
-                )}>
-                  Load a .md or .mdx file to start working
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="h-full flex">
-              {/* Editor */}
-              {(layout === 'split' || layout === 'editor') && (
-                <div className={cn(
-                  'flex-1 p-6 overflow-auto',
-                  layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
-                )}>
-                  {viewMode === 'visual' ? (
-                    <RichEditor
-                      content={getCurrentContent()}
-                      onChange={handleContentChange}
-                      placeholder="Start writing your article..."
-                    />
-                  ) : (
-                    <MarkdownTextEditor
-                      content={getCurrentContent()}
-                      onChange={handleContentChange}
-                      placeholder="Start writing in Markdown..."
-                    />
+                <div className="h-full flex items-center justify-center">
+                  <QuickStart
+                    variant="cards"
+                    className="mt-8"
+                    showHeader={false}
+                  />
+                </div>
+                </>
+              ) : (
+                <div className="h-full flex">
+                  {/* Editor */}
+                  {(layout === 'split' || layout === 'editor') && (
+                    <div className={cn(
+                      'flex-1 p-6 overflow-auto',
+                      layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
+                    )}>
+                      {viewMode === 'visual' ? (
+                        <RichEditor
+                          content={getCurrentContent()}
+                          onChange={handleContentChange}
+                          placeholder="Start writing your article..."
+                        />
+                      ) : (
+                        <MarkdownTextEditor
+                          content={getCurrentContent()}
+                          onChange={handleContentChange}
+                          placeholder="Start writing in Markdown..."
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {/* Metadata panel */}
+                  {(layout === 'split' || layout === 'meta') && (
+                    <div className={cn(
+                      layout === 'split' ? 'w-96' : 'flex-1',
+                      'p-6 overflow-auto'
+                    )}>
+                      <PostMetaEditor
+                        meta={currentMeta}
+                        onChange={actions.updateMeta}
+                      />
+                    </div>
                   )}
                 </div>
               )}
-
-              {/* Metadata panel */}
-              {(layout === 'split' || layout === 'meta') && (
-                <div className={cn(
-                  layout === 'split' ? 'w-96' : 'flex-1',
-                  'p-6 overflow-auto'
-                )}>
-                  <PostMetaEditor
-                    meta={currentMeta}
-                    onChange={actions.updateMeta}
-                  />
-                </div>
-              )}
-            </div>
-          )}
 
               <SectionFooter>
                 <P className="text-center-py-4">&copy; {new Date().getFullYear()} {site.title}</P>
@@ -375,7 +382,7 @@ export const EditoryLayout = () => {
         </SheetContent>
 
       </SheetLayout>
-      
+
       <MarkdownPreview
         content={state.currentFile?.content || ''}
         frontmatter={state.currentFile?.frontmatter}
@@ -389,7 +396,7 @@ export const EditoryLayout = () => {
           onClose={() => setShowInfo(false)}
         />
       )}
-    </>
+    </QuickStartProvider>
   );
 };
 
@@ -413,12 +420,12 @@ function EditorySidebar({ className, state, actions }: SidebarProps) {
           </NavMobileItem>
         </NavMobileList>
         <FileManager
-            files={state.files}
-            currentFileId={state.currentFile?.id || null}
-            onFileSelect={actions.selectFile}
-            onFileLoad={actions.loadFile}
-            onFileRemove={actions.removeFile}
-          />
+          files={state.files}
+          currentFileId={state.currentFile?.id || null}
+          onFileSelect={actions.selectFile}
+          onFileLoad={actions.loadFile}
+          onFileRemove={actions.removeFile}
+        />
       </div>
     </Aside>
   );

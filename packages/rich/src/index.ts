@@ -11,6 +11,7 @@ export { Dropdown } from './components/Dropdown';
 export { useEditor } from './hooks/useEditor';
 export { useFileManager } from './hooks/useFileManager';
 export { useDarkMode } from './hooks/useDarkMode';
+export { useQuickStart, QuickStartProvider } from './hooks/useQuickStart';
 
 export * from './types';
 export * from './utils'; 
