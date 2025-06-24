@@ -297,6 +297,7 @@ export const EditoryLayout = () => {
                   </SheetTrigger>
                 </NavGroupButtons>
               </NavBar>
+                </Container>
               
               {isMobile ? (
                 <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
@@ -354,7 +355,7 @@ export const EditoryLayout = () => {
                       {/* Editor */}
                       {(layout === 'split' || layout === 'editor') && (
                         <div className={cn(
-                          'flex-1 p-6 overflow-auto',
+                          'flex-1 overflow-auto',
                           layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
                         )}>
                           {viewMode === 'visual' ? (
@@ -389,7 +390,6 @@ export const EditoryLayout = () => {
                   )}
                 </>
               )}
-            </Container>
 
             <SectionFooter className="sticky bottom-0 z-50 w-full py-2 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <Container>
