@@ -1,0 +1,256 @@
+@import "tailwindcss";
+
+@theme {
+  /* Dark mode configuration */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Typography configuration */
+  --typography-DEFAULT-css-maxWidth: none;
+  --typography-DEFAULT-css-color: inherit;
+  
+  /* Links */
+  --typography-DEFAULT-css-a-color: inherit;
+  --typography-DEFAULT-css-a-textDecoration: underline;
+  --typography-DEFAULT-css-a-fontWeight: 500;
+  
+  /* Lead text */
+  --typography-DEFAULT-css-lead-color: inherit;
+  
+  /* Strong text */
+  --typography-DEFAULT-css-strong-color: inherit;
+  --typography-DEFAULT-css-strong-fontWeight: 600;
+  
+  /* Lists */
+  --typography-DEFAULT-css-ol-A-list-counter-style: upper-alpha;
+  --typography-DEFAULT-css-ol-a-list-counter-style: lower-alpha;
+  --typography-DEFAULT-css-ol-I-list-counter-style: upper-roman;
+  --typography-DEFAULT-css-ol-i-list-counter-style: lower-roman;
+  --typography-DEFAULT-css-ol-1-list-counter-style: decimal;
+  
+  /* Headings */
+  --typography-DEFAULT-css-h1-color: inherit;
+  --typography-DEFAULT-css-h1-fontWeight: 800;
+  --typography-DEFAULT-css-h2-color: inherit;
+  --typography-DEFAULT-css-h2-fontWeight: 700;
+  --typography-DEFAULT-css-h3-color: inherit;
+  --typography-DEFAULT-css-h3-fontWeight: 600;
+  --typography-DEFAULT-css-h4-color: inherit;
+  --typography-DEFAULT-css-h4-fontWeight: 600;
+  
+  /* Code */
+  --typography-DEFAULT-css-code-color: inherit;
+  --typography-DEFAULT-css-code-fontWeight: 600;
+  
+  /* Pre */
+  --typography-DEFAULT-css-pre-color: inherit;
+  --typography-DEFAULT-css-pre-backgroundColor: inherit;
+  --typography-DEFAULT-css-pre-overflowX: auto;
+  
+  /* Blockquotes */
+  --typography-DEFAULT-css-blockquote-fontWeight: 500;
+  --typography-DEFAULT-css-blockquote-fontStyle: italic;
+  --typography-DEFAULT-css-blockquote-color: inherit;
+  --typography-DEFAULT-css-blockquote-borderLeftWidth: 0.25rem;
+  --typography-DEFAULT-css-blockquote-borderLeftColor: inherit;
+  
+  /* HR */
+  --typography-DEFAULT-css-hr-borderColor: inherit;
+  --typography-DEFAULT-css-hr-borderTopWidth: 1px;
+  --typography-DEFAULT-css-hr-marginTop: 3em;
+  --typography-DEFAULT-css-hr-marginBottom: 3em;
+  
+  /* Tables */
+  --typography-DEFAULT-css-table-width: 100%;
+  --typography-DEFAULT-css-table-tableLayout: auto;
+  --typography-DEFAULT-css-table-textAlign: left;
+  --typography-DEFAULT-css-table-marginTop: 2em;
+  --typography-DEFAULT-css-table-marginBottom: 2em;
+  
+  --typography-DEFAULT-css-thead-color: inherit;
+  --typography-DEFAULT-css-thead-fontWeight: 600;
+  --typography-DEFAULT-css-thead-borderBottomWidth: 1px;
+  --typography-DEFAULT-css-thead-borderBottomColor: inherit;
+}
+
+/* Custom typography styles that can't be expressed in theme variables */
+@layer base {
+  .prose {
+    max-width: none;
+    color: inherit;
+  }
+  
+  .prose a {
+    color: inherit;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  
+  .prose [class~="lead"] {
+    color: inherit;
+  }
+  
+  .prose strong {
+    color: inherit;
+    font-weight: 600;
+  }
+  
+  .prose ol[type="A"] {
+    --list-counter-style: upper-alpha;
+  }
+  
+  .prose ol[type="a"] {
+    --list-counter-style: lower-alpha;
+  }
+  
+  .prose ol[type="I"] {
+    --list-counter-style: upper-roman;
+  }
+  
+  .prose ol[type="i"] {
+    --list-counter-style: lower-roman;
+  }
+  
+  .prose ol[type="1"] {
+    --list-counter-style: decimal;
+  }
+  
+  .prose ol > li {
+    position: relative;
+  }
+  
+  .prose ol > li::before {
+    content: counter(list-item, var(--list-counter-style, decimal)) ".";
+    position: absolute;
+    font-weight: 400;
+    color: inherit;
+  }
+  
+  .prose ul > li {
+    position: relative;
+  }
+  
+  .prose ul > li::before {
+    content: "";
+    position: absolute;
+    background-color: currentColor;
+    border-radius: 50%;
+  }
+  
+  .prose hr {
+    border-color: inherit;
+    border-top-width: 1px;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+  
+  .prose blockquote {
+    font-weight: 500;
+    font-style: italic;
+    color: inherit;
+    border-left-width: 0.25rem;
+    border-left-color: inherit;
+    quotes: "\201C""\201D""\2018""\2019";
+  }
+  
+  .prose blockquote p:first-of-type::before {
+    content: open-quote;
+  }
+  
+  .prose blockquote p:last-of-type::after {
+    content: close-quote;
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: inherit;
+  }
+  
+  .prose h1 {
+    font-weight: 800;
+  }
+  
+  .prose h2 {
+    font-weight: 700;
+  }
+  
+  .prose h3,
+  .prose h4 {
+    font-weight: 600;
+  }
+  
+  .prose figure figcaption {
+    color: inherit;
+  }
+  
+  .prose code {
+    color: inherit;
+    font-weight: 600;
+  }
+  
+  .prose code::before,
+  .prose code::after {
+    content: "`";
+  }
+  
+  .prose a code {
+    color: inherit;
+  }
+  
+  .prose pre {
+    color: inherit;
+    background-color: inherit;
+    overflow-x: auto;
+  }
+  
+  .prose pre code {
+    background-color: transparent;
+    border-width: 0;
+    border-radius: 0;
+    padding: 0;
+    font-weight: 400;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+  }
+  
+  .prose pre code::before,
+  .prose pre code::after {
+    content: none;
+  }
+  
+  .prose table {
+    width: 100%;
+    table-layout: auto;
+    text-align: left;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+  
+  .prose thead {
+    color: inherit;
+    font-weight: 600;
+    border-bottom-width: 1px;
+    border-bottom-color: inherit;
+  }
+  
+  .prose thead th {
+    vertical-align: bottom;
+  }
+  
+  .prose tbody tr {
+    border-bottom-width: 1px;
+    border-bottom-color: inherit;
+  }
+  
+  .prose tbody tr:last-child {
+    border-bottom-width: 0;
+  }
+  
+  .prose tbody td {
+    vertical-align: top;
+  }
+} 
