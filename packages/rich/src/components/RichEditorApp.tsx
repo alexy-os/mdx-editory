@@ -1,4 +1,5 @@
 import React from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { RichEditor } from './RichEditor';
 import { PostMetaEditor } from './PostMetaEditor';
 import { MarkdownPreview } from './MarkdownPreview';
@@ -295,25 +296,31 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         </div>
       </header>
 
-      {/* Main content */}
-      <div className="flex">
+      {/* Main content with resizable panels */}
+      <PanelGroup autoSaveId="rich-editor-layout" direction="horizontal" className="flex-1">
         {/* Sidebar with files */}
-        <aside className={cn(
-          'w-80 border-r',
-          'border-border',
-          'bg-card'
-        )}>
-          <FileManager
-            files={state.files}
-            currentFileId={state.currentFile?.id || null}
-            onFileSelect={actions.selectFile}
-            onFileLoad={actions.loadFile}
-            onFileRemove={actions.removeFile}
-          />
-        </aside>
+        <Panel defaultSize={25} minSize={20} maxSize={40}>
+          <aside className={cn(
+            'h-full',
+            'bg-card'
+          )}>
+            <FileManager
+              files={state.files}
+              currentFileId={state.currentFile?.id || null}
+              onFileSelect={actions.selectFile}
+              onFileLoad={actions.loadFile}
+              onFileRemove={actions.removeFile}
+            />
+          </aside>
+        </Panel>
+
+        <PanelResizeHandle className={cn(
+          'w-1 bg-border hover:bg-accent transition-colors',
+          'data-[panel-group-direction=horizontal]:cursor-col-resize'
+        )} />
 
         {/* Main working area */}
-        <main className="flex-1 overflow-hidden">
+        <Panel defaultSize={75}>
           {!state.currentFile ? (
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
@@ -340,13 +347,50 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               </div>
             </div>
           ) : (
-            <div className="h-full flex">
-              {/* Editor */}
-              {(layout === 'split' || layout === 'editor') && (
-                <div className={cn(
-                  'flex-1 flex flex-col',
-                  layout === 'split' ? 'border-r border-border' : ''
-                )}>
+            <>
+              {layout === 'split' ? (
+                <PanelGroup autoSaveId="editor-content-layout" direction="horizontal">
+                  {/* Editor Panel */}
+                  <Panel defaultSize={70} minSize={30}>
+                    <div className="h-full flex flex-col">
+                      <div className="flex-1 overflow-auto p-6">
+                        {viewMode === 'visual' ? (
+                          <RichEditor
+                            content={getCurrentContent()}
+                            onChange={handleContentChange}
+                            isDarkMode={isDarkMode}
+                            placeholder="Start writing your article..."
+                          />
+                        ) : (
+                          <MarkdownTextEditor
+                            content={getCurrentContent()}
+                            onChange={handleContentChange}
+                            placeholder="Start writing in Markdown..."
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </Panel>
+
+                  <PanelResizeHandle className={cn(
+                    'w-1 bg-border hover:bg-accent transition-colors',
+                    'data-[panel-group-direction=horizontal]:cursor-col-resize'
+                  )} />
+
+                  {/* Metadata Panel */}
+                  <Panel defaultSize={30} minSize={25} maxSize={50}>
+                    <div className="h-full flex flex-col">
+                      <div className="flex-1 overflow-auto p-6">
+                        <PostMetaEditor
+                          meta={currentMeta}
+                          onChange={actions.updateMeta}
+                        />
+                      </div>
+                    </div>
+                  </Panel>
+                </PanelGroup>
+              ) : layout === 'editor' ? (
+                <div className="h-full flex flex-col">
                   <div className="flex-1 overflow-auto p-6">
                     {viewMode === 'visual' ? (
                       <RichEditor
@@ -364,14 +408,8 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     )}
                   </div>
                 </div>
-              )}
-
-              {/* Metadata panel */}
-              {(layout === 'split' || layout === 'meta') && (
-                <div className={cn(
-                  layout === 'split' ? 'w-72' : 'flex-1',
-                  'flex flex-col'
-                )}>
+              ) : (
+                <div className="h-full flex flex-col">
                   <div className="flex-1 overflow-auto p-6">
                     <PostMetaEditor
                       meta={currentMeta}
@@ -380,10 +418,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   </div>
                 </div>
               )}
-            </div>
+            </>
           )}
-        </main>
-      </div>
+        </Panel>
+      </PanelGroup>
 
       {/* Preview modal window */}
       <MarkdownPreview

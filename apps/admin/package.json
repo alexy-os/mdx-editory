@@ -15,6 +15,7 @@
     "build:analyze": "tsc && vite build --mode analyze"
   },
   "dependencies": {
+    "@editory/rich": "workspace:*",
     "@radix-ui/react-slot": "^1.2.3",
     "@types/turndown": "^5.0.5",
     "class-variance-authority": "^0.7.1",

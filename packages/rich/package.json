@@ -50,6 +50,7 @@
     "lowlight": "^3.1.0",
     "lucide-react": "^0.303.0",
     "marked": "^15.0.12",
+    "react-resizable-panels": "^3.0.3",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
     "tailwind-merge": "^2.2.0",
