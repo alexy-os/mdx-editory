@@ -32,6 +32,13 @@ import {
   QuickStartProvider
 } from '@editory/rich';
 
+console.log('Components check:', {
+  RichEditor: typeof RichEditor,
+  PostMetaEditor: typeof PostMetaEditor,
+  QuickStartProvider: typeof QuickStartProvider,
+  useEditor: typeof useEditor
+});
+
 export type SidebarProps = {
   className?: string
   state: any
@@ -116,21 +123,22 @@ export const EditoryLayout = () => {
 
   return (
     <QuickStartProvider onLoadExample={handleLoadExample}>
-      <SheetLayout>
-        <PanelGroup autoSaveId="editory-main-layout" direction="horizontal" className="min-h-screen">
-          {/* Sidebar Panel */}
-          <Panel defaultSize={20} minSize={15} maxSize={35} className="hidden md:block">
-            <EditorySidebar state={state} actions={actions} />
-          </Panel>
+      <>
+        <SheetLayout>
+          <PanelGroup autoSaveId="editory-main-layout" direction="horizontal" className="min-h-screen">
+            {/* Sidebar Panel */}
+            <Panel defaultSize={20} minSize={15} maxSize={35} className="hidden md:block">
+              <EditorySidebar state={state} actions={actions} />
+            </Panel>
 
-          <PanelResizeHandle className={cn(
-            'w-1 bg-border hover:bg-accent transition-colors hidden md:block',
-            'data-[panel-group-direction=horizontal]:cursor-col-resize'
-          )} />
+            <PanelResizeHandle className={cn(
+              'w-1 bg-border hover:bg-accent transition-colors hidden md:block',
+              'data-[panel-group-direction=horizontal]:cursor-col-resize'
+            )} />
 
-          {/* Main Content Panel */}
-          <Panel defaultSize={80}>
-            <Main className="flex-1 min-w-0">
+            {/* Main Content Panel */}
+            <Panel defaultSize={80}>
+              <Main className="flex-1 min-w-0">
               <Container>
                 <NavBar className="md:[&_[data-slot=nav-container]]:!justify-end">
                   <SiteLogo className="block md:hidden" />
@@ -466,21 +474,22 @@ export const EditoryLayout = () => {
           </SheetBody>
         </SheetContent>
 
-      </SheetLayout>
+        </SheetLayout>
 
-      <MarkdownPreview
-        content={state.currentFile?.content || ''}
-        frontmatter={state.currentFile?.frontmatter}
-        isOpen={state.isPreviewOpen}
-        onClose={actions.togglePreview}
-      />
-
-      {/* Information panel */}
-      {showInfo && (
-        <InfoPanel
-          onClose={() => setShowInfo(false)}
+        <MarkdownPreview
+          content={state.currentFile?.content || ''}
+          frontmatter={state.currentFile?.frontmatter}
+          isOpen={state.isPreviewOpen}
+          onClose={actions.togglePreview}
         />
-      )}
+
+        {/* Information panel */}
+        {showInfo && (
+          <InfoPanel
+            onClose={() => setShowInfo(false)}
+          />
+        )}
+      </>
     </QuickStartProvider>
   );
 };

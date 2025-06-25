@@ -12,7 +12,7 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import { common, createLowlight } from 'lowlight';
 import { cn } from '../utils';
-import { Bold, Italic, Heading1, Heading2, Heading3, List, TextQuote, Code, Image as ImageIcon, Link as LinkIcon, Braces } from 'lucide-react';
+//import { Bold, Italic, Heading1, Heading2, Heading3, List, TextQuote, Code, Image as ImageIcon, Link as LinkIcon, Braces } from 'lucide-react';
 
 interface RichEditorProps {
   content: string;
@@ -114,7 +114,7 @@ export function RichEditor({
     )}>
       <EditorToolbar editor={editor} isDarkMode={isDarkMode} />
       <div className="p-4">
-        {React.createElement(EditorContent as any, { editor })}
+        <EditorContent editor={editor} />
       </div>
     </div>
   );
@@ -129,17 +129,17 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
   if (!editor) return null;
 
   const buttonClass = cn(
-    'p-2 hover:bg-accent/75 hover:text-accent-foreground',
+    'p-1 w-8 h-8 bg-muted-foreground/75 dark:bg-transparent hover:bg-accent/75 dark:hover:bg-primary/75 hover:text-accent-foreground',
     'text-secondary-foreground',
-    'border border-transparent hover:border-border',
+    'border border-transparent hover:border-accent',
     'transition-colors'
   );
 
   const activeButtonClass = cn(
     buttonClass,
-    'bg-accent',
-    'text-accent-foreground',
-    'border-border'
+    'bg-primary  dark:bg-primary/25',
+    'text-primary-foreground',
+    'border-accent'
   );
 
   return (
@@ -152,7 +152,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('bold') ? activeButtonClass : buttonClass}
         title="Bold"
       >
-        <Bold className="w-4 h-4" />
+        <span className="editory-bold" />
       </button>
       
       <button
@@ -160,17 +160,17 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('italic') ? activeButtonClass : buttonClass}
         title="Italic"
       >
-        <Italic className="w-4 h-4" />
+        <span className="editory-italic" />
       </button>
       
-      <div className="w-px h-6 bg-border mx-1" />
+      <div className="w-px h-5 bg-border mx-1" />
       
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? activeButtonClass : buttonClass}
         title="Heading 1"
       >
-        <Heading1 className="w-4 h-4" />
+        <span className="editory-heading1" />
       </button>
       
       <button
@@ -178,7 +178,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('heading', { level: 2 }) ? activeButtonClass : buttonClass}
         title="Heading 2"
       >
-        <Heading2 className="w-4 h-4" />
+        <span className="editory-heading2" />
       </button>
       
       <button
@@ -186,17 +186,17 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('heading', { level: 3 }) ? activeButtonClass : buttonClass}
         title="Heading 3"
       >
-        <Heading3 className="w-4 h-4" />
+        <span className="editory-heading3" />
       </button>
       
-      <div className="w-px h-6 bg-border mx-1" />
+      <div className="w-px h-5 bg-border mx-1" />
       
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? activeButtonClass : buttonClass}
         title="Bullet list"
       >
-        <List className="w-4 h-4" />
+        <span className="editory-list" />
       </button>
       
       <button
@@ -204,7 +204,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('orderedList') ? activeButtonClass : buttonClass}
         title="Ordered list"
       >
-        <List className="w-4 h-4" />
+        <span className="editory-list-ordered" />
       </button>
       
       <button
@@ -212,7 +212,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('blockquote') ? activeButtonClass : buttonClass}
         title="Quote"
       >
-        <TextQuote className="w-4 h-4" />
+        <span className="editory-text-quote" />
       </button>
       
       <button
@@ -220,7 +220,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('code') ? activeButtonClass : buttonClass}
         title="Code"
       >
-        <Code className="w-4 h-4" />
+        <span className="editory-code" />
       </button>
       
       <button
@@ -228,10 +228,10 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('codeBlock') ? activeButtonClass : buttonClass}
         title="Code block"
       >
-        <Braces className="w-4 h-4" />
+        <span className="editory-braces" />
       </button>
       
-      <div className="w-px h-6 bg-border mx-1" />
+      <div className="w-px h-5 bg-border mx-1" />
       
       <button
         onClick={() => {
@@ -243,7 +243,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={buttonClass}
         title="Image"
       >
-        <ImageIcon className="w-4 h-4" />
+        <span className="editory-image" />
       </button>
       
       <button
@@ -256,7 +256,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         className={editor.isActive('link') ? activeButtonClass : buttonClass}
         title="Link"
       >
-        <LinkIcon className="w-4 h-4" />
+        <span className="editory-link" />
       </button>
     </div>
   );

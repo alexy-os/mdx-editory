@@ -8,10 +8,12 @@ export { InfoPanel } from './components/InfoPanel';
 export { QuickStart } from './components/QuickStart';
 export { Dropdown } from './components/Dropdown';
 
+export { prepareHtmlForMarkdown, prepareMarkdownForEditor } from './utils/markdown';
+export { exportContextFile } from './utils/fileSystem';
 export { useEditor } from './hooks/useEditor';
 export { useFileManager } from './hooks/useFileManager';
 export { useDarkMode } from './hooks/useDarkMode';
-export { useQuickStart, QuickStartProvider } from './hooks/useQuickStart';
+export { QuickStartProvider } from './hooks/useQuickStart';
 
 export * from './types';
 export * from './utils'; 

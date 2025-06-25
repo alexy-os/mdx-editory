@@ -38,7 +38,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    minify: 'esbuild',
+    minify: false,
     target: 'esnext',
     
     rollupOptions: {

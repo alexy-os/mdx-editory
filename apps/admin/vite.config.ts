@@ -1,22 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import compression from 'vite-plugin-compression'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    compression({
-      algorithm: 'gzip',
-      ext: '.gz',
-    }),
-    compression({
-      algorithm: 'brotliCompress',
-      ext: '.br',
-    })
-  ],
-  root: './',
-  publicDir: false,
+  plugins: [react()],
+  
+  define: {
+    global: 'globalThis',
+    'process.env.NODE_ENV': '"development"'
+  },
+  
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -27,48 +20,43 @@ export default defineConfig({
       '@editory/rich': path.resolve(__dirname, '../../packages/rich/src/index.ts')
     }
   },
-  server: {
-    middlewareMode: false
+  
+  optimizeDeps: {
+    include: [
+      'gray-matter',
+      '@tiptap/react',
+      '@tiptap/starter-kit',
+      '@tiptap/extension-typography',
+      '@tiptap/extension-placeholder',
+      '@tiptap/extension-code-block-lowlight',
+      '@tiptap/extension-image',
+      '@tiptap/extension-link',
+      '@tiptap/extension-table',
+      'lowlight',
+      'lucide-react'
+    ]
   },
-  esbuild: {
-    drop: ['console', 'debugger'],
-    legalComments: 'none'
-  },
+  
   build: {
     outDir: 'dist',
-    minify:  false,
-    target: 'esnext',
+    minify: false,
+    sourcemap: true,
+    target: 'es2020',
     
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          helmet: ['react-helmet-async'],
-          ui: ['@radix-ui/react-slot', 'class-variance-authority']
-        },
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || [];
-          
-          if (/\.(png|jpe?g|webp|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name || '')) {
-            return `images/[name]-[hash][extname]`;
-          }
-          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name || '')) {
-            return `fonts/[name]-[hash][extname]`;
-          }
-          return `assets/[name]-[hash][extname]`;
-        },
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js'
+        manualChunks: undefined
       }
-    },
-    
-    chunkSizeWarningLimit: 1000,
-    assetsInlineLimit: 4096,
-    cssCodeSplit: true
+    }
   },
+  
+  server: {
+    port: 5173,
+    host: true
+  },
+  
   preview: {
     port: 4173,
-    strictPort: true
+    host: true
   }
-}) 
+})

@@ -6,19 +6,21 @@ interface QuickStartContextType {
 
 const QuickStartContext = createContext<QuickStartContextType | null>(null);
 
-export function QuickStartProvider({ 
+export const QuickStartProvider = ({ 
   children, 
   onLoadExample 
 }: { 
   children: ReactNode;
   onLoadExample: (content: string, filename: string) => void;
-}) {
+}) => {
+  const contextValue: QuickStartContextType = { onLoadExample };
+
   return (
-    <QuickStartContext.Provider value={{ onLoadExample }}>
+    <QuickStartContext.Provider value={contextValue}>
       {children}
     </QuickStartContext.Provider>
   );
-}
+};
 
 export function useQuickStart() {
   const context = useContext(QuickStartContext);
