@@ -16,15 +16,13 @@ interface DropdownProps {
   items: DropdownItem[];
   align?: 'left' | 'right';
   className?: string;
-  isDarkMode?: boolean;
 }
 
 export function Dropdown({ 
   trigger, 
   items, 
   align = 'right', 
-  className,
-  isDarkMode = false 
+  className
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

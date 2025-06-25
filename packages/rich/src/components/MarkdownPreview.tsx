@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from '../utils';
 
 interface MarkdownPreviewProps {
@@ -6,15 +5,13 @@ interface MarkdownPreviewProps {
   frontmatter?: Record<string, any>;
   isOpen: boolean;
   onClose: () => void;
-  isDarkMode?: boolean;
 }
 
 export function MarkdownPreview({ 
   content, 
   frontmatter, 
   isOpen, 
-  onClose, 
-  isDarkMode = false 
+  onClose
 }: MarkdownPreviewProps) {
   if (!isOpen) return null;
 

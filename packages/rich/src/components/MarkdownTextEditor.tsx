@@ -6,15 +6,13 @@ interface MarkdownTextEditorProps {
   onChange: (content: string) => void;
   placeholder?: string;
   className?: string;
-  isDarkMode?: boolean;
 }
 
 export function MarkdownTextEditor({ 
   content, 
   onChange, 
   placeholder = 'Start writing in Markdown...',  
-  className,
-  isDarkMode = false 
+  className
 }: MarkdownTextEditorProps) {
   
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -6,7 +6,7 @@ import { DarkMode } from '@/app/components/DarkMode';
 import { Main } from '@ui8kit/components/main';
 import { Container, SectionFooter } from '@ui8kit/components/section';
 import { SheetLayout, SheetOverlay, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetBody, SheetTrigger } from '@ui8kit/components/sheet';
-import { NavGroupButtons, NavBar, NavMobileList, NavMobileItem, NavMobileLink, NavMobileDropdown, NavMobileDropdownItem } from '@ui8kit/components/nav';
+import { NavGroupButtons, NavBar, NavMobileList, NavMobileItem, NavMobileLink } from '@ui8kit/components/nav';
 import { Aside } from '@ui8kit/components/aside';
 
 import { cn } from '@/lib/utils';

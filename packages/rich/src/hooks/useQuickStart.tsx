@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 
 interface QuickStartContextType {
   onLoadExample: (content: string, filename: string) => void;

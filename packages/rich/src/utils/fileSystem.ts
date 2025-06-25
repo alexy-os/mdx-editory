@@ -1,4 +1,4 @@
-import { EditorFile, PostMeta } from '../types/editor';
+import { EditorFile } from '../types/editor';
 import { Post } from '../types/post';
 import { Menu } from '../types/menu';
 import { formatDate, stringifyMarkdownFile } from './index';

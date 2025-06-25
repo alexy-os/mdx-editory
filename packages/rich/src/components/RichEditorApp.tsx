@@ -172,7 +172,6 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   </button>
                 </div>
                 <Dropdown
-                  isDarkMode={isDarkMode}
                   trigger={
                     <button
                       className={cn(
@@ -310,7 +309,6 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
             onFileSelect={actions.selectFile}
             onFileLoad={actions.loadFile}
             onFileRemove={actions.removeFile}
-            isDarkMode={isDarkMode}
           />
         </aside>
 
@@ -361,7 +359,6 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                       <MarkdownTextEditor
                         content={getCurrentContent()}
                         onChange={handleContentChange}
-                        isDarkMode={isDarkMode}
                         placeholder="Start writing in Markdown..."
                       />
                     )}
@@ -379,7 +376,6 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     <PostMetaEditor
                       meta={currentMeta}
                       onChange={actions.updateMeta}
-                      isDarkMode={isDarkMode}
                     />
                   </div>
                 </div>
@@ -395,13 +391,11 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         frontmatter={state.currentFile?.frontmatter}
         isOpen={state.isPreviewOpen}
         onClose={actions.togglePreview}
-        isDarkMode={isDarkMode}
       />
 
       {/* Information panel */}
       {showInfo && (
         <InfoPanel
-          isDarkMode={isDarkMode}
           onClose={() => setShowInfo(false)}
         />
       )}

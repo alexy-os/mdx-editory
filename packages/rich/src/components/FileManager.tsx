@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { EditorFile } from '../types/editor';
 import { QuickStart } from './QuickStart';
 import { cn } from '../utils';
@@ -11,7 +11,6 @@ interface FileManagerProps {
   onFileLoad: (file: File) => void;
   onFileRemove: (fileId: string) => void;
   className?: string;
-  isDarkMode?: boolean;
 }
 
 export function FileManager({
@@ -20,24 +19,20 @@ export function FileManager({
   onFileSelect,
   onFileLoad,
   onFileRemove,
-  className,
-  isDarkMode = false
+  className
 }: FileManagerProps) {
-  const [dragOver, setDragOver] = useState(false);
+  // const [dragOver,  setDragOver] = useState(false);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
-    setDragOver(true);
   }, []);
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
-    setDragOver(false);
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
-    setDragOver(false);
     
     const droppedFiles = Array.from(e.dataTransfer.files);
     droppedFiles.forEach(file => {

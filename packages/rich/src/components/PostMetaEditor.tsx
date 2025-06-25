@@ -1,4 +1,3 @@
-import React from 'react';
 import { PostMeta } from '../types/editor';
 import { cn } from '../utils';
 
@@ -6,14 +5,12 @@ interface PostMetaEditorProps {
   meta: Partial<PostMeta>;
   onChange: (meta: Partial<PostMeta>) => void;
   className?: string;
-  isDarkMode?: boolean;
 }
 
 export function PostMetaEditor({ 
   meta, 
   onChange, 
-  className,
-  isDarkMode = false 
+  className
 }: PostMetaEditorProps) {
   const handleChange = (field: keyof PostMeta, value: string | number | object) => {
     onChange({ ...meta, [field]: value });

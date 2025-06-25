@@ -136,7 +136,7 @@ export function useEditor() {
     }
   }, []);
 
-  const updateContent = useCallback((content: string) => {
+  {/*const updateContent = useCallback((content: string) => {
     setState(prev => ({
       ...prev,
       currentFile: prev.currentFile ? {
@@ -166,7 +166,7 @@ export function useEditor() {
         }
       } : null
     }));
-  }, []);
+  }, []);*/}
 
   const togglePreview = useCallback(() => {
     setState(prev => ({

@@ -1,12 +1,10 @@
-import React from 'react';
 import { cn } from '../utils';
 
 interface InfoPanelProps {
-  isDarkMode?: boolean;
   onClose: () => void;
 }
 
-export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
+export function InfoPanel({ onClose }: InfoPanelProps) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className={cn(
