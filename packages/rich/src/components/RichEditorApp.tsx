@@ -134,7 +134,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   {viewMode === 'visual' ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" /></svg>}
                 </button>
                 <div className={cn(
-                  'flex rounded-lg p-1',
+                  'flex rounded p-1',
                   'bg-muted'
                 )}>
                   <button
@@ -176,7 +176,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   trigger={
                     <button
                       className={cn(
-                        'px-3 py-2 text-sm rounded-lg flex items-center gap-2',
+                        'px-3 py-2 text-sm rounded flex items-center gap-2',
                         'bg-muted',
                         'text-muted-foreground',
                         'hover:bg-accent',
@@ -297,10 +297,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
       </header>
 
       {/* Main content */}
-      <div className="flex h-[calc(100vh-73px)]">
+      <div className="flex">
         {/* Sidebar with files */}
         <aside className={cn(
-          'w-80 border-r overflow-y-auto',
+          'w-80 border-r',
           'border-border',
           'bg-card'
         )}>
@@ -346,38 +346,42 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               {/* Editor */}
               {(layout === 'split' || layout === 'editor') && (
                 <div className={cn(
-                  'flex-1 p-6 overflow-auto',
+                  'flex-1 flex flex-col',
                   layout === 'split' ? 'border-r border-border' : ''
                 )}>
-                  {viewMode === 'visual' ? (
-                    <RichEditor
-                      content={getCurrentContent()}
-                      onChange={handleContentChange}
-                      isDarkMode={isDarkMode}
-                      placeholder="Start writing your article..."
-                    />
-                  ) : (
-                    <MarkdownTextEditor
-                      content={getCurrentContent()}
-                      onChange={handleContentChange}
-                      isDarkMode={isDarkMode}
-                      placeholder="Start writing in Markdown..."
-                    />
-                  )}
+                  <div className="flex-1 overflow-auto p-6">
+                    {viewMode === 'visual' ? (
+                      <RichEditor
+                        content={getCurrentContent()}
+                        onChange={handleContentChange}
+                        isDarkMode={isDarkMode}
+                        placeholder="Start writing your article..."
+                      />
+                    ) : (
+                      <MarkdownTextEditor
+                        content={getCurrentContent()}
+                        onChange={handleContentChange}
+                        isDarkMode={isDarkMode}
+                        placeholder="Start writing in Markdown..."
+                      />
+                    )}
+                  </div>
                 </div>
               )}
 
               {/* Metadata panel */}
               {(layout === 'split' || layout === 'meta') && (
                 <div className={cn(
-                  layout === 'split' ? 'w-96' : 'flex-1',
-                  'p-6 overflow-auto'
+                  layout === 'split' ? 'w-72' : 'flex-1',
+                  'flex flex-col'
                 )}>
-                  <PostMetaEditor
-                    meta={currentMeta}
-                    onChange={actions.updateMeta}
-                    isDarkMode={isDarkMode}
-                  />
+                  <div className="flex-1 overflow-auto p-6">
+                    <PostMetaEditor
+                      meta={currentMeta}
+                      onChange={actions.updateMeta}
+                      isDarkMode={isDarkMode}
+                    />
+                  </div>
                 </div>
               )}
             </div>

@@ -1,35 +1,5 @@
 @source "../../../../../../packages/rich/src/components/";
 
-/* Custom scrollbar styles with shadcn colors */
-/* width */
-::-webkit-scrollbar {
-  width: 0.5rem;
-}
-aside::-webkit-scrollbar {
-  width: 0.375rem;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background-color: #454f5e; /* muted color */
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #aaa; /* secondary color */
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
 /* Styles for code blocks */
 .ProseMirror pre {
   color: var(--destructive);
@@ -151,7 +121,7 @@ aside::-webkit-scrollbar {
   .prose ol > li::before {
     content: counter(list-item, var(--list-counter-style, decimal)) ".";
     position: absolute;
-    font-weight: 400;
+    font-weight: 300;
     color: inherit;
     left: -1.625em;
   }
@@ -200,7 +170,7 @@ aside::-webkit-scrollbar {
     border-width: 0;
     border-radius: 0;
     padding: 0;
-    font-weight: 400;
+    font-weight: 300;
     color: inherit;
     font-size: inherit;
     font-family: inherit;

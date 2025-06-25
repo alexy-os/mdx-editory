@@ -2,18 +2,28 @@
 
 @import "./source/fonts.css";
 @import "./source/latty.css";
-@import "./source/scrollbar.css";
 @import "./source/shadcn4.css";
+@import "./source/scrollbar.css";
 @import "./source/editory.css";
 
 @layer base {
+  :root {
+    --base-font-size: 0.98;
+  }
+  
+  html {
+    font-size: calc(16px * var(--base-font-size));
+  }
+
   * {
     @apply border-border outline-ring/90;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Nunito', system-ui, -apple-system, sans-serif;
   }
+  
   button,
   .button {
       @apply cursor-pointer; 

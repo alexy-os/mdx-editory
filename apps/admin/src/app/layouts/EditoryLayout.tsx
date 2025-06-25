@@ -105,7 +105,7 @@ export const EditoryLayout = () => {
 
   const handleLoadExample = useCallback((content: string, filename: string) => {
     const blob = new Blob([content], { type: 'text/markdown' });
-    const file = new File([blob], filename, { 
+    const file = new File([blob], filename, {
       type: 'text/markdown',
       lastModified: Date.now()
     });
@@ -115,9 +115,9 @@ export const EditoryLayout = () => {
   return (
     <QuickStartProvider onLoadExample={handleLoadExample}>
       <SheetLayout>
-        <div className="grid grid-cols-4">
-          <EditorySidebar className="col-span-4 md:col-span-1" state={state} actions={actions} />
-          <Main className="col-span-4 md:col-span-3">
+        <div className="flex min-h-screen">
+          <EditorySidebar className="flex-shrink-0" state={state} actions={actions} />
+          <Main className="flex-1 min-w-0">
             <Container>
               <NavBar className="md:[&_[data-slot=nav-container]]:!justify-end">
                 <SiteLogo className="block md:hidden" />
@@ -129,7 +129,7 @@ export const EditoryLayout = () => {
                       state.currentFile.type === 'mdx' ? 'bg-purple-500' : 'bg-blue-500'
                     )} />
                     <span className={cn(
-                      'text-sm font-medium',
+                      'text-xs font-medium',
                       'text-gray-700 dark:text-gray-300'
                     )}>
                       {state.currentFile.frontmatter?.title || state.currentFile.name}
@@ -144,22 +144,23 @@ export const EditoryLayout = () => {
                       <button
                         onClick={() => handleViewModeToggle()}
                         className={cn(
-                          'px-3 py-1 text-sm rounded transition-colors',
+                          'p-2 rounded-full ml-4',
+                          'transition-colors',
                           viewMode === 'visual'
                             ? 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                             : 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
                         )}
                       >
-                        {viewMode === 'visual' ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" /></svg>}
+                        {viewMode === 'visual' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m10 10-6.157 6.162a2 2 0 0 0-.5.833l-1.322 4.36a.5.5 0 0 0 .622.624l4.358-1.323a2 2 0 0 0 .83-.5L14 13.982" /><path d="m12.829 7.172 4.359-4.346a1 1 0 1 1 3.986 3.986l-4.353 4.353" /><path d="m15 5 4 4" /><path d="m2 2 20 20" /></svg>}
                       </button>
                       <div className={cn(
-                        'flex rounded-lg p-1',
+                        'flex rounded-md',
                         'bg-gray-100 dark:bg-gray-700'
                       )}>
                         <button
                           onClick={() => setLayout('split')}
                           className={cn(
-                            'px-3 py-1 text-sm rounded transition-colors',
+                            'px-3 py-1 text-sm rounded-l-md transition-colors',
                             layout === 'split'
                               ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
                               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -170,7 +171,7 @@ export const EditoryLayout = () => {
                         <button
                           onClick={() => setLayout('editor')}
                           className={cn(
-                            'px-3 py-1 text-sm rounded transition-colors',
+                            'px-3 py-1 text-sm transition-colors',
                             layout === 'editor'
                               ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
                               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -181,7 +182,7 @@ export const EditoryLayout = () => {
                         <button
                           onClick={() => setLayout('meta')}
                           className={cn(
-                            'px-3 py-1 text-sm rounded transition-colors',
+                            'px-3 py-1 text-sm rounded-r-md transition-colors',
                             layout === 'meta'
                               ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow-sm'
                               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
@@ -194,7 +195,7 @@ export const EditoryLayout = () => {
                         trigger={
                           <button
                             className={cn(
-                              'px-3 py-2 text-sm rounded-lg flex items-center gap-2',
+                              'px-3 py-1 text-sm rounded-md flex items-center gap-2',
                               'bg-gray-100 dark:bg-gray-700',
                               'text-gray-700 dark:text-gray-300',
                               'hover:bg-gray-200 dark:hover:bg-gray-600',
@@ -271,21 +272,21 @@ export const EditoryLayout = () => {
                         ]}
                       />
 
-                  {/* Help button */}
-                  <button
-                    onClick={() => setShowInfo(true)}
-                    className={cn(
-                      'p-2 rounded-lg',
-                      'text-gray-500 dark:text-gray-400',
-                      'hover:bg-gray-100 dark:hover:bg-gray-700',
-                      'transition-colors'
-                    )}
-                    title="Help and instructions"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
+                      {/* Help button */}
+                      <button
+                        onClick={() => setShowInfo(true)}
+                        className={cn(
+                          'p-2 rounded-full',
+                          'text-gray-500 dark:text-gray-400',
+                          'hover:bg-gray-100 dark:hover:bg-gray-700',
+                          'transition-colors'
+                        )}
+                        title="Help and instructions"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </button>
                     </>
                   )}
                 </div>
@@ -297,67 +298,68 @@ export const EditoryLayout = () => {
                   </SheetTrigger>
                 </NavGroupButtons>
               </NavBar>
-                </Container>
-              
-              {isMobile ? (
-                <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-                  <div className="mb-6">
-                    <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </Container>
+
+            {isMobile ? (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                  Desktop Required
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-md">
+                  EditorY is optimized for desktop use. Please access this editor from a computer for the best experience.
+                </p>
+                <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                    Desktop Required
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-md">
-                    EditorY is optimized for desktop use. Please access this editor from a computer for the best experience.
-                  </p>
-                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                    <div className="flex items-start gap-3">
-                      <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <div>
-                        <p className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">
-                          Why Desktop?
-                        </p>
-                        <p className="text-sm text-blue-700 dark:text-blue-300">
-                          The rich editor, split-screen preview, and file management features work best with keyboard shortcuts and larger screens.
-                        </p>
-                      </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">
+                        Why Desktop?
+                      </p>
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        The rich editor, split-screen preview, and file management features work best with keyboard shortcuts and larger screens.
+                      </p>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <>
-                  {!state.currentFile ? (
-                    <>
-                      <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
-                        <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                          Welcome to EditorY
-                        </h2>
-                        <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
-                          Professional Markdown editing meets modern web standards. 
-                          Write in Markdown, preview in real-time, export as semantic HTML5. 
-                          Perfect for blogs, documentation, and content creation.
-                        </p>
-                        <QuickStart
-                          onLoadExample={handleLoadExample}
-                          variant="cards"
-                          className="flex-1 mt-8 w-full max-w-4xl"
-                          showHeader={false}
-                          examples={quickStartExamples}
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="h-full flex">
-                      {/* Editor */}
-                      {(layout === 'split' || layout === 'editor') && (
-                        <div className={cn(
-                          'flex-1 overflow-auto',
-                          layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
-                        )}>
+              </div>
+            ) : (
+              <>
+                {!state.currentFile ? (
+                  <>
+                    <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
+                      <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+                        Welcome to EditorY
+                      </h2>
+                      <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
+                        Professional Markdown editing meets modern web standards.
+                        Write in Markdown, preview in real-time, export as semantic HTML5.
+                        Perfect for blogs, documentation, and content creation.
+                      </p>
+                      <QuickStart
+                        onLoadExample={handleLoadExample}
+                        variant="cards"
+                        className="flex-1 mt-8 w-full max-w-4xl"
+                        showHeader={false}
+                        examples={quickStartExamples}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex h-[calc(100vh-108px)]">
+                    {/* Editor */}
+                    {(layout === 'split' || layout === 'editor') && (
+                      <div className={cn(
+                        'flex-1 flex flex-col min-w-0',
+                        layout === 'split' ? 'border-r border-gray-200 dark:border-gray-700' : ''
+                      )}>
+                        <div className="flex-1 overflow-auto">
                           {viewMode === 'visual' ? (
                             <RichEditor
                               content={getCurrentContent()}
@@ -372,24 +374,27 @@ export const EditoryLayout = () => {
                             />
                           )}
                         </div>
-                      )}
+                      </div>
+                    )}
 
-                      {/* Metadata panel */}
-                      {(layout === 'split' || layout === 'meta') && (
-                        <div className={cn(
-                          layout === 'split' ? 'w-96' : 'flex-1',
-                          'p-6 overflow-auto'
-                        )}>
+                    {/* Metadata panel */}
+                    {(layout === 'split' || layout === 'meta') && (
+                      <div className={cn(
+                        layout === 'split' ? 'w-72 flex-shrink-0' : 'flex-1 min-w-0',
+                        'flex flex-col'
+                      )}>
+                        <div className="flex-1 overflow-auto p-6">
                           <PostMetaEditor
                             meta={currentMeta}
                             onChange={actions.updateMeta}
                           />
                         </div>
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
 
             <SectionFooter className="sticky bottom-0 z-50 w-full py-2 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <Container>
@@ -436,31 +441,35 @@ export const EditoryLayout = () => {
 };
 
 function EditorySidebar({ className, state, actions }: SidebarProps) {
-
   return (
-    <Aside className={`${className} sticky top-0 z-50 overflow-y-auto w-full h-screen border-r border-border hidden md:block`}>
-      <div className="flex flex-col gap-6 p-4">
-        <SiteLogo className="hidden md:block" />
-        <NavMobileList>
-          {menu.primary.items.map((item) => (
-            <NavMobileItem key={item.id}>
-              <NavMobileLink className="text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-secondary-foreground/10 rounded-md p-2" href={item.url}>{item.title}</NavMobileLink>
-            </NavMobileItem>
-          ))}
-          {/*<NavMobileItem>
-            <NavMobileDropdown className="text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/90 rounded-md" title="Services">
-              <NavMobileDropdownItem href="/web-dev">Web Development</NavMobileDropdownItem>
-              <NavMobileDropdownItem href="/mobile-dev">Mobile Development</NavMobileDropdownItem>
-            </NavMobileDropdown>
-          </NavMobileItem>*/}
-        </NavMobileList>
-        <FileManager
-          files={state.files}
-          currentFileId={state.currentFile?.id || null}
-          onFileSelect={actions.selectFile}
-          onFileLoad={actions.loadFile}
-          onFileRemove={actions.removeFile}
-        />
+    <Aside className={cn(
+      'sticky top-0 z-50 overflow-y-auto w-full max-w-72 h-screen border-r border-border hidden md:block',
+      className
+    )}>
+      <div className="flex flex-col gap-6 p-4 h-full">
+        <div className="flex-shrink-0">
+          <SiteLogo className="hidden md:block" />
+        </div>
+
+        <div className="flex-shrink-0">
+          <NavMobileList>
+            {menu.primary.items.map((item) => (
+              <NavMobileItem key={item.id}>
+                <NavMobileLink className="text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-secondary-foreground/10 rounded-md p-2" href={item.url}>{item.title}</NavMobileLink>
+              </NavMobileItem>
+            ))}
+          </NavMobileList>
+        </div>
+
+        <div className="flex-1 min-h-0">
+          <FileManager
+            files={state.files}
+            currentFileId={state.currentFile?.id || null}
+            onFileSelect={actions.selectFile}
+            onFileLoad={actions.loadFile}
+            onFileRemove={actions.removeFile}
+          />
+        </div>
       </div>
     </Aside>
   );

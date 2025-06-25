@@ -36,155 +36,163 @@ export function PostMetaEditor({
 
   return (
     <div className={cn(
+      'post-meta-editor flex flex-col',
       className
     )}>
-      <h3 className={cn(
-        'text-lg font-semibold mb-4',
-        'text-foreground'
-      )}>
-        Post metadata
-      </h3>
+      {/* Fixed header */}
+      <div className="flex-shrink-0 pb-4">
+        <h3 className={cn(
+          'text-lg font-semibold',
+          'text-foreground'
+        )}>
+          Post metadata
+        </h3>
+      </div>
 
-      <div className="space-y-4">
-        <div>
-          <label className={labelClass}>
-            Title *
-          </label>
-          <input
-            type="text"
-            value={meta.title || ''}
-            onChange={(e) => handleChange('title', e.target.value)}
-            className={inputClass}
-            placeholder="Enter the post title"
-            required
-          />
-        </div>
-
-        <div>
-          <label className={labelClass}>
-            Slug *
-          </label>
-          <input
-            type="text"
-            value={meta.slug || ''}
-            onChange={(e) => handleChange('slug', e.target.value)}
-            className={inputClass}
-            placeholder="url-slug-post"
-            required
-          />
-          <p className={cn(
-            'mt-1 text-xs',
-            'text-muted-foreground'
-          )}>
-            URL-address of the post. Automatically generated from the title.
-          </p>
-        </div>
-
-        <div>
-          <label className={labelClass}>
-            ID
-          </label>
-          <input
-            type="number"
-            value={meta.id || ''}
-            onChange={(e) => handleChange('id', parseInt(e.target.value) || 0)}
-            className={inputClass}
-            placeholder="123"
-            required
-          />
-          <p className={cn(
-            'mt-1 text-xs',
-            'text-muted-foreground'
-          )}>
-            Unique identifier of the post. Automatically generated.
-          </p>
-        </div>
-
-        <div>
-          <label className={labelClass}>
-            Short description
-          </label>
-          <textarea
-            value={meta.excerpt || ''}
-            onChange={(e) => handleChange('excerpt', e.target.value)}
-            className={cn(inputClass, 'h-20 resize-none')}
-            placeholder="Short description of the post for preview"
-            required
-          />
-          <p className={cn(
-            'mt-1 text-xs',
-            'text-muted-foreground'
-          )}>
-            Automatically generated from the post content.
-          </p>
-        </div>
-
-        <div>
-          <label className={labelClass}>
-            Image
-          </label>
-          <input
-            type="url"
-            value={meta.featuredImage?.url || ''}
-            onChange={(e) => handleChange('featuredImage', {
-              ...meta.featuredImage,
-              url: e.target.value,
-              alt: meta.featuredImage?.alt || ''
-            })}
-            className={inputClass}
-            placeholder="https://example.com/image.jpg"
-          />
-        </div>
-
-        {meta.featuredImage?.url && (
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto pr-2">
+        <div className="space-y-4 text-sm">
           <div>
             <label className={labelClass}>
-              Alt text of the image
+              Title *
             </label>
             <input
               type="text"
-              value={meta.featuredImage?.alt || ''}
-              onChange={(e) => handleChange('featuredImage', {
-                ...meta.featuredImage,
-                url: meta.featuredImage?.url || '',
-                alt: e.target.value
-              })}
+              value={meta.title || ''}
+              onChange={(e) => handleChange('title', e.target.value)}
               className={inputClass}
-              placeholder="Description of the image"
+              placeholder="Enter the post title"
+              required
             />
           </div>
-        )}
 
-        <div>
-          <label className={labelClass}>
-            Categories
-          </label>
-          <input
-            type="text"
-            value={meta.categories?.map(cat => cat.name).join(', ') || ''}
-            onChange={(e) => {
-              const categoryNames = e.target.value.split(',').map(name => name.trim()).filter(Boolean);
-              const categories = categoryNames.map((name, index) => ({
-                name,
-                slug: name.toLowerCase().replace(/\s+/g, '-'),
-                id: Date.now() + index
-              }));
-              handleChange('categories', categories);
-            }}
-            className={inputClass}
-            placeholder="Technology, Programming, React"
-          />
-          <p className={cn(
-            'mt-1 text-xs',
-            'text-muted-foreground'
-          )}>
-            Separate categories by commas.
-          </p>
+          <div>
+            <label className={labelClass}>
+              Slug *
+            </label>
+            <input
+              type="text"
+              value={meta.slug || ''}
+              onChange={(e) => handleChange('slug', e.target.value)}
+              className={inputClass}
+              placeholder="url-slug-post"
+              required
+            />
+            <p className={cn(
+              'mt-1 text-xs',
+              'text-muted-foreground'
+            )}>
+              URL-address of the post. Automatically generated from the title.
+            </p>
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              ID
+            </label>
+            <input
+              type="number"
+              value={meta.id || ''}
+              onChange={(e) => handleChange('id', parseInt(e.target.value) || 0)}
+              className={inputClass}
+              placeholder="123"
+              required
+            />
+            <p className={cn(
+              'mt-1 text-xs',
+              'text-muted-foreground'
+            )}>
+              Unique identifier of the post. Automatically generated.
+            </p>
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              Short description
+            </label>
+            <textarea
+              value={meta.excerpt || ''}
+              onChange={(e) => handleChange('excerpt', e.target.value)}
+              className={cn(inputClass, 'h-20 resize-none')}
+              placeholder="Short description of the post for preview"
+              required
+            />
+            <p className={cn(
+              'mt-1 text-xs',
+              'text-muted-foreground'
+            )}>
+              Automatically generated from the post content.
+            </p>
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              Image
+            </label>
+            <input
+              type="url"
+              value={meta.featuredImage?.url || ''}
+              onChange={(e) => handleChange('featuredImage', {
+                ...meta.featuredImage,
+                url: e.target.value,
+                alt: meta.featuredImage?.alt || ''
+              })}
+              className={inputClass}
+              placeholder="https://example.com/image.jpg"
+            />
+          </div>
+
+          {meta.featuredImage?.url && (
+            <div>
+              <label className={labelClass}>
+                Alt text of the image
+              </label>
+              <input
+                type="text"
+                value={meta.featuredImage?.alt || ''}
+                onChange={(e) => handleChange('featuredImage', {
+                  ...meta.featuredImage,
+                  url: meta.featuredImage?.url || '',
+                  alt: e.target.value
+                })}
+                className={inputClass}
+                placeholder="Description of the image"
+              />
+            </div>
+          )}
+
+          <div>
+            <label className={labelClass}>
+              Categories
+            </label>
+            <input
+              type="text"
+              value={meta.categories?.map(cat => cat.name).join(', ') || ''}
+              onChange={(e) => {
+                const categoryNames = e.target.value.split(',').map(name => name.trim()).filter(Boolean);
+                const categories = categoryNames.map((name, index) => ({
+                  name,
+                  slug: name.toLowerCase().replace(/\s+/g, '-'),
+                  id: Date.now() + index
+                }));
+                handleChange('categories', categories);
+              }}
+              className={inputClass}
+              placeholder="Technology, Programming, React"
+            />
+            <p className={cn(
+              'mt-1 text-xs',
+              'text-muted-foreground'
+            )}>
+              Separate categories by commas.
+            </p>
+          </div>
         </div>
       </div>
 
+      {/* Fixed footer */}
       <div className={cn(
-        'mt-6 pt-4 border-t',
+        'flex-shrink-0 mt-4 pt-4 border-t',
         'border-border'
       )}>
         <div className="flex items-center justify-between">

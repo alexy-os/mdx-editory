@@ -1,26 +1,24 @@
 /* Custom scrollbar styles with shadcn colors */
 /* width */
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
   @apply w-2;
 }
 
+.bg-scroll::-webkit-scrollbar,
 aside::-webkit-scrollbar {
   @apply w-1.5;
 }
 
-/* Track */
-body::-webkit-scrollbar-track {
-  @apply bg-muted;
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
 }
 
 /* Handle */
-body::-webkit-scrollbar-thumb,
-aside::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/20 rounded cursor-pointer;
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary rounded cursor-pointer;
 }
 
 /* Handle on hover */
-body::-webkit-scrollbar-thumb:hover,
-aside::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
   @apply bg-primary;
 }

@@ -30,9 +30,9 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
             <button
               onClick={onClose}
               className={cn(
-                'p-2 rounded-lg',
+                'p-2 rounded-full',
                 'text-muted-foreground',
-                'hover:bg-accent',
+                'hover:bg-accent dark:hover:bg-accent/50 hover:text-accent-foreground dark:hover:text-accent-foreground',
                 'transition-colors'
               )}
             >
@@ -119,7 +119,7 @@ export function InfoPanel({ isDarkMode = false, onClose }: InfoPanelProps) {
             </h3>
             <div className={cn(
               'space-y-3 text-sm',
-              'text-muted-foreground'
+              'text-white dark:text-secondary-foreground'
             )}>
               <div className="p-3 rounded-lg bg-accent border border-border">
                 <strong className="text-accent-foreground">Slug auto-generation:</strong>

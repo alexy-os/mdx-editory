@@ -86,7 +86,7 @@ export function FileManager({
     )}>
       {/* Header */}
       <div className={cn(
-        'p-3 border-b',
+        'p-3 border-b rounded-t-lg',
         'border-border',
         'bg-muted'
       )}>
@@ -133,11 +133,8 @@ export function FileManager({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={cn(
-          'p-3 border-2 border-dashed transition-colors',
-          dragOver 
-            ? 'border-primary bg-accent' 
-            : 'border-border',
-          files.length === 0 ? 'min-h-[200px] flex items-center justify-center' : ''
+          'border-[.5px]',
+          files.length === 0 ? 'min-h-[200px] flex items-center justify-center border-primary/50 bg-primary/5 border-dashed transition-colors' : 'border-solid border-secondary'
         )}
       >
         {files.length === 0 ? (
@@ -158,15 +155,15 @@ export function FileManager({
           />
           </label>
         ) : (
-          <div className="space-y-2">
+          <div className="">
             {files.map((file) => (
               <div
                 key={file.id} 
                 className={cn(
-                  'p-3 rounded-lg border cursor-pointer transition-colors',
+                  'p-3 border cursor-pointer transition-colors',
                   currentFileId === file.id
                     ? 'border-primary bg-primary/10 text-primary-foreground'
-                    : 'border-border bg-card hover:border-accent hover:text-accent-foreground'
+                    : 'border-muted bg-card hover:border-primary hover:text-primary-foreground'
                 )}
                 onClick={() => onFileSelect(file.id)}
               >
@@ -219,7 +216,7 @@ export function FileManager({
                       onFileRemove(file.id);
                     }}
                     className={cn(
-                      'p-1 rounded hover:bg-destructive/10',
+                      'p-2 rounded-full hover:bg-destructive/10',
                       'text-muted-foreground hover:text-destructive',
                       'transition-colors'
                     )}
@@ -239,11 +236,11 @@ export function FileManager({
       {/* Statistics */}
       {files.length > 0 && (
         <div className={cn(
-          'p-3 border-t',
+          'p-3 border-t rounded-b-lg',
           'border-border',
           'bg-muted'
         )}>
-          <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center justify-between text-xs">
             <div className={cn(
               'text-muted-foreground'
             )}>
