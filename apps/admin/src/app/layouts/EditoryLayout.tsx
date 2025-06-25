@@ -85,6 +85,24 @@ export const EditoryLayout = () => {
     }
   };
 
+  const handleImport = async () => {
+    try {
+      await actions.importContext();
+      // Here you can add a notification about successful import
+      alert('Context imported successfully! All files have been loaded from the imported data.');
+    } catch (error) {
+      console.error('Import failed:', error);
+      if (error instanceof Error) {
+        // Don't show alert for cancelled import
+        if (error.message !== 'Import cancelled') {
+          alert(`Import failed: ${error.message}`);
+        }
+      } else {
+        alert('Import failed: Unknown error');
+      }
+    }
+  };
+
   const handleViewModeToggle = () => {
     setViewMode(prev => prev === 'visual' ? 'markdown' : 'visual');
   };
@@ -160,7 +178,7 @@ export const EditoryLayout = () => {
 
                   <div className="flex items-center gap-2">
 
-                    {state.currentFile && (
+                    {state.currentFile ? (
                       <>
                         <button
                           onClick={() => handleViewModeToggle()}
@@ -279,6 +297,18 @@ export const EditoryLayout = () => {
                               )
                             },
                             {
+                              id: 'import',
+                              label: 'Import Context',
+                              onClick: handleImport,
+                              variant: 'warning' as const,
+                              title: 'Import context.json and clear localStorage',
+                              icon: (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l3-3m0 0l-3-3m3 3H3m15 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m15-4V7a2 2 0 00-2-2H7a2 2 0 00-2 2v3" />
+                                </svg>
+                              )
+                            },
+                            {
                               id: 'update',
                               label: 'Update',
                               onClick: actions.saveAllData,
@@ -309,6 +339,16 @@ export const EditoryLayout = () => {
                           </svg>
                         </button>
                       </>
+                    ) : (
+                      <button onClick={handleImport} className={cn(
+                        'px-3 py-2 text-sm rounded-md mr-2',
+                        'bg-muted transition-colors',
+                        'text-muted-foreground',
+                        'hover:bg-accent hover:text-white',
+                        'transition-colors'
+                      )}>
+                        Import Context
+                      </button>
                     )}
                   </div>
 
@@ -409,6 +449,7 @@ export const EditoryLayout = () => {
                                 <PostMetaEditor
                                   meta={currentMeta}
                                   onChange={actions.updateMeta}
+                                  content={state.currentFile?.content || ''}
                                 />
                               </div>
                             </div>
@@ -438,6 +479,7 @@ export const EditoryLayout = () => {
                             <PostMetaEditor
                               meta={currentMeta}
                               onChange={actions.updateMeta}
+                              content={state.currentFile?.content || ''}
                             />
                           </div>
                         </div>

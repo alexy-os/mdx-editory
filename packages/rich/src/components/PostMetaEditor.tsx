@@ -5,15 +5,54 @@ interface PostMetaEditorProps {
   meta: Partial<PostMeta>;
   onChange: (meta: Partial<PostMeta>) => void;
   className?: string;
+  content?: string;
 }
 
 export function PostMetaEditor({ 
   meta, 
   onChange, 
-  className
+  className,
+  content = ''
 }: PostMetaEditorProps) {
   const handleChange = (field: keyof PostMeta, value: string | number | object) => {
     onChange({ ...meta, [field]: value });
+  };
+
+  const extractFirstHeading = (htmlContent: string): string => {
+    if (!htmlContent) return '';
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    
+    const h1 = tempDiv.querySelector('h1');
+    const h2 = tempDiv.querySelector('h2');
+    
+    if (h1) return h1.textContent?.trim() || '';
+    if (h2) return h2.textContent?.trim() || '';
+    
+    return '';
+  };
+
+  const createExcerpt = (htmlContent: string, maxLength: number = 160): string => {
+    if (!htmlContent) return '';
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    
+    const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+    if (textContent.length <= maxLength) {
+      return textContent.trim();
+    }
+    
+    const truncated = textContent.substring(0, maxLength);
+    const lastSpaceIndex = truncated.lastIndexOf(' ');
+    
+    if (lastSpaceIndex > 0) {
+      return truncated.substring(0, lastSpaceIndex) + '...';
+    }
+    
+    return truncated + '...';
   };
 
   const inputClass = cn(
@@ -22,7 +61,7 @@ export function PostMetaEditor({
     'bg-background',
     'text-foreground',
     'placeholder-muted-foreground',
-    'focus:outline-none focus:ring-2 focus:ring-ring',
+    'focus:outline-none focus:ring-1 focus:ring-ring',
     'focus:border-input'
   );
 
@@ -203,14 +242,28 @@ export function PostMetaEditor({
           <div className="flex gap-2">
             <button
               onClick={() => {
-                // Autofill missing fields
                 const updates: Partial<PostMeta> = {};
                 
-                if (!meta.slug && meta.title) {
-                  updates.slug = meta.title
+                if (!meta.title && content) {
+                  const extractedTitle = extractFirstHeading(content);
+                  if (extractedTitle) {
+                    updates.title = extractedTitle;
+                  }
+                }
+                
+                const titleForSlug = updates.title || meta.title;
+                if (!meta.slug && titleForSlug) {
+                  updates.slug = titleForSlug
                     .toLowerCase()
                     .replace(/[^a-z0-9\s-]/g, '')
                     .replace(/\s+/g, '-');
+                }
+                
+                if (!meta.excerpt && content) {
+                  const extractedExcerpt = createExcerpt(content);
+                  if (extractedExcerpt) {
+                    updates.excerpt = extractedExcerpt;
+                  }
                 }
                 
                 if (!meta.id) {

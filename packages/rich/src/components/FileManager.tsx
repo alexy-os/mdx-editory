@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { EditorFile } from '../types/editor';
 import { QuickStart } from './QuickStart';
 import { cn } from '../utils';
-// import { parseMarkdownFile, generateSlug, generateExcerpt, generateId } from '../utils';
 
 interface FileManagerProps {
   files: EditorFile[];
@@ -133,22 +132,12 @@ export function FileManager({
         )}
       >
         {files.length === 0 ? (
-          <label className="cursor-pointer">
           <QuickStart 
             onLoadExample={handleLoadExample}
-            variant="list"
             showHeader={true}
-            showTip={false}
             showCards={false}
+            showTip={false}
           />
-          <input
-            type="file"
-            multiple
-            accept=".md,.mdx"
-            onChange={handleFileInput}
-            className="hidden"
-          />
-          </label>
         ) : (
           <div className="">
             {files.map((file) => (

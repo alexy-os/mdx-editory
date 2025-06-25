@@ -222,4 +222,113 @@ export async function exportContextFile(): Promise<void> {
     console.error('Failed to export context.json:', error);
     throw error;
   }
+}
+
+// Import context.json to localStorage with clearing existing data
+export async function importContextFile(): Promise<Record<string, any>> {
+  return new Promise((resolve, reject) => {
+    try {
+      // Create file input element
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.style.display = 'none';
+      
+      input.onchange = async (event) => {
+        try {
+          const file = (event.target as HTMLInputElement).files?.[0];
+          if (!file) {
+            reject(new Error('No file selected'));
+            return;
+          }
+          
+          // Read file content
+          const content = await file.text();
+          
+          // Parse and validate JSON
+          let context: Record<string, any>;
+          try {
+            context = JSON.parse(content);
+          } catch (parseError) {
+            reject(new Error('Invalid JSON file format'));
+            return;
+          }
+          
+          // Validate that it's a context file structure
+          if (typeof context !== 'object' || context === null) {
+            reject(new Error('Invalid context file structure'));
+            return;
+          }
+          
+          // Clear existing localStorage data
+          localStorage.removeItem('rich-editor-context');
+          localStorage.removeItem('rich-editor-menu');
+          
+          // Save new context to localStorage
+          const contextJson = JSON.stringify(context, null, 2);
+          localStorage.setItem('rich-editor-context', contextJson);
+          
+          console.log('Context imported and localStorage cleared successfully');
+          
+          // Clean up
+          document.body.removeChild(input);
+          
+          resolve(context);
+          
+        } catch (error) {
+          document.body.removeChild(input);
+          reject(error);
+        }
+      };
+      
+      input.oncancel = () => {
+        document.body.removeChild(input);
+        reject(new Error('Import cancelled'));
+      };
+      
+      // Add to DOM and trigger click
+      document.body.appendChild(input);
+      input.click();
+      
+    } catch (error) {
+      console.error('Failed to import context.json:', error);
+      reject(error);
+    }
+  });
+}
+
+// Convert imported context back to EditorFile format
+export function convertContextToEditorFiles(context: Record<string, any>): EditorFile[] {
+  const files: EditorFile[] = [];
+  
+  Object.entries(context).forEach(([id, data]: [string, any]) => {
+    try {
+      // Extract metadata from the imported post data
+      const frontmatter = {
+        title: data.title || '',
+        slug: data.slug || '',
+        id: data.id || parseInt(id),
+        excerpt: data.excerpt || '',
+        featuredImage: data.featuredImage,
+        categories: data.categories || []
+      };
+      
+      // Create EditorFile from imported data
+      const editorFile: EditorFile = {
+        id: id,
+        name: data.filePath || `${data.slug || id}.mdx`,
+        path: data.filePath || `${data.slug || id}.mdx`,
+        content: data.content || '', // This should be HTML content
+        frontmatter,
+        type: (data.fileType as 'md' | 'mdx') || 'mdx',
+        lastModified: data.lastModified ? new Date(data.lastModified) : new Date()
+      };
+      
+      files.push(editorFile);
+    } catch (error) {
+      console.warn(`Failed to convert context entry ${id}:`, error);
+    }
+  });
+  
+  return files;
 } 

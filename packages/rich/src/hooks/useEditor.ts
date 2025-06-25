@@ -8,7 +8,9 @@ import {
   saveMenu, 
   loadContext, 
   loadMenu,
-  saveMDXFile 
+  saveMDXFile,
+  importContextFile,
+  convertContextToEditorFiles
 } from '../utils/fileSystem';
 import { 
   prepareMarkdownForEditor, 
@@ -136,38 +138,6 @@ export function useEditor() {
     }
   }, []);
 
-  {/*const updateContent = useCallback((content: string) => {
-    setState(prev => ({
-      ...prev,
-      currentFile: prev.currentFile ? {
-        ...prev.currentFile,
-        content,
-        lastModified: new Date()
-      } : null
-    }));
-  }, []);
-
-  const updateMeta = useCallback((meta: Partial<PostMeta>) => {
-    setState(prev => ({
-      ...prev,
-      currentFile: prev.currentFile ? {
-        ...prev.currentFile,
-        frontmatter: {
-          ...prev.currentFile.frontmatter,
-          ...meta,
-          // Generate slug if not specified
-          slug: meta.slug || (meta.title ? generateSlug(meta.title) : prev.currentFile.frontmatter?.slug),
-          // Generate excerpt if not specified
-          excerpt: meta.excerpt || generateExcerpt(prev.currentFile.content),
-          // Generate ID if not specified
-          id: meta.id || prev.currentFile.frontmatter?.id || generateId(),
-          // Update date
-          date: formatDate(new Date())
-        }
-      } : null
-    }));
-  }, []);*/}
-
   const togglePreview = useCallback(() => {
     setState(prev => ({
       ...prev,
@@ -210,21 +180,6 @@ export function useEditor() {
     });
   }, []);
 
-  const updateCurrentFileInList = useCallback(() => {
-    setState(prev => {
-      if (!prev.currentFile) return prev;
-      
-      const updatedFiles = prev.files.map(f => 
-        f.id === prev.currentFile!.id ? prev.currentFile! : f
-      );
-      
-      return {
-        ...prev,
-        files: updatedFiles
-      };
-    });
-  }, []);
-
   const exportToMDX = useCallback(() => {
     if (!state.currentFile) return '';
     // Convert HTML back to Markdown for export
@@ -234,22 +189,33 @@ export function useEditor() {
 
   // Update file in the list when content or metadata changes
   const updateContentWithSync = useCallback((content: string) => {
-    setState(prev => ({
-      ...prev,
-      currentFile: prev.currentFile ? {
+    setState(prev => {
+      if (!prev.currentFile) return prev;
+      
+      const updatedFile = {
         ...prev.currentFile,
         content,
         lastModified: new Date()
-      } : null
-    }));
-    // Sync with the list of files
-    setTimeout(updateCurrentFileInList, 0);
-  }, [updateCurrentFileInList]);
+      };
+      
+      // Update both current file and files list in one setState
+      const updatedFiles = prev.files.map(f => 
+        f.id === prev.currentFile!.id ? updatedFile : f
+      );
+      
+      return {
+        ...prev,
+        currentFile: updatedFile,
+        files: updatedFiles
+      };
+    });
+  }, []);
 
   const updateMetaWithSync = useCallback((meta: Partial<PostMeta>) => {
-    setState(prev => ({
-      ...prev,
-      currentFile: prev.currentFile ? {
+    setState(prev => {
+      if (!prev.currentFile) return prev;
+      
+      const updatedFile = {
         ...prev.currentFile,
         frontmatter: {
           ...prev.currentFile.frontmatter,
@@ -263,11 +229,45 @@ export function useEditor() {
           // Update date
           date: formatDate(new Date())
         }
-      } : null
-    }));
-    // Sync with the list of files
-    setTimeout(updateCurrentFileInList, 0);
-  }, [updateCurrentFileInList]);
+      };
+      
+      // Update both current file and files list in one setState
+      const updatedFiles = prev.files.map(f => 
+        f.id === prev.currentFile!.id ? updatedFile : f
+      );
+      
+      return {
+        ...prev,
+        currentFile: updatedFile,
+        files: updatedFiles
+      };
+    });
+  }, []);
+
+  const importContext = useCallback(async () => {
+    try {
+      // Import context and clear localStorage
+      const context = await importContextFile();
+      
+      // Convert context back to EditorFile format
+      const importedFiles = convertContextToEditorFiles(context);
+      
+      // Update state with imported files
+      setState(prev => ({
+        ...prev,
+        files: importedFiles,
+        currentFile: importedFiles.length > 0 ? importedFiles[0] : null,
+        context,
+        menu: [] // Menu will be regenerated automatically
+      }));
+      
+      console.log('Context imported successfully, files loaded:', importedFiles.length);
+      
+    } catch (error) {
+      console.error('Failed to import context:', error);
+      throw error;
+    }
+  }, []);
 
   return {
     state,
@@ -281,7 +281,8 @@ export function useEditor() {
       updateMeta: updateMetaWithSync,
       togglePreview,
       toggleDarkMode,
-      exportToMDX
+      exportToMDX,
+      importContext
     }
   };
 } 

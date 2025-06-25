@@ -1,6 +1,7 @@
 import React from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { RichEditor } from './RichEditor';
+import { QuickStart } from './QuickStart';
 import { PostMetaEditor } from './PostMetaEditor';
 import { MarkdownPreview } from './MarkdownPreview';
 import { FileManager } from './FileManager';
@@ -50,6 +51,24 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
     } catch (error) {
       console.error('Export failed:', error);
       alert(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }; 
+
+  const handleImport = async () => {
+    try {
+      await actions.importContext();
+      // Here you can add a notification about successful import
+      alert('Context imported successfully! All files have been loaded from the imported data.');
+    } catch (error) {
+      console.error('Import failed:', error);
+      if (error instanceof Error) {
+        // Don't show alert for cancelled import
+        if (error.message !== 'Import cancelled') {
+          alert(`Import failed: ${error.message}`);
+        }
+      } else {
+        alert('Import failed: Unknown error');
+      }
     }
   };
 
@@ -121,7 +140,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
           </div>
           <div className="flex items-center gap-2">
 
-            {state.currentFile && (
+            {state.currentFile ? (
               <>
                 <button
                   onClick={() => handleViewModeToggle()}
@@ -239,6 +258,18 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                       )
                     },
                     {
+                      id: 'import',
+                      label: 'Import Context',
+                      onClick: handleImport,
+                      variant: 'warning' as const,
+                      title: 'Import context.json and clear localStorage',
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l3-3m0 0l-3-3m3 3H3m15 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m15-4V7a2 2 0 00-2-2H7a2 2 0 00-2 2v3" />
+                        </svg>
+                      )
+                    },
+                    {
                       id: 'update',
                       label: 'Update',
                       onClick: actions.saveAllData,
@@ -253,6 +284,16 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   ]}
                 />
               </>
+            ) : (
+              <button onClick={handleImport} className={cn(
+                'px-3 py-1 text-sm rounded transition-colors',
+                'bg-muted',
+                'text-muted-foreground',
+                'hover:bg-accent',
+                'transition-colors'
+              )}>
+                Import Context
+              </button>
             )}
 
             {/* Help button */}
@@ -302,7 +343,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         <Panel defaultSize={25} minSize={20} maxSize={40}>
           <aside className={cn(
             'h-full',
-            'bg-card'
+            'bg-card p-6'
           )}>
             <FileManager
               files={state.files}
@@ -322,29 +363,19 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
         {/* Main working area */}
         <Panel defaultSize={75}>
           {!state.currentFile ? (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <div className={cn(
-                  'w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center',
-                  'bg-muted'
-                )}>
-                  <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V16a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-                <h3 className={cn(
-                  'text-lg font-medium mb-2',
-                  'text-foreground'
-                )}>
-                  Select a file for editing
-                </h3>
-                <p className={cn(
-                  'text-sm',
-                  'text-muted-foreground'
-                )}>
-                  Load a .md or .mdx file to start working
-                </p>
-              </div>
+            <div className="flex flex-col h-full text-center gap-8 items-center py-6 lg:py-12 px-6">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+              Welcome to EditorY
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
+              Professional Markdown editing meets modern web standards.
+              Write in Markdown, preview in real-time, export as semantic HTML5.
+              Perfect for blogs, documentation, and content creation.
+            </p>
+              <QuickStart
+                showHeader={false}
+                showCards={false}
+              />
             </div>
           ) : (
             <>
@@ -384,6 +415,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         <PostMetaEditor
                           meta={currentMeta}
                           onChange={actions.updateMeta}
+                          content={state.currentFile?.content || ''}
                         />
                       </div>
                     </div>
@@ -414,6 +446,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     <PostMetaEditor
                       meta={currentMeta}
                       onChange={actions.updateMeta}
+                      content={state.currentFile?.content || ''}
                     />
                   </div>
                 </div>
