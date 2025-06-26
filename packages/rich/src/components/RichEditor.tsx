@@ -12,7 +12,6 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import { common, createLowlight } from 'lowlight';
 import { cn } from '../utils';
-//import { Bold, Italic, Heading1, Heading2, Heading3, List, TextQuote, Code, Image as ImageIcon, Link as LinkIcon, Braces } from 'lucide-react';
 
 interface RichEditorProps {
   content: string;
@@ -35,6 +34,10 @@ export function RichEditor({
     extensions: [
       StarterKit.configure({
         codeBlock: false,
+        history: {
+          depth: 10,
+          newGroupDelay: 500,
+        },
       }),
       Typography,
       Placeholder.configure({
@@ -91,6 +94,40 @@ export function RichEditor({
     }
   }, [content, editor]);
 
+  const handleUndo = React.useCallback(() => {
+    if (editor?.can().undo()) {
+      editor.chain().focus().undo().run();
+    }
+  }, [editor]);
+
+  const handleRedo = React.useCallback(() => {
+    if (editor?.can().redo()) {
+      editor.chain().focus().redo().run();
+    }
+  }, [editor]);
+
+  // Check the availability of undo/redo 
+  const canUndo = editor?.can().undo() ?? false;
+  const canRedo = editor?.can().redo() ?? false;
+
+  // Add handlers for keyboard shortcuts
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === 'z' && !event.shiftKey) {
+          event.preventDefault();
+          handleUndo();
+        } else if ((event.key === 'y') || (event.key === 'z' && event.shiftKey)) {
+          event.preventDefault();
+          handleRedo();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleUndo, handleRedo]);
+
   if (!editor) {
     return (
       <div className={cn(
@@ -112,7 +149,16 @@ export function RichEditor({
       'rich-editor relative bg-muted/35 dark:bg-muted/75',
       className
     )}>
-      <EditorToolbar editor={editor} isDarkMode={isDarkMode} />
+      <EditorToolbar 
+        editor={editor} 
+        isDarkMode={isDarkMode}
+        history={{
+          canUndo,
+          canRedo
+        }}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+      />
       <div className="p-4">
         <EditorContent editor={editor} />
       </div>
@@ -123,9 +169,15 @@ export function RichEditor({
 interface EditorToolbarProps {
   editor: any;
   isDarkMode: boolean;
+  history?: {
+    canUndo: boolean;
+    canRedo: boolean;
+  };
+  onUndo?: () => void;
+  onRedo?: () => void;
 }
 
-function EditorToolbar({ editor }: EditorToolbarProps) {
+function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) {
   if (!editor) return null;
 
   const buttonClass = cn(
@@ -257,6 +309,33 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
         title="Link"
       >
         <span className="editory-link" />
+      </button>
+
+      {/* Undo/Redo buttons */}
+      <div className="w-px h-5 bg-border mx-1" />
+      
+      <button
+        onClick={onUndo}
+        disabled={!history?.canUndo}
+        className={cn(
+          buttonClass,
+          !history?.canUndo && 'opacity-50 cursor-not-allowed'
+        )}
+        title="Undo (Ctrl+Z)"
+      >
+        ↶
+      </button>
+      
+      <button
+        onClick={onRedo}
+        disabled={!history?.canRedo}
+        className={cn(
+          buttonClass,
+          !history?.canRedo && 'opacity-50 cursor-not-allowed'
+        )}
+        title="Redo (Ctrl+Y)"
+      >
+        ↷
       </button>
     </div>
   );
