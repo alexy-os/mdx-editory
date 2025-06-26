@@ -1,5 +1,6 @@
 import { MainLayout } from '@/app/layouts/MainLayout';
 import { renderContext } from '@/data';
+import { RichEditorStatus } from '@/app/components/RichEditorStatus';
 import { Button } from '@ui8kit/ui/button';
 import { Card, CardContent, CardFooter, CardImage, CardFigure, CardFigcaption, CardTitle } from '@ui8kit/ui/card';
 import { Section, Grid, SectionHeader, SectionContent, SectionTitle, SectionDescription } from '@ui8kit/components/section';
@@ -17,6 +18,12 @@ function App() {
         </SectionHeader>
         <SectionContent className="w-full py-12 px-6 bg-muted rounded-md mb-12">
           <p className="text-secondary-foreground">{page.content}</p>
+        </SectionContent>
+
+        <SectionContent className="mb-8">
+          <div className="flex justify-center">
+            <RichEditorStatus />
+          </div>
         </SectionContent>
 
         <SectionContent>

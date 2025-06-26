@@ -1,5 +1,6 @@
 import { MainLayout } from '@/app/layouts/MainLayout';
 import { renderContext } from '@/data';
+import { getPostBySlugFromLocalStorage, hasRichEditorData } from '@/data/adapters/localStorageAdapter';
 import { Article, ArticleHeader, ArticleContent, ArticleFigure, ArticleImage, ArticleFigcaption, ArticleMeta, ArticleTime, ArticleFooter, ArticleTags, ArticleTag } from '@ui8kit/components/article';
 import { H1, P } from '@ui8kit/components/markup';
 import { useParams } from 'react-router-dom';
@@ -22,7 +23,10 @@ export function Post({ slug: propSlug }: PostProps = {}) {
   // Use the slug from props (for static generation) or from useParams (for SPA)
   const slug = propSlug || params.slug;
   
-  const post = posts.find(p => p.slug === slug);
+  // Try to get post from localStorage first, then fallback to static posts
+  const post = hasRichEditorData() && slug 
+    ? getPostBySlugFromLocalStorage(slug) || posts.find(p => p.slug === slug)
+    : posts.find(p => p.slug === slug);
 
   if (!post) {
     return (
@@ -60,6 +64,14 @@ export function Post({ slug: propSlug }: PostProps = {}) {
           <H1>{post.title}</H1>
           <ArticleMeta>
             <ArticleTime>Published on {post.date.display}</ArticleTime>
+            {hasRichEditorData() && (
+              <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 text-xs rounded-full">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Rich Editor
+              </div>
+            )}
           </ArticleMeta>
         </ArticleHeader>
         

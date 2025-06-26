@@ -5,22 +5,37 @@ import { blog } from './pages/blog';
 // Remove old posts import
 // import { posts } from './posts';
 
-// Import new adapter
+// Import adapters
 import { 
   loadPostsFromContext
 } from './adapters/contextAdapter';
+import { 
+  loadPostsFromLocalStorage,
+  hasRichEditorData,
+  getRichEditorPostsCount
+} from './adapters/localStorageAdapter';
 
-// Get posts from context.json in the same format
-export const posts = loadPostsFromContext();
+// Get posts from localStorage if available, otherwise from context.json
+function loadPosts() {
+  if (hasRichEditorData()) {
+    console.log(`Loading ${getRichEditorPostsCount()} posts from rich editor localStorage`);
+    return loadPostsFromLocalStorage();
+  } else {
+    console.log('Loading posts from context.json (fallback)');
+    return loadPostsFromContext();
+  }
+}
 
-// Current implementation - now with data from context.json
+export const posts = loadPosts();
+
+// Current implementation - posts from localStorage or context.json, menu always static
 export const renderContext = {
   about,
   home,
   blog,
   posts,
   site,
-  menu,
+  menu, // Always use original static menu
 } as const;
 
 // Future implementation may include:
