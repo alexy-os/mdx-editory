@@ -7,11 +7,10 @@ import { MarkdownPreview } from './MarkdownPreview';
 import { FileManager } from './FileManager';
 import { InfoPanel } from './InfoPanel';
 import { Dropdown } from './Dropdown';
-import { MarkdownTextEditor } from './MarkdownTextEditor';
+import { CodeMirrorEditor } from './CodeMirrorEditor';
 import { useEditor } from '../hooks/useEditor';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { cn } from '../utils';
-import { prepareHtmlForMarkdown, prepareMarkdownForEditor } from '../utils/markdown';
 import { exportContextFile } from '../utils/fileSystem';
 
 interface RichEditorAppProps {
@@ -73,7 +72,18 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
   };
 
   const handleViewModeToggle = () => {
-    setViewMode(prev => prev === 'visual' ? 'markdown' : 'visual');
+    const newMode = viewMode === 'visual' ? 'markdown' : 'visual';
+    
+    // Sync content when switching modes
+    if (newMode === 'markdown') {
+      // Switching to markdown - sync from HTML
+      actions.syncContentFromHtml();
+    } else {
+      // Switching to visual - sync from Markdown
+      actions.syncContentFromMarkdown();
+    }
+    
+    setViewMode(newMode);
   };
 
   // Get content depending on the view mode
@@ -81,21 +91,18 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
     if (!state.currentFile) return '';
 
     if (viewMode === 'markdown') {
-      // Convert HTML to Markdown for the text editor
-      return prepareHtmlForMarkdown(state.currentFile.content);
+      return state.currentFile.markdownContent;
     }
 
-    return state.currentFile.content; // HTML for the visual editor
+    return state.currentFile.htmlContent;
   };
 
   // Handler for content change depending on the view mode
   const handleContentChange = (content: string) => {
     if (viewMode === 'markdown') {
-      // Convert Markdown to HTML for saving
-      const htmlContent = prepareMarkdownForEditor(content);
-      actions.updateContent(htmlContent);
+      actions.updateMarkdownContent(content);
     } else {
-      actions.updateContent(content);
+      actions.updateHtmlContent(content);
     }
   };
 
@@ -393,10 +400,11 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                             placeholder="Start writing your article..."
                           />
                         ) : (
-                          <MarkdownTextEditor
+                          <CodeMirrorEditor
                             content={getCurrentContent()}
                             onChange={handleContentChange}
                             placeholder="Start writing in Markdown..."
+                            isDarkMode={isDarkMode}
                           />
                         )}
                       </div>
@@ -415,7 +423,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         <PostMetaEditor
                           meta={currentMeta}
                           onChange={actions.updateMeta}
-                          content={state.currentFile?.content || ''}
+                          content={state.currentFile?.htmlContent || ''}
                         />
                       </div>
                     </div>
@@ -432,10 +440,11 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         placeholder="Start writing your article..."
                       />
                     ) : (
-                      <MarkdownTextEditor
+                      <CodeMirrorEditor
                         content={getCurrentContent()}
                         onChange={handleContentChange}
                         placeholder="Start writing in Markdown..."
+                        isDarkMode={isDarkMode}
                       />
                     )}
                   </div>
@@ -446,7 +455,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     <PostMetaEditor
                       meta={currentMeta}
                       onChange={actions.updateMeta}
-                      content={state.currentFile?.content || ''}
+                      content={state.currentFile?.htmlContent || ''}
                     />
                   </div>
                 </div>
@@ -458,7 +467,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
 
       {/* Preview modal window */}
       <MarkdownPreview
-        content={state.currentFile?.content || ''}
+        content={state.currentFile?.markdownContent || ''}
         frontmatter={state.currentFile?.frontmatter}
         isOpen={state.isPreviewOpen}
         onClose={actions.togglePreview}

@@ -64,6 +64,10 @@ turndownService.addRule('tableCell', {
  * Convert Markdown to HTML
  */
 export function markdownToHtml(markdown: string): string {
+  if (!markdown || typeof markdown !== 'string') {
+    return '';
+  }
+  
   try {
     const result = marked.parse(markdown);
     return typeof result === 'string' ? result : markdown;
@@ -77,6 +81,10 @@ export function markdownToHtml(markdown: string): string {
  * Convert HTML to Markdown
  */
 export function htmlToMarkdown(html: string): string {
+  if (!html || typeof html !== 'string') {
+    return '';
+  }
+  
   try {
     return turndownService.turndown(html);
   } catch (error) {
@@ -89,6 +97,10 @@ export function htmlToMarkdown(html: string): string {
  * Clean HTML of extra tags and attributes for better conversion
  */
 export function sanitizeHtmlForMarkdown(html: string): string {
+  if (!html || typeof html !== 'string') {
+    return '';
+  }
+  
   // Remove classes and styles that TipTap adds
   return html
     .replace(/\sclass="[^"]*"/g, '')
@@ -106,6 +118,10 @@ export function sanitizeHtmlForMarkdown(html: string): string {
  * Prepare Markdown for display in the TipTap editor
  */
 export function prepareMarkdownForEditor(markdown: string): string {
+  if (!markdown || typeof markdown !== 'string') {
+    return '';
+  }
+  
   // Convert markdown to HTML for TipTap
   const html = markdownToHtml(markdown);
   
@@ -120,6 +136,10 @@ export function prepareMarkdownForEditor(markdown: string): string {
  * Prepare HTML from TipTap for saving as Markdown
  */
 export function prepareHtmlForMarkdown(html: string): string {
+  if (!html || typeof html !== 'string') {
+    return '';
+  }
+  
   const sanitized = sanitizeHtmlForMarkdown(html);
   return htmlToMarkdown(sanitized);
 }
@@ -128,6 +148,10 @@ export function prepareHtmlForMarkdown(html: string): string {
  * Check if the content is valid HTML
  */
 export function isValidHtml(content: string): boolean {
+  if (!content || typeof content !== 'string') {
+    return false;
+  }
+  
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/html');
@@ -141,6 +165,10 @@ export function isValidHtml(content: string): boolean {
  * Check if the content is Markdown
  */
 export function isMarkdownContent(content: string): boolean {
+  if (!content || typeof content !== 'string') {
+    return false;
+  }
+  
   // Simple heuristic for determining Markdown
   const markdownPatterns = [
     /^#{1,6}\s/, // headings

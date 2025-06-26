@@ -76,13 +76,55 @@ export function PostMetaEditor({
       className
     )}>
       {/* Fixed header */}
-      <div className="flex-shrink-0 pb-4">
+      <div className="flex-shrink-0 pb-4 flex items-center justify-between">
         <h3 className={cn(
           'text-lg font-semibold',
           'text-foreground'
         )}>
           Post metadata
         </h3>
+        <button
+          onClick={() => {
+            const updates: Partial<PostMeta> = {};
+            
+            if (!meta.title && content) {
+              const extractedTitle = extractFirstHeading(content);
+              if (extractedTitle) {
+                updates.title = extractedTitle;
+              }
+            }
+            
+            const titleForSlug = updates.title || meta.title;
+            if (!meta.slug && titleForSlug) {
+              updates.slug = titleForSlug
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-');
+            }
+            
+            if (!meta.excerpt && content) {
+              const extractedExcerpt = createExcerpt(content);
+              if (extractedExcerpt) {
+                updates.excerpt = extractedExcerpt;
+              }
+            }
+            
+            if (!meta.id) {
+              updates.id = Date.now();
+            }
+            
+            onChange({ ...meta, ...updates });
+          }}
+          className={cn(
+            'px-3 py-1 text-sm rounded',
+            'bg-accent',
+            'text-accent-foreground',
+            'hover:bg-accent/80',
+            'transition-colors'
+          )}
+        >
+          Autofill
+        </button>
       </div>
 
       {/* Scrollable content */}
@@ -238,51 +280,6 @@ export function PostMetaEditor({
           )}>
             * - required fields
           </span>
-          
-          <div className="flex gap-2">
-            <button
-              onClick={() => {
-                const updates: Partial<PostMeta> = {};
-                
-                if (!meta.title && content) {
-                  const extractedTitle = extractFirstHeading(content);
-                  if (extractedTitle) {
-                    updates.title = extractedTitle;
-                  }
-                }
-                
-                const titleForSlug = updates.title || meta.title;
-                if (!meta.slug && titleForSlug) {
-                  updates.slug = titleForSlug
-                    .toLowerCase()
-                    .replace(/[^a-z0-9\s-]/g, '')
-                    .replace(/\s+/g, '-');
-                }
-                
-                if (!meta.excerpt && content) {
-                  const extractedExcerpt = createExcerpt(content);
-                  if (extractedExcerpt) {
-                    updates.excerpt = extractedExcerpt;
-                  }
-                }
-                
-                if (!meta.id) {
-                  updates.id = Date.now();
-                }
-                
-                onChange({ ...meta, ...updates });
-              }}
-              className={cn(
-                'px-3 py-1 text-sm rounded',
-                'bg-accent',
-                'text-accent-foreground',
-                'hover:bg-accent/80',
-                'transition-colors'
-              )}
-            >
-              Autofill
-            </button>
-          </div>
         </div>
       </div>
     </div>

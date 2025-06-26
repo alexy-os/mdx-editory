@@ -2,8 +2,8 @@ export interface EditorFile {
   id: string;
   name: string;
   path: string;
-  content: string; // HTML content for the TipTap editor
-  originalMarkdown?: string; // Original Markdown content
+  htmlContent: string; // HTML content for the TipTap editor
+  markdownContent: string; // Markdown content for the CodeMirror editor
   frontmatter?: Record<string, any>;
   type: 'md' | 'mdx';
   lastModified: Date;
@@ -43,7 +43,10 @@ export interface EditorState {
 export interface EditorActions {
   loadFile: (file: File) => Promise<void>;
   saveFile: (file: EditorFile) => Promise<void>;
-  updateContent: (content: string) => void;
+  updateHtmlContent: (content: string) => void;
+  updateMarkdownContent: (content: string) => void;
+  syncContentFromHtml: () => void; // Convert HTML to Markdown
+  syncContentFromMarkdown: () => void; // Convert Markdown to HTML
   updateMeta: (meta: Partial<PostMeta>) => void;
   togglePreview: () => void;
   toggleDarkMode: () => void;

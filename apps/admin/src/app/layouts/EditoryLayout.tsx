@@ -20,15 +20,14 @@ import {
   RichEditor,
   PostMetaEditor,
   MarkdownPreview,
-  MarkdownTextEditor,
+  CodeMirrorEditor,
   FileManager,
   InfoPanel,
   QuickStart,
   Dropdown,
-  prepareHtmlForMarkdown,
-  prepareMarkdownForEditor,
   exportContextFile,
   useEditor,
+  useDarkMode,
   QuickStartProvider
 } from '@editory/rich';
 
@@ -51,6 +50,7 @@ export const widget = features[0]
 
 export const EditoryLayout = () => {
   const { state, actions } = useEditor();
+  const { isDarkMode } = useDarkMode();
   const [layout, setLayout] = React.useState<'split' | 'editor' | 'meta'>('split');
   const [showInfo, setShowInfo] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<'visual' | 'markdown'>('visual');
@@ -104,7 +104,18 @@ export const EditoryLayout = () => {
   };
 
   const handleViewModeToggle = () => {
-    setViewMode(prev => prev === 'visual' ? 'markdown' : 'visual');
+    const newMode = viewMode === 'visual' ? 'markdown' : 'visual';
+    
+    // Sync content when switching modes
+    if (newMode === 'markdown') {
+      // Switching to markdown - sync from HTML
+      actions.syncContentFromHtml();
+    } else {
+      // Switching to visual - sync from Markdown
+      actions.syncContentFromMarkdown();
+    }
+    
+    setViewMode(newMode);
   };
 
   // Get content depending on the view mode
@@ -112,21 +123,18 @@ export const EditoryLayout = () => {
     if (!state.currentFile) return '';
 
     if (viewMode === 'markdown') {
-      // Convert HTML to Markdown for the text editor
-      return prepareHtmlForMarkdown(state.currentFile.content);
+      return state.currentFile.markdownContent || '';
     }
 
-    return state.currentFile.content; // HTML for the visual editor
+    return state.currentFile.htmlContent || '';
   };
 
   // Handler for content change depending on the view mode
   const handleContentChange = (content: string) => {
     if (viewMode === 'markdown') {
-      // Convert Markdown to HTML for saving
-      const htmlContent = prepareMarkdownForEditor(content);
-      actions.updateContent(htmlContent);
+      actions.updateMarkdownContent(content);
     } else {
-      actions.updateContent(content);
+      actions.updateHtmlContent(content);
     }
   };
 
@@ -427,10 +435,11 @@ export const EditoryLayout = () => {
                                     placeholder="Start writing your article..."
                                   />
                                 ) : (
-                                  <MarkdownTextEditor
+                                  <CodeMirrorEditor
                                     content={getCurrentContent()}
                                     onChange={handleContentChange}
                                     placeholder="Start writing in Markdown..."
+                                    isDarkMode={isDarkMode}
                                   />
                                 )}
                               </div>
@@ -449,7 +458,7 @@ export const EditoryLayout = () => {
                                 <PostMetaEditor
                                   meta={currentMeta}
                                   onChange={actions.updateMeta}
-                                  content={state.currentFile?.content || ''}
+                                  content={state.currentFile?.htmlContent || ''}
                                 />
                               </div>
                             </div>
@@ -465,10 +474,11 @@ export const EditoryLayout = () => {
                                 placeholder="Start writing your article..."
                               />
                             ) : (
-                              <MarkdownTextEditor
+                              <CodeMirrorEditor
                                 content={getCurrentContent()}
                                 onChange={handleContentChange}
                                 placeholder="Start writing in Markdown..."
+                                isDarkMode={isDarkMode}
                               />
                             )}
                           </div>
@@ -479,7 +489,7 @@ export const EditoryLayout = () => {
                             <PostMetaEditor
                               meta={currentMeta}
                               onChange={actions.updateMeta}
-                              content={state.currentFile?.content || ''}
+                              content={state.currentFile?.htmlContent || ''}
                             />
                           </div>
                         </div>
@@ -519,7 +529,7 @@ export const EditoryLayout = () => {
         </SheetLayout>
 
         <MarkdownPreview
-          content={state.currentFile?.content || ''}
+          content={state.currentFile?.markdownContent || ''}
           frontmatter={state.currentFile?.frontmatter}
           isOpen={state.isPreviewOpen}
           onClose={actions.togglePreview}

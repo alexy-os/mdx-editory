@@ -3,6 +3,7 @@ export { RichEditor } from './components/RichEditor';
 export { PostMetaEditor } from './components/PostMetaEditor';
 export { MarkdownPreview } from './components/MarkdownPreview';
 export { MarkdownTextEditor } from './components/MarkdownTextEditor';
+export { CodeMirrorEditor } from './components/CodeMirrorEditor';
 export { FileManager } from './components/FileManager';
 export { InfoPanel } from './components/InfoPanel';
 export { QuickStart } from './components/QuickStart';

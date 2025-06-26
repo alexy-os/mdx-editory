@@ -88,15 +88,16 @@ export function useEditor() {
     const content = await file.text();
     const { frontmatter, body } = parseMarkdownFile(content);
     
-    // Convert Markdown to HTML for the TipTap editor
+    // Store both HTML and Markdown versions
     const htmlContent = isMarkdownContent(body) ? prepareMarkdownForEditor(body) : body;
+    const markdownContent = body;
     
     const editorFile: EditorFile = {
       id: generateId().toString(),
       name: file.name,
       path: file.name,
-      content: htmlContent, // Save HTML for the editor
-      originalMarkdown: body, // Save original Markdown
+      htmlContent,
+      markdownContent,
       frontmatter,
       type: file.name.endsWith('.mdx') ? 'mdx' : 'md',
       lastModified: new Date(file.lastModified)
@@ -111,13 +112,10 @@ export function useEditor() {
 
   const saveFile = useCallback(async (file: EditorFile) => {
     try {
-      // Convert HTML back to Markdown for saving
-      const markdownContent = prepareHtmlForMarkdown(file.content);
-      
-      // Create a copy of the file with Markdown content for saving
-      const fileToSave: EditorFile = {
+      // Use the current markdown content for saving
+      const fileToSave = {
         ...file,
-        content: markdownContent
+        content: file.markdownContent // Use markdownContent for saving
       };
       
       // Save MDX file
@@ -182,23 +180,94 @@ export function useEditor() {
 
   const exportToMDX = useCallback(() => {
     if (!state.currentFile) return '';
-    // Convert HTML back to Markdown for export
-    const markdownContent = prepareHtmlForMarkdown(state.currentFile.content);
-    return stringifyMarkdownFile(state.currentFile.frontmatter || {}, markdownContent);
+    // Use the current markdown content for export
+    return stringifyMarkdownFile(state.currentFile.frontmatter || {}, state.currentFile.markdownContent);
   }, [state.currentFile]);
 
-  // Update file in the list when content or metadata changes
-  const updateContentWithSync = useCallback((content: string) => {
+  // Update HTML content
+  const updateHtmlContent = useCallback((htmlContent: string) => {
     setState(prev => {
       if (!prev.currentFile) return prev;
       
       const updatedFile = {
         ...prev.currentFile,
-        content,
+        htmlContent,
         lastModified: new Date()
       };
       
       // Update both current file and files list in one setState
+      const updatedFiles = prev.files.map(f => 
+        f.id === prev.currentFile!.id ? updatedFile : f
+      );
+      
+      return {
+        ...prev,
+        currentFile: updatedFile,
+        files: updatedFiles
+      };
+    });
+  }, []);
+
+  // Update Markdown content
+  const updateMarkdownContent = useCallback((markdownContent: string) => {
+    setState(prev => {
+      if (!prev.currentFile) return prev;
+      
+      const updatedFile = {
+        ...prev.currentFile,
+        markdownContent,
+        lastModified: new Date()
+      };
+      
+      // Update both current file and files list in one setState
+      const updatedFiles = prev.files.map(f => 
+        f.id === prev.currentFile!.id ? updatedFile : f
+      );
+      
+      return {
+        ...prev,
+        currentFile: updatedFile,
+        files: updatedFiles
+      };
+    });
+  }, []);
+
+  // Sync content from HTML to Markdown
+  const syncContentFromHtml = useCallback(() => {
+    setState(prev => {
+      if (!prev.currentFile) return prev;
+      
+      const markdownContent = prepareHtmlForMarkdown(prev.currentFile.htmlContent);
+      const updatedFile = {
+        ...prev.currentFile,
+        markdownContent,
+        lastModified: new Date()
+      };
+      
+      const updatedFiles = prev.files.map(f => 
+        f.id === prev.currentFile!.id ? updatedFile : f
+      );
+      
+      return {
+        ...prev,
+        currentFile: updatedFile,
+        files: updatedFiles
+      };
+    });
+  }, []);
+
+  // Sync content from Markdown to HTML
+  const syncContentFromMarkdown = useCallback(() => {
+    setState(prev => {
+      if (!prev.currentFile) return prev;
+      
+      const htmlContent = prepareMarkdownForEditor(prev.currentFile.markdownContent);
+      const updatedFile = {
+        ...prev.currentFile,
+        htmlContent,
+        lastModified: new Date()
+      };
+      
       const updatedFiles = prev.files.map(f => 
         f.id === prev.currentFile!.id ? updatedFile : f
       );
@@ -223,7 +292,7 @@ export function useEditor() {
           // Generate slug if not specified
           slug: meta.slug || (meta.title ? generateSlug(meta.title) : prev.currentFile.frontmatter?.slug),
           // Generate excerpt if not specified
-          excerpt: meta.excerpt || generateExcerpt(prev.currentFile.content),
+          excerpt: meta.excerpt || generateExcerpt(prev.currentFile.markdownContent),
           // Generate ID if not specified
           id: meta.id || prev.currentFile.frontmatter?.id || generateId(),
           // Update date
@@ -277,7 +346,10 @@ export function useEditor() {
       saveAllData,
       selectFile,
       removeFile,
-      updateContent: updateContentWithSync,
+      updateHtmlContent,
+      updateMarkdownContent,
+      syncContentFromHtml,
+      syncContentFromMarkdown,
       updateMeta: updateMetaWithSync,
       togglePreview,
       toggleDarkMode,

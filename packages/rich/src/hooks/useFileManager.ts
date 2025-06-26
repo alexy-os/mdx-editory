@@ -34,7 +34,8 @@ export function useFileManager() {
     const context = files.reduce((acc, file) => {
       acc[file.id] = {
         ...file.frontmatter,
-        content: file.content,
+        htmlContent: file.htmlContent,
+        markdownContent: file.markdownContent,
         path: file.path,
         lastModified: file.lastModified.toISOString()
       };

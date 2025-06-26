@@ -19,7 +19,7 @@ export function convertToWordPressPost(file: EditorFile): Post {
   const date = formatDate(file.lastModified);
   
   // Use HTML content for export to JSON, not Markdown
-  const htmlContent = file.content; // This is already HTML from TipTap
+  const htmlContent = file.htmlContent; // This is already HTML from TipTap
   
   return {
     title: meta.title || file.name,
@@ -169,7 +169,7 @@ export async function loadMenu(): Promise<Menu> {
 // Save individual MDX file
 export async function saveMDXFile(file: EditorFile): Promise<void> {
   try {
-    const content = stringifyMarkdownFile(file.frontmatter || {}, file.content);
+    const content = stringifyMarkdownFile(file.frontmatter || {}, file.markdownContent);
     
     // In the browser we can only download the file
     const blob = new Blob([content], { type: 'text/markdown' });
@@ -318,7 +318,8 @@ export function convertContextToEditorFiles(context: Record<string, any>): Edito
         id: id,
         name: data.filePath || `${data.slug || id}.mdx`,
         path: data.filePath || `${data.slug || id}.mdx`,
-        content: data.content || '', // This should be HTML content
+        htmlContent: data.content || '', // This should be HTML content
+        markdownContent: data.content || '', // Initially same as HTML, will be converted
         frontmatter,
         type: (data.fileType as 'md' | 'mdx') || 'mdx',
         lastModified: data.lastModified ? new Date(data.lastModified) : new Date()
