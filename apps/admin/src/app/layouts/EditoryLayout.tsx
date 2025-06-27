@@ -28,7 +28,10 @@ import {
   exportContextFile,
   useEditor,
   useDarkMode,
-  QuickStartProvider
+  QuickStartProvider,
+  useLanguage,
+  __,
+  LanguageSwitcher
 } from '@editory/rich';
 
 console.log('Components check:', {
@@ -51,6 +54,7 @@ export const widget = features[0]
 export const EditoryLayout = () => {
   const { state, actions } = useEditor();
   const { isDarkMode } = useDarkMode();
+  const { __ } = useLanguage();
   const [layout, setLayout] = React.useState<'split' | 'editor' | 'meta'>('split');
   const [showInfo, setShowInfo] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<'visual' | 'markdown'>('visual');
@@ -214,7 +218,7 @@ export const EditoryLayout = () => {
                                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                               )}
                             >
-                              Split
+                              {__('Split')}
                             </button>
                             <button
                               onClick={() => setLayout('editor')}
@@ -225,7 +229,7 @@ export const EditoryLayout = () => {
                                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                               )}
                             >
-                              Editor
+                              {__('Editor')}
                             </button>
                             <button
                               onClick={() => setLayout('meta')}
@@ -236,7 +240,7 @@ export const EditoryLayout = () => {
                                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
                               )}
                             >
-                              Metadata
+                              {__('Metadata')}
                             </button>
                           </div>
                           <Dropdown
@@ -250,7 +254,7 @@ export const EditoryLayout = () => {
                                   'transition-colors'
                                 )}
                               >
-                                <span>Actions</span>
+                                <span>{__('Actions')}</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                 </svg>
@@ -259,10 +263,10 @@ export const EditoryLayout = () => {
                             items={[
                               {
                                 id: 'view-mode',
-                                label: `View mode: ${viewMode === 'visual' ? 'Visual' : 'Markdown'}`,
+                                label: viewMode === 'visual' ? __('View mode: Visual') : __('View mode: Markdown'),
                                 onClick: handleViewModeToggle,
                                 variant: 'default',
-                                title: 'Switch between visual editor and Markdown',
+                                title: __('Switch between visual editor and Markdown'),
                                 icon: (
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -271,7 +275,7 @@ export const EditoryLayout = () => {
                               },
                               {
                                 id: 'preview',
-                                label: 'Preview',
+                                label: __('Preview'),
                                 onClick: actions.togglePreview,
                                 variant: 'warning',
                                 icon: (
@@ -283,10 +287,10 @@ export const EditoryLayout = () => {
                               },
                               {
                                 id: 'save',
-                                label: 'Save MDX',
+                                label: __('Save MDX'),
                                 onClick: handleSave,
                                 variant: 'success' as const,
-                                title: 'Save the current file as MDX',
+                                title: __('Save the current file as MDX'),
                                 icon: (
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
@@ -328,6 +332,17 @@ export const EditoryLayout = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                   </svg>
                                 )
+                                },
+                              {
+                                id: 'clear',
+                                label: __('Clear Storage'),
+                                onClick: () => {
+                                  if (confirm(__('Are you sure you want to clear all data? This action cannot be undone.'))) {
+                                    actions.clearStorage();
+                                  }
+                                },
+                                variant: 'danger' as const,
+                                title: __('Clear localStorage and reset editor'),
                               }
                             ]}
                           />
@@ -341,7 +356,7 @@ export const EditoryLayout = () => {
                               'hover:bg-gray-100 dark:hover:bg-gray-700',
                               'transition-colors'
                             )}
-                            title="Help and instructions"
+                            title={__('Help and instructions')}
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -349,6 +364,7 @@ export const EditoryLayout = () => {
                           </button>
                         </>
                       ) : (
+                        <div className="flex items-center gap-2">
                         <button onClick={handleImport} className={cn(
                           'px-3 py-2 text-sm rounded-md mr-2',
                           'bg-muted transition-colors',
@@ -356,8 +372,10 @@ export const EditoryLayout = () => {
                           'hover:bg-accent hover:text-white',
                           'transition-colors'
                         )}>
-                          Import Context
+                          {__('Import Context')}
                         </button>
+                        <LanguageSwitcher />
+                        </div>
                       )}
 
                       <NavGroupButtons>
@@ -378,10 +396,10 @@ export const EditoryLayout = () => {
                       </svg>
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                      Desktop Required
+                      {__('Desktop Required')}
                     </h2>
                     <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-md">
-                      EditorY is optimized for desktop use. Please access this editor from a computer for the best experience.
+                      {__('EditorY is optimized for desktop use')}
                     </p>
                     <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
                       <div className="flex items-start gap-3">
@@ -390,10 +408,10 @@ export const EditoryLayout = () => {
                         </svg>
                         <div>
                           <p className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-1">
-                            Why Desktop?
+                            {__('Why Desktop?')}
                           </p>
                           <p className="text-sm text-blue-700 dark:text-blue-300">
-                            The rich editor, split-screen preview, and file management features work best with keyboard shortcuts and larger screens.
+                            {__('The rich editor, split-screen preview, and file management features work best with keyboard shortcuts and larger screens.')}
                           </p>
                         </div>
                       </div>
@@ -405,12 +423,10 @@ export const EditoryLayout = () => {
                       <>
                         <div className="flex flex-col text-center gap-8 items-center py-6 lg:py-12">
                           <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-                            Welcome to EditorY
+                            {__('Welcome to EditorY')}
                           </h2>
                           <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
-                            Professional Markdown editing meets modern web standards.
-                            Write in Markdown, preview in real-time, export as semantic HTML5.
-                            Perfect for blogs, documentation, and content creation.
+                            {__('Professional Markdown editing meets modern web standards')}
                           </p>
                           <QuickStart
                             onLoadExample={handleLoadExample}
@@ -433,13 +449,13 @@ export const EditoryLayout = () => {
                                     <RichEditor
                                       content={getCurrentContent()}
                                       onChange={handleContentChange}
-                                      placeholder="Start writing your article..."
+                                      placeholder={__('Start writing your article...')}
                                     />
                                   ) : (
                                     <CodeMirrorEditor
                                       content={getCurrentContent()}
                                       onChange={handleContentChange}
-                                      placeholder="Start writing in Markdown..."
+                                      placeholder={__('Start writing in Markdown...')}
                                       isDarkMode={isDarkMode}
                                     />
                                   )}
@@ -472,13 +488,13 @@ export const EditoryLayout = () => {
                                 <RichEditor
                                   content={getCurrentContent()}
                                   onChange={handleContentChange}
-                                  placeholder="Start writing your article..."
+                                  placeholder={__('Start writing your article...')}
                                 />
                               ) : (
                                 <CodeMirrorEditor
                                   content={getCurrentContent()}
                                   onChange={handleContentChange}
-                                  placeholder="Start writing in Markdown..."
+                                  placeholder={__('Start writing in Markdown...')}
                                   isDarkMode={isDarkMode}
                                 />
                               )}

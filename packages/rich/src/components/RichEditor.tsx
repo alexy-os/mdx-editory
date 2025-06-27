@@ -12,6 +12,7 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import { common, createLowlight } from 'lowlight';
 import { cn } from '../utils';
+import { useLanguage, __ } from '../i18n';
 
 interface RichEditorProps {
   content: string;
@@ -29,6 +30,7 @@ export function RichEditor({
   isDarkMode = false 
 }: RichEditorProps) {
   const lowlight = createLowlight(common);
+  const { __ } = useLanguage();
   
   const editor = useEditor({
     extensions: [
@@ -41,7 +43,7 @@ export function RichEditor({
       }),
       Typography,
       Placeholder.configure({
-        placeholder,
+        placeholder: __(placeholder as any),
       }),
       CodeBlockLowlight.configure({
         lowlight,
@@ -138,7 +140,7 @@ export function RichEditor({
         className
       )}>
         <div className="text-muted-foreground">
-          Loading editor...
+          {__('Loading editor...')}
         </div>
       </div>
     );
@@ -179,6 +181,8 @@ interface EditorToolbarProps {
 
 function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) {
   if (!editor) return null;
+  
+  const { __ } = useLanguage();
 
   const buttonClass = cn(
     'p-1 w-8 h-8 bg-muted-foreground/75 dark:bg-transparent hover:bg-accent/75 dark:hover:bg-primary/75 hover:text-accent-foreground',
@@ -202,7 +206,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? activeButtonClass : buttonClass}
-        title="Bold"
+        title={__('Bold')}
       >
         <span className="editory-bold" />
       </button>
@@ -210,7 +214,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={editor.isActive('italic') ? activeButtonClass : buttonClass}
-        title="Italic"
+        title={__('Italic')}
       >
         <span className="editory-italic" />
       </button>
@@ -220,7 +224,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? activeButtonClass : buttonClass}
-        title="Heading 1"
+        title={__('Heading 1')}
       >
         <span className="editory-heading1" />
       </button>
@@ -228,7 +232,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? activeButtonClass : buttonClass}
-        title="Heading 2"
+        title={__('Heading 2')}
       >
         <span className="editory-heading2" />
       </button>
@@ -236,7 +240,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         className={editor.isActive('heading', { level: 3 }) ? activeButtonClass : buttonClass}
-        title="Heading 3"
+        title={__('Heading 3')}
       >
         <span className="editory-heading3" />
       </button>
@@ -246,7 +250,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? activeButtonClass : buttonClass}
-        title="Bullet list"
+        title={__('Bullet list')}
       >
         <span className="editory-list" />
       </button>
@@ -254,7 +258,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? activeButtonClass : buttonClass}
-        title="Ordered list"
+        title={__('Ordered list')}
       >
         <span className="editory-list-ordered" />
       </button>
@@ -262,7 +266,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? activeButtonClass : buttonClass}
-        title="Quote"
+        title={__('Quote')}
       >
         <span className="editory-text-quote" />
       </button>
@@ -270,7 +274,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleCode().run()}
         className={editor.isActive('code') ? activeButtonClass : buttonClass}
-        title="Code"
+        title={__('Code')}
       >
         <span className="editory-code" />
       </button>
@@ -278,7 +282,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={editor.isActive('codeBlock') ? activeButtonClass : buttonClass}
-        title="Code block"
+        title={__('Code block')}
       >
         <span className="editory-braces" />
       </button>
@@ -287,26 +291,26 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
       
       <button
         onClick={() => {
-          const url = window.prompt('Image URL:');
+          const url = window.prompt(__('Image URL:'));
           if (url) {
             editor.chain().focus().setImage({ src: url }).run();
           }
         }}
         className={buttonClass}
-        title="Image"
+        title={__('Image')}
       >
         <span className="editory-image" />
       </button>
       
       <button
         onClick={() => {
-          const url = window.prompt('Link URL:');
+          const url = window.prompt(__('Link URL:'));
           if (url) {
             editor.chain().focus().setLink({ href: url }).run();
           }
         }}
         className={editor.isActive('link') ? activeButtonClass : buttonClass}
-        title="Link"
+        title={__('Link')}
       >
         <span className="editory-link" />
       </button>
@@ -321,7 +325,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
           buttonClass,
           !history?.canUndo && 'opacity-50 cursor-not-allowed'
         )}
-        title="Undo (Ctrl+Z)"
+        title={__('Undo (Ctrl+Z)')}
       >
         ↶
       </button>
@@ -333,7 +337,7 @@ function EditorToolbar({ editor, history, onUndo, onRedo }: EditorToolbarProps) 
           buttonClass,
           !history?.canRedo && 'opacity-50 cursor-not-allowed'
         )}
-        title="Redo (Ctrl+Y)"
+        title={__('Redo (Ctrl+Y)')}
       >
         ↷
       </button>

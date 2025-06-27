@@ -60,8 +60,17 @@ export function useEditor() {
           loadMenu()
         ]);
         
+        // Convert context to EditorFiles if there's data
+        let loadedFiles: EditorFile[] = [];
+        if (Object.keys(context).length > 0) {
+          loadedFiles = convertContextToEditorFiles(context);
+          console.log(`Loaded ${loadedFiles.length} files from localStorage`);
+        }
+        
         setState(prev => ({
           ...prev,
+          files: loadedFiles,
+          currentFile: loadedFiles.length > 0 ? loadedFiles[0] : null,
           context,
           menu: menu.primary.items
         }));
@@ -338,6 +347,30 @@ export function useEditor() {
     }
   }, []);
 
+  const clearStorage = useCallback(() => {
+    try {
+      // Clear localStorage
+      localStorage.removeItem('rich-editor-context');
+      localStorage.removeItem('rich-editor-menu');
+      
+      // Reset state to initial
+      setState({
+        currentFile: null,
+        files: [],
+        isPreviewOpen: false,
+        isDarkMode: false,
+        context: {},
+        menu: []
+      });
+      
+      console.log('Storage cleared successfully');
+      
+    } catch (error) {
+      console.error('Failed to clear storage:', error);
+      throw error;
+    }
+  }, []);
+
   return {
     state,
     actions: {
@@ -354,7 +387,8 @@ export function useEditor() {
       togglePreview,
       toggleDarkMode,
       exportToMDX,
-      importContext
+      importContext,
+      clearStorage
     }
   };
 } 

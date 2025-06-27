@@ -8,6 +8,7 @@ export { FileManager } from './components/FileManager';
 export { InfoPanel } from './components/InfoPanel';
 export { QuickStart } from './components/QuickStart';
 export { Dropdown } from './components/Dropdown';
+export { LanguageSwitcher } from './components/LanguageSwitcher';
 
 export { prepareHtmlForMarkdown, prepareMarkdownForEditor } from './utils/markdown';
 export { exportContextFile } from './utils/fileSystem';
@@ -15,6 +16,8 @@ export { useEditor } from './hooks/useEditor';
 export { useFileManager } from './hooks/useFileManager';
 export { useDarkMode } from './hooks/useDarkMode';
 export { QuickStartProvider } from './hooks/useQuickStart';
+
+export { useLanguage, __, setLanguage, getCurrentLanguage } from './i18n';
 
 export * from './types';
 export * from './utils'; 

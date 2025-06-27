@@ -51,4 +51,6 @@ export interface EditorActions {
   togglePreview: () => void;
   toggleDarkMode: () => void;
   exportToMDX: () => string;
+  importContext: () => Promise<void>;
+  clearStorage: () => void;
 } 

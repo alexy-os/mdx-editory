@@ -313,13 +313,40 @@ export function convertContextToEditorFiles(context: Record<string, any>): Edito
         categories: data.categories || []
       };
       
+      // The data.content is HTML from TipTap editor
+      // We need to convert it to Markdown for the raw editor
+      const htmlContent = data.content || '';
+      
+      // Simple HTML to Markdown conversion for basic content
+      let markdownContent = htmlContent
+        .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n')
+        .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n')
+        .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n')
+        .replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n')
+        .replace(/<h5[^>]*>(.*?)<\/h5>/gi, '##### $1\n\n')
+        .replace(/<h6[^>]*>(.*?)<\/h6>/gi, '###### $1\n\n')
+        .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n')
+        .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+        .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<ul[^>]*>(.*?)<\/ul>/gi, '$1\n')
+        .replace(/<ol[^>]*>(.*?)<\/ol>/gi, '$1\n')
+        .replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n')
+        .replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`')
+        .replace(/<pre[^>]*><code[^>]*>(.*?)<\/code><\/pre>/gi, '```\n$1\n```\n')
+        .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+        .replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*>/gi, '![$2]($1)')
+        .replace(/<[^>]+>/g, '') // Remove any remaining HTML tags
+        .replace(/\n{3,}/g, '\n\n') // Replace multiple newlines with double newlines
+        .trim();
+      
       // Create EditorFile from imported data
       const editorFile: EditorFile = {
         id: id,
         name: data.filePath || `${data.slug || id}.mdx`,
         path: data.filePath || `${data.slug || id}.mdx`,
-        htmlContent: data.content || '', // This should be HTML content
-        markdownContent: data.content || '', // Initially same as HTML, will be converted
+        htmlContent, // Keep original HTML for TipTap editor
+        markdownContent, // Converted Markdown for CodeMirror editor
         frontmatter,
         type: (data.fileType as 'md' | 'mdx') || 'mdx',
         lastModified: data.lastModified ? new Date(data.lastModified) : new Date()

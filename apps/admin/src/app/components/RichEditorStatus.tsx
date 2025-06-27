@@ -31,7 +31,6 @@ export function RichEditorStatus() {
 
   const handleClearData = () => {
     localStorage.removeItem('rich-editor-context');
-    // Оставляем rich-editor-menu для Rich Editor, не трогаем
     checkStatus();
     window.location.reload();
   };

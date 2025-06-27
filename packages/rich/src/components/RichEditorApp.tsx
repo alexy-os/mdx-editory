@@ -12,6 +12,8 @@ import { useEditor } from '../hooks/useEditor';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { cn } from '../utils';
 import { exportContextFile } from '../utils/fileSystem';
+import { useLanguage, __ } from '../i18n';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface RichEditorAppProps {
   className?: string;
@@ -20,6 +22,7 @@ interface RichEditorAppProps {
 export function RichEditorApp({ className }: RichEditorAppProps) {
   const { state, actions } = useEditor();
   const { isDarkMode, toggle: toggleDarkMode } = useDarkMode();
+  const { __ } = useLanguage();
   const [layout, setLayout] = React.useState<'split' | 'editor' | 'meta'>('split');
   const [showInfo, setShowInfo] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<'visual' | 'markdown'>('visual');
@@ -127,7 +130,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               'text-xl font-bold',
               'text-foreground'
             )}>
-              Rich Editor
+              {__('Rich Editor')}
             </h1>
 
             {state.currentFile && (
@@ -173,7 +176,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
-                    Split
+                    {__('Split')}
                   </button>
                   <button
                     onClick={() => setLayout('editor')}
@@ -184,7 +187,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
-                    Editor
+                    {__('Editor')}
                   </button>
                   <button
                     onClick={() => setLayout('meta')}
@@ -195,7 +198,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
-                    Metadata
+                    {__('Metadata')}
                   </button>
                 </div>
                 <Dropdown
@@ -209,7 +212,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                         'transition-colors'
                       )}
                     >
-                      <span>Actions</span>
+                      <span>{__('Actions')}</span>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
@@ -218,10 +221,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                   items={[
                     {
                       id: 'view-mode',
-                      label: `View mode: ${viewMode === 'visual' ? 'Visual' : 'Markdown'}`,
+                      label: viewMode === 'visual' ? __('View mode: Visual') : __('View mode: Markdown'),
                       onClick: handleViewModeToggle,
                       variant: 'default',
-                      title: 'Switch between visual editor and Markdown',
+                      title: __('Switch between visual editor and Markdown'),
                       icon: (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -230,7 +233,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     },
                     {
                       id: 'preview',
-                      label: 'Preview',
+                      label: __('Preview'),
                       onClick: actions.togglePreview,
                       variant: 'success',
                       icon: (
@@ -242,10 +245,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     },
                     {
                       id: 'save',
-                      label: 'Save MDX',
+                      label: __('Save MDX'),
                       onClick: handleSave,
                       variant: 'primary' as const,
-                      title: 'Save the current file as MDX',
+                      title: __('Save the current file as MDX'),
                       icon: (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3-3m0 0l-3 3m3-3v12" />
@@ -254,10 +257,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     },
                     {
                       id: 'export',
-                      label: 'Export Context',
+                      label: __('Export Context'),
                       onClick: handleExport,
                       variant: 'warning' as const,
-                      title: 'Export context.json from localStorage',
+                      title: __('Export context.json from localStorage'),
                       icon: (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -266,10 +269,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     },
                     {
                       id: 'import',
-                      label: 'Import Context',
+                      label: __('Import Context'),
                       onClick: handleImport,
                       variant: 'warning' as const,
-                      title: 'Import context.json and clear localStorage',
+                      title: __('Import context.json and clear localStorage'),
                       icon: (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l3-3m0 0l-3-3m3 3H3m15 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m15-4V7a2 2 0 00-2-2H7a2 2 0 00-2 2v3" />
@@ -278,15 +281,26 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     },
                     {
                       id: 'update',
-                      label: 'Update',
+                      label: __('Update'),
                       onClick: actions.saveAllData,
                       variant: 'warning' as const,
-                      title: 'Update context.json and menu.json',
+                      title: __('Update context.json and menu.json'),
                       icon: (
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
                       )
+                    }, 
+                    {
+                      id: 'clear',
+                      label: __('Clear Storage'),
+                      onClick: () => {
+                        if (confirm(__('Are you sure you want to clear all data? This action cannot be undone.'))) {
+                          actions.clearStorage();
+                        }
+                      },
+                      variant: 'danger' as const,
+                      title: __('Clear localStorage and reset editor'),
                     }
                   ]}
                 />
@@ -299,9 +313,12 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 'hover:bg-accent',
                 'transition-colors'
               )}>
-                Import Context
+                {__('Import Context')}
               </button>
             )}
+
+            {/* Language switcher */}
+            <LanguageSwitcher />
 
             {/* Help button */}
             <button
@@ -312,7 +329,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 'hover:bg-accent',
                 'transition-colors'
               )}
-              title="Help and instructions"
+              title={__('Help and instructions')}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -328,7 +345,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 'hover:bg-accent',
                 'transition-colors'
               )}
-              title={isDarkMode ? 'Light theme' : 'Dark theme'}
+              title={isDarkMode ? __('Light theme') : __('Dark theme')}
             >
               {isDarkMode ? (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,12 +389,10 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
           {!state.currentFile ? (
             <div className="flex flex-col h-full text-center gap-8 items-center py-6 lg:py-12 px-6">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
-              Welcome to EditorY
+              {__('Welcome to EditorY')}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-4xl">
-              Professional Markdown editing meets modern web standards.
-              Write in Markdown, preview in real-time, export as semantic HTML5.
-              Perfect for blogs, documentation, and content creation.
+              {__('Professional Markdown editing meets modern web standards')}
             </p>
               <QuickStart
                 showHeader={false}
@@ -397,13 +412,13 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                             content={getCurrentContent()}
                             onChange={handleContentChange}
                             isDarkMode={isDarkMode}
-                            placeholder="Start writing your article..."
+                            placeholder={__('Start writing your article...')}
                           />
                         ) : (
                           <CodeMirrorEditor
                             content={getCurrentContent()}
                             onChange={handleContentChange}
-                            placeholder="Start writing in Markdown..."
+                            placeholder={__('Start writing in Markdown...')}
                             isDarkMode={isDarkMode}
                           />
                         )}
@@ -433,19 +448,19 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 <div className="h-full flex flex-col">
                   <div className="flex-1 overflow-auto p-6">
                     {viewMode === 'visual' ? (
-                      <RichEditor
-                        content={getCurrentContent()}
-                        onChange={handleContentChange}
-                        isDarkMode={isDarkMode}
-                        placeholder="Start writing your article..."
-                      />
+                                          <RichEditor
+                      content={getCurrentContent()}
+                      onChange={handleContentChange}
+                      isDarkMode={isDarkMode}
+                      placeholder={__('Start writing your article...')}
+                    />
                     ) : (
-                      <CodeMirrorEditor
-                        content={getCurrentContent()}
-                        onChange={handleContentChange}
-                        placeholder="Start writing in Markdown..."
-                        isDarkMode={isDarkMode}
-                      />
+                                          <CodeMirrorEditor
+                      content={getCurrentContent()}
+                      onChange={handleContentChange}
+                      placeholder={__('Start writing in Markdown...')}
+                      isDarkMode={isDarkMode}
+                    />
                     )}
                   </div>
                 </div>
