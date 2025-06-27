@@ -121,14 +121,8 @@ export function useEditor() {
 
   const saveFile = useCallback(async (file: EditorFile) => {
     try {
-      // Use the current markdown content for saving
-      const fileToSave = {
-        ...file,
-        content: file.markdownContent // Use markdownContent for saving
-      };
-      
-      // Save MDX file
-      await saveMDXFile(fileToSave);
+      // Save MDX file directly - saveMDXFile expects EditorFile with markdownContent
+      await saveMDXFile(file);
       
       // Update state with new data
       setState(prev => {
@@ -198,9 +192,13 @@ export function useEditor() {
     setState(prev => {
       if (!prev.currentFile) return prev;
       
+      // Also convert HTML to Markdown for consistency
+      const markdownContent = prepareHtmlForMarkdown(htmlContent);
+      
       const updatedFile = {
         ...prev.currentFile,
         htmlContent,
+        markdownContent,
         lastModified: new Date()
       };
       
@@ -222,9 +220,13 @@ export function useEditor() {
     setState(prev => {
       if (!prev.currentFile) return prev;
       
+      // Also convert Markdown to HTML for consistency
+      const htmlContent = prepareMarkdownForEditor(markdownContent);
+      
       const updatedFile = {
         ...prev.currentFile,
         markdownContent,
+        htmlContent,
         lastModified: new Date()
       };
       
