@@ -43,6 +43,9 @@ export interface EditorState {
 export interface EditorActions {
   loadFile: (file: File) => Promise<void>;
   saveFile: (file: EditorFile) => Promise<void>;
+  selectFile: (fileId: string) => void;
+  removeFile: (fileId: string) => void;
+  createNewPost: () => void;
   updateHtmlContent: (content: string) => void;
   updateMarkdownContent: (content: string) => void;
   syncContentFromHtml: () => void; // Convert HTML to Markdown
@@ -53,4 +56,5 @@ export interface EditorActions {
   exportToMDX: () => string;
   importContext: () => Promise<void>;
   clearStorage: () => void;
+  saveAllData: () => Promise<void>;
 } 

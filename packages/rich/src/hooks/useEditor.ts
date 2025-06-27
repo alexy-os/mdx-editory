@@ -18,6 +18,15 @@ import {
   isMarkdownContent 
 } from '../utils/markdown';
 
+export interface EditorActions {
+  // File operations
+  loadFile: (file: File) => Promise<void>;
+  switchFile: (fileId: string) => void;
+  createNewPost: () => void;
+  
+  // ... existing code ...
+}
+
 export function useEditor() {
   const [state, setState] = useState<EditorState>({
     currentFile: null,
@@ -349,6 +358,41 @@ export function useEditor() {
     }
   }, []);
 
+  const createNewPost = useCallback(() => {
+    const newPostId = generateId().toString();
+    const currentDate = new Date();
+    const defaultTitle = `Новая запись ${state.files.length + 1}`;
+    
+    const newFile: EditorFile = {
+      id: newPostId,
+      name: `new-post-${newPostId.slice(0, 8)}.mdx`,
+      path: `new-post-${newPostId.slice(0, 8)}.mdx`,
+      htmlContent: '<p>Начните писать вашу новую запись...</p>',
+      markdownContent: 'Начните писать вашу новую запись...',
+      frontmatter: {
+        title: defaultTitle,
+        slug: generateSlug(defaultTitle),
+        excerpt: 'Новая запись создана в редакторе',
+        id: parseInt(newPostId),
+        date: formatDate(currentDate),
+        status: 'draft',
+        author: 'admin',
+        categories: [],
+        tags: []
+      },
+      type: 'mdx',
+      lastModified: currentDate
+    };
+
+    setState(prev => ({
+      ...prev,
+      currentFile: newFile,
+      files: [...prev.files, newFile]
+    }));
+
+    console.log('New post created:', newFile.name);
+  }, [state.files.length]);
+
   const clearStorage = useCallback(() => {
     try {
       // Clear localStorage
@@ -381,6 +425,7 @@ export function useEditor() {
       saveAllData,
       selectFile,
       removeFile,
+      createNewPost,
       updateHtmlContent,
       updateMarkdownContent,
       syncContentFromHtml,

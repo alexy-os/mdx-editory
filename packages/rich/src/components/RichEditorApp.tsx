@@ -6,7 +6,8 @@ import { PostMetaEditor } from './PostMetaEditor';
 import { MarkdownPreview } from './MarkdownPreview';
 import { FileManager } from './FileManager';
 import { InfoPanel } from './InfoPanel';
-import { Dropdown } from './Dropdown';
+import { FileDropdown } from './FileDropdown';
+import { ActionsDropdown } from './ActionsDropdown';
 import { CodeMirrorEditor } from './CodeMirrorEditor';
 import { useEditor } from '../hooks/useEditor';
 import { useDarkMode } from '../hooks/useDarkMode';
@@ -133,19 +134,13 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               {__('Rich Editor')}
             </h1>
 
-            {state.currentFile && (
-              <div className="flex items-center gap-2">
-                <div className={cn(
-                  'w-2 h-2 rounded-full',
-                  state.currentFile.type === 'mdx' ? 'bg-secondary' : 'bg-primary'
-                )} />
-                <span className={cn(
-                  'text-sm font-medium',
-                  'text-muted-foreground'
-                )}>
-                  {state.currentFile.frontmatter?.title || state.currentFile.name}
-                </span>
-              </div>
+{state.files.length > 0 && (
+              <FileDropdown
+                files={state.files}
+                currentFileId={state.currentFile?.id || null}
+                onFileSelect={actions.selectFile}
+                onCreateNew={actions.createNewPost}
+              />
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -201,7 +196,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                     {__('Metadata')}
                   </button>
                 </div>
-                <Dropdown
+                <ActionsDropdown
                   trigger={
                     <button
                       className={cn(
@@ -306,15 +301,27 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
                 />
               </>
             ) : (
-              <button onClick={handleImport} className={cn(
-                'px-3 py-1 text-sm rounded transition-colors',
-                'bg-muted',
-                'text-muted-foreground',
-                'hover:bg-accent',
-                'transition-colors'
-              )}>
-                {__('Import Context')}
-              </button>
+              <div className="flex gap-2">
+                <button 
+                  onClick={actions.createNewPost}
+                  className={cn(
+                    'px-3 py-1 text-sm rounded transition-colors',
+                    'bg-green-600 hover:bg-green-700',
+                    'text-white'
+                  )}
+                >
+                  {__('Create New Post')}
+                </button>
+                <button onClick={handleImport} className={cn(
+                  'px-3 py-1 text-sm rounded transition-colors',
+                  'bg-muted',
+                  'text-muted-foreground',
+                  'hover:bg-accent',
+                  'transition-colors'
+                )}>
+                  {__('Import Context')}
+                </button>
+              </div>
             )}
 
             {/* Language switcher */}
@@ -375,6 +382,7 @@ export function RichEditorApp({ className }: RichEditorAppProps) {
               onFileSelect={actions.selectFile}
               onFileLoad={actions.loadFile}
               onFileRemove={actions.removeFile}
+              onCreateNew={actions.createNewPost}
             />
           </aside>
         </Panel>

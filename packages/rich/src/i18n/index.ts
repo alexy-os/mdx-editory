@@ -43,6 +43,7 @@ const translations = {
     'Save': 'Save',
     'Cancel': 'Cancel',
     'Delete': 'Delete',
+    'Create New Post': 'Create New Post',
     
     // View Modes
     'View mode: Visual': 'View mode: Visual',
@@ -120,6 +121,7 @@ const translations = {
     'Save': 'Сохранить',
     'Cancel': 'Отмена',
     'Delete': 'Удалить',
+    'Create New Post': 'Добавить запись',
     
     // View Modes
     'View mode: Visual': 'Режим: Визуальный',

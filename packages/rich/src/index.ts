@@ -7,8 +7,9 @@ export { CodeMirrorEditor } from './components/CodeMirrorEditor';
 export { FileManager } from './components/FileManager';
 export { InfoPanel } from './components/InfoPanel';
 export { QuickStart } from './components/QuickStart';
-export { Dropdown } from './components/Dropdown';
 export { LanguageSwitcher } from './components/LanguageSwitcher';
+export { ActionsDropdown } from './components/ActionsDropdown';
+export { FileDropdown } from './components/FileDropdown';
 
 export { prepareHtmlForMarkdown, prepareMarkdownForEditor } from './utils/markdown';
 export { exportContextFile } from './utils/fileSystem';

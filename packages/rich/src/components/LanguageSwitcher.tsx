@@ -19,7 +19,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
       className={cn(
         'px-3 py-1 text-sm rounded transition-colors',
         'bg-muted',
-        'text-muted-foreground',
+        'text-secondary-foreground hover:text-white',
         'hover:bg-accent',
         'border border-transparent hover:border-accent',
         'font-medium',

@@ -24,7 +24,7 @@ import {
   FileManager,
   InfoPanel,
   QuickStart,
-  Dropdown,
+  ActionsDropdown,
   exportContextFile,
   useEditor,
   useDarkMode,
@@ -243,7 +243,7 @@ export const EditoryLayout = () => {
                               {__('Metadata')}
                             </button>
                           </div>
-                          <Dropdown
+                          <ActionsDropdown
                             trigger={
                               <button
                                 className={cn(
@@ -365,6 +365,18 @@ export const EditoryLayout = () => {
                         </>
                       ) : (
                         <div className="flex items-center gap-2">
+                        <button 
+                          onClick={actions.createNewPost}
+                          className={cn(
+                            'px-3 py-2 text-sm rounded-md mr-2',
+                            'bg-muted transition-colors',
+                            'text-primary hover:text-muted-foreground',
+                            'hover:bg-accent hover:text-white',
+                            'transition-colors'
+                          )}
+                        >
+                          {__('Create New Post')}
+                        </button>
                         <button onClick={handleImport} className={cn(
                           'px-3 py-2 text-sm rounded-md mr-2',
                           'bg-muted transition-colors',
@@ -591,6 +603,7 @@ function EditorySidebar({ className, state, actions }: SidebarProps) {
             onFileSelect={actions.selectFile}
             onFileLoad={actions.loadFile}
             onFileRemove={actions.removeFile}
+            onCreateNew={actions.createNewPost}
           />
         </div>
       </div>

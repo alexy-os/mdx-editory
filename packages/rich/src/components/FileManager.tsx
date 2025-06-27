@@ -9,6 +9,7 @@ interface FileManagerProps {
   onFileSelect: (fileId: string) => void;
   onFileLoad: (file: File) => void;
   onFileRemove: (fileId: string) => void;
+  onCreateNew: () => void;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ export function FileManager({
   onFileSelect,
   onFileLoad,
   onFileRemove,
+  onCreateNew,
   className
 }: FileManagerProps) {
   // const [dragOver,  setDragOver] = useState(false);
@@ -72,6 +74,20 @@ export function FileManager({
   };
 
   return (
+    <div className="flex flex-col gap-4">
+    <button
+    onClick={onCreateNew}
+    className={cn(
+      'px-3 py-2 text-sm rounded-md mr-2',
+      'bg-muted transition-colors w-full',
+      'text-primary hover:text-muted-foreground',
+      'hover:bg-accent hover:text-white',
+      'transition-colors'
+    )}
+    title={__('Create New Post')}
+  >
+    {__('Create New Post')}
+  </button>
     <div className={cn(
       'rounded-lg border',
       'border-border',
@@ -101,23 +117,23 @@ export function FileManager({
               </p>
             )}
           </div>
-          
-          <label className={cn(
-            'px-3 py-1 text-sm rounded cursor-pointer',
-            'bg-primary',
-            'text-primary-foreground',
-            'hover:bg-primary/90',
-            'transition-colors'
-          )}>
-            Upload
-            <input
-              type="file"
-              multiple
-              accept=".md,.mdx"
-              onChange={handleFileInput}
-              className="hidden"
-            />
-          </label>
+            
+            <label className={cn(
+              'px-3 py-1 text-sm rounded-md cursor-pointer',
+              'bg-primary',
+              'text-primary-foreground',
+              'hover:bg-primary/90',
+              'transition-colors'
+            )}>
+              Upload
+              <input
+                type="file"
+                multiple
+                accept=".md,.mdx"
+                onChange={handleFileInput}
+                className="hidden"
+              />
+            </label>
         </div>
       </div>
 
@@ -246,6 +262,6 @@ export function FileManager({
           </div>
         </div>
       )}
-    </div>
+    </div></div>
   );
 } 
