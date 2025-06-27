@@ -1,5 +1,6 @@
-import { PostMeta } from '../types/editor';
+import { PostMeta } from '../types';
 import { cn } from '../utils';
+import { useLanguage, __ } from '../i18n';
 
 interface PostMetaEditorProps {
   meta: Partial<PostMeta>;
@@ -17,6 +18,8 @@ export function PostMetaEditor({
   const handleChange = (field: keyof PostMeta, value: string | number | object) => {
     onChange({ ...meta, [field]: value });
   };
+
+  const { __ } = useLanguage();
 
   const extractFirstHeading = (htmlContent: string): string => {
     if (!htmlContent) return '';
@@ -81,7 +84,7 @@ export function PostMetaEditor({
           'text-lg font-semibold',
           'text-foreground'
         )}>
-          Post metadata
+          {__('Post metadata')}
         </h3>
         <button
           onClick={() => {
@@ -123,7 +126,7 @@ export function PostMetaEditor({
             'transition-colors'
           )}
         >
-          Autofill
+          {__('Autofill')}
         </button>
       </div>
 
@@ -132,7 +135,7 @@ export function PostMetaEditor({
         <div className="space-y-4 text-sm">
           <div>
             <label className={labelClass}>
-              Title *
+              {__('Title *')}
             </label>
             <input
               type="text"
@@ -146,7 +149,7 @@ export function PostMetaEditor({
 
           <div>
             <label className={labelClass}>
-              Slug *
+              {__('Slug *')}
             </label>
             <input
               type="text"
@@ -160,13 +163,13 @@ export function PostMetaEditor({
               'mt-1 text-xs',
               'text-muted-foreground'
             )}>
-              URL-address of the post. Automatically generated from the title.
+              {__('URL-address of the post. Automatically generated from the title.')}
             </p>
           </div>
 
           <div>
             <label className={labelClass}>
-              ID
+              {__('ID')}
             </label>
             <input
               type="number"
@@ -180,13 +183,13 @@ export function PostMetaEditor({
               'mt-1 text-xs',
               'text-muted-foreground'
             )}>
-              Unique identifier of the post. Automatically generated.
+              {__('Unique identifier of the post. Automatically generated.')}
             </p>
           </div>
 
           <div>
             <label className={labelClass}>
-              Short description
+              {__('Short description')}
             </label>
             <textarea
               value={meta.excerpt || ''}
@@ -199,13 +202,13 @@ export function PostMetaEditor({
               'mt-1 text-xs',
               'text-muted-foreground'
             )}>
-              Automatically generated from the post content.
+              {__('Automatically generated from the post content.')}
             </p>
           </div>
 
           <div>
             <label className={labelClass}>
-              Image
+              {__('Image')}
             </label>
             <input
               type="url"
@@ -223,7 +226,7 @@ export function PostMetaEditor({
           {meta.featuredImage?.url && (
             <div>
               <label className={labelClass}>
-                Alt text of the image
+                {__('Alt text of the image')}
               </label>
               <input
                 type="text"
@@ -241,7 +244,7 @@ export function PostMetaEditor({
 
           <div>
             <label className={labelClass}>
-              Categories
+              {__('Categories')}
             </label>
             <input
               type="text"
@@ -262,7 +265,7 @@ export function PostMetaEditor({
               'mt-1 text-xs',
               'text-muted-foreground'
             )}>
-              Separate categories by commas.
+              {__('Separate categories by commas.')}
             </p>
           </div>
         </div>
@@ -278,7 +281,7 @@ export function PostMetaEditor({
             'text-sm',
             'text-muted-foreground'
           )}>
-            * - required fields
+            {__('* - required fields')}
           </span>
         </div>
       </div>

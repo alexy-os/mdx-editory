@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { EditorFile } from '../types/editor';
 import { QuickStart } from './QuickStart';
 import { cn } from '../utils';
+import { useLanguage, __ } from '../i18n';
 
 interface FileManagerProps {
   files: EditorFile[];
@@ -22,7 +23,7 @@ export function FileManager({
   onCreateNew,
   className
 }: FileManagerProps) {
-  // const [dragOver,  setDragOver] = useState(false);
+  const { __ } = useLanguage();
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -100,23 +101,13 @@ export function FileManager({
         'border-border',
         'bg-muted'
       )}>
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex items-center justify-between" title={__('Auto-save context.json and menu.json')}>
             <h3 className={cn(
               'text-lg font-semibold',
               'text-foreground'
             )}>
-              Files ({files.length})
+              {__('Files')} ({files.length})
             </h3>
-            {files.length > 0 && (
-              <p className={cn(
-                'text-xs mt-1',
-                'text-muted-foreground'
-              )}>
-                Auto-save context.json and menu.json
-              </p>
-            )}
-          </div>
             
             <label className={cn(
               'px-3 py-1 text-sm rounded-md cursor-pointer',
@@ -125,7 +116,7 @@ export function FileManager({
               'hover:bg-primary/90',
               'transition-colors'
             )}>
-              Upload
+              {__('Upload')}
               <input
                 type="file"
                 multiple
@@ -244,7 +235,7 @@ export function FileManager({
             <div className={cn(
               'text-muted-foreground'
             )}>
-              Total files: {files.length}
+              {__('Total files')}: {files.length}
             </div>
             
             <div className="flex gap-3">

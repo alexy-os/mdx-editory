@@ -1,5 +1,6 @@
 import { cn } from '../utils';
 import { useQuickStart } from '../hooks/useQuickStart';
+import { useLanguage } from '../i18n';
 
 interface QuickStartProps {
   onLoadExample?: (content: string, filename: string) => void;
@@ -171,6 +172,162 @@ This approach eliminates the traditional trade-off between developer experience 
   }
 ];
 
+const defaultExampleFilesRu = [
+  {
+    name: 'tri-stolpa-sovremennoy-frontend-arkhitektury.md',
+    title: 'Три столпа современной фронтенд-архитектуры',
+    content: `---
+title: "Три столпа современной фронтенд-архитектуры"
+slug: "tri-stolpa-sovremennoy-frontend-arkhitektury"
+excerpt: "Откройте для себя три основополагающих столпа, которые определяют современную фронтенд-архитектуру: семантический HTML5, компонентно-ориентированная разработка и трансформация утилит в семантику."
+categories: ["Архитектура", "Семантический HTML"]
+featuredImage:
+  url: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop"
+  alt: "Визуализация трех столпов современной фронтенд-архитектуры"
+  width: 800
+  height: 600
+---
+
+# Три столпа современной фронтенд-архитектуры
+
+Будущее масштабируемой фронтенд-разработки основывается на трех фундаментальных столпах, которые трансформируют способ создания веб-приложений.
+
+## Семантический HTML5 фундамент
+
+**Семантический HTML5 фундамент** обеспечивает доступность, SEO-оптимизацию и разметку, готовую к будущему, которая следует стандартам W3C. Каждый компонент генерирует чистые, семантические HTML5 элементы с осмысленными именами классов, которые программы чтения с экрана, поисковые системы и разработчики могут понять мгновенно.
+
+## Компонентно-ориентированная архитектура
+
+**Компонентно-ориентированная архитектура** использует принципы атомарного дизайна с разработкой TypeScript-first, создавая многократно используемые, тестируемые компоненты, которые масштабируются в корпоративных приложениях.
+
+## Трансформация утилит в семантику
+
+**Трансформация утилит в семантику** устраняет разрыв между быстрым прототипированием с Tailwind CSS и готовыми к продакшену семантическими классами, обеспечивая лучшее из обоих миров: опыт разработчика и поддерживаемый код.
+
+Эти три столпа работают вместе, создавая надежную основу для современных веб-приложений, которые одновременно удобны для разработчиков и готовы к продакшену.
+`
+  },
+  {
+    name: 'printsipy-chistogo-koda-semanticheskie-html5-komponenty.md',
+    title: 'Принципы чистого кода для семантических HTML5 компонентов',
+    content: `---
+title: "Принципы чистого кода для семантических HTML5 компонентов"
+slug: "printsipy-chistogo-koda-semanticheskie-html5-komponenty"
+excerpt: "Изучите, как писать чистый, поддерживаемый фронтенд-код, используя семантические HTML5 элементы, методологию BEM и паттерны композиции компонентов."
+categories: ["Чистый код", "Дизайн компонентов"]
+featuredImage:
+  url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop"
+  alt: "Принципы чистого кода и семантическая HTML5 структура"
+  width: 800
+  height: 600
+---
+
+# Принципы чистого кода для семантических HTML5 компонентов
+
+Написание чистого, поддерживаемого фронтенд-кода начинается с семантических HTML5 основ и распространяется через каждый слой архитектуры ваших компонентов.
+
+## Осмысленная разметка
+
+**Осмысленная разметка** означает, что каждый HTML элемент служит семантической цели - правильное использование элементов \`<article>\`, \`<section>\`, \`<nav>\` и \`<aside>\` улучшает показатели доступности и SEO рейтинги.
+
+## Именование классов в стиле BEM
+
+**Именование классов в стиле BEM** создает самодокументируемый CSS, который следует конвенциям \`.block__element--modifier\`, делая ваши таблицы стилей читаемыми и поддерживаемыми.
+
+## Композиция компонентов
+
+**Композиция компонентов** вместо наследования гарантирует, что ваши React компоненты остаются тестируемыми, многократно используемыми и легкими для отладки.
+
+## Интеграция TypeScript
+
+**Интеграция TypeScript** обеспечивает безопасность во время компиляции с правильной валидацией пропсов и поддержкой IntelliSense.
+
+Чистый код - это не только об эстетике - это о создании систем, которые масштабируются, работают и остаются поддерживаемыми по мере роста вашей команды.
+
+\`\`\`jsx
+// Пример чистого семантического компонента
+function ArticleCard({ title, excerpt, date }) {
+  return (
+    <article className="article-card">
+      <header className="article-card__header">
+        <h2 className="article-card__title">{title}</h2>
+        <time className="article-card__date">{date}</time>
+      </header>
+      <div className="article-card__content">
+        <p className="article-card__excerpt">{excerpt}</p>
+      </div>
+    </article>
+  );
+}
+\`\`\`
+`
+  },
+  {
+    name: 'ot-tailwind-utilit-k-semanticheskim-klassam.md',
+    title: 'От утилит Tailwind к готовым семантическим классам',
+    content: `---
+title: "От утилит Tailwind к готовым семантическим классам"
+slug: "ot-tailwind-utilit-k-semanticheskim-klassam"
+excerpt: "Трансформируйте утилитарные классы Tailwind в готовый к продакшену семантический HTML5 с автоматизированным извлечением, паттернами CVA и фреймворк-агностическим выводом."
+categories: ["Tailwind CSS", "Семантический HTML"]
+featuredImage:
+  url: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&h=600&fit=crop"
+  alt: "Трансформация Tailwind CSS в семантические HTML5 классы"
+  width: 800
+  height: 600
+---
+
+# От утилит Tailwind к готовым семантическим классам
+
+Путь от utility-first разработки к семантическому HTML5 продакшн-коду представляет парадигмальный сдвиг в современных фронтенд-процессах.
+
+## Скорость разработки
+
+**Скорость разработки** с Tailwind CSS обеспечивает быстрое прототипирование, используя утилитарные классы как \`flex items-center justify-between\`, в то время как **Автоматизированное извлечение** трансформирует эти утилиты в семантические классы как \`.header-navigation\` и \`.button-primary\`.
+
+## Class Variance Authority (CVA)
+
+**Class Variance Authority (CVA)** паттерны обеспечивают мост между утилитарным хаосом и семантической ясностью, генерируя типобезопасные варианты компонентов, которые компилируются в чистый CSS.
+
+\`\`\`typescript
+import { cva } from "class-variance-authority";
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input hover:bg-accent hover:text-accent-foreground",
+      },
+      size: {
+        default: "h-10 py-2 px-4",
+        sm: "h-9 px-3 rounded-md",
+        lg: "h-11 px-8 rounded-md",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
+\`\`\`
+
+## Оптимизация для продакшена
+
+**Оптимизация для продакшена** приводит к меньшим размерам бандлов, улучшенным показателям Core Web Vitals и лучшему соответствию требованиям доступности.
+
+## Фреймворк-агностический вывод
+
+**Фреймворк-агностический вывод** означает, что ваш семантический HTML5 и CSS отлично работают в React, Vue, Angular или vanilla JavaScript окружениях.
+
+Этот подход устраняет традиционный компромисс между опытом разработчика и качеством кода - вы получаете и то, и другое.
+`
+  }
+];
+
 export function QuickStart({
   onLoadExample,
   variant = 'full',
@@ -180,6 +337,7 @@ export function QuickStart({
   className,
   examples
 }: QuickStartProps) {
+  const { currentLang } = useLanguage();
   let contextQuickStart = null;
   try {
     contextQuickStart = useQuickStart();
@@ -187,8 +345,8 @@ export function QuickStart({
     // context unknown
   }
 
-  // Use external examples or default
-  const exampleFiles = examples || defaultExampleFiles;
+  // Use external examples or default based on language
+  const exampleFiles = examples || (currentLang === 'ru' ? defaultExampleFilesRu : defaultExampleFiles);
 
   const handleLoadExample = (example: typeof exampleFiles[0]) => {
     const loadFn = onLoadExample || contextQuickStart?.onLoadExample;
@@ -284,13 +442,13 @@ export function QuickStart({
             'text-lg font-medium mb-2',
             'text-foreground'
           )}>
-            Select a file for editing
+            {__('Select a file for editing')}
           </h3>
           <p className={cn(
             'text-sm',
             'text-muted-foreground'
           )}>
-            Load a .md or .mdx file to start working
+            {__('Load a .md or .mdx file to start working')}
           </p>
         </div>
       )}
@@ -312,13 +470,13 @@ export function QuickStart({
                 'text-sm font-medium mb-1',
                 'text-secondary-foreground'
               )}>
-                Desktop Required
+                {__('Desktop Required')}
               </p>
               <p className={cn(
                 'text-sm leading-relaxed',
                 'text-secondary-foreground'
               )}>
-                EditorY is optimized for desktop use. Please access this editor from a computer for the best experience with keyboard shortcuts and split-screen features.
+                {__('EditorY is optimized for desktop use. Please access this editor from a computer for the best experience with keyboard shortcuts and split-screen features.')}
               </p>
             </div>
           </div>

@@ -1,10 +1,13 @@
 import { cn } from '../utils';
+import { useLanguage, __ } from '../i18n';
 
 interface InfoPanelProps {
   onClose: () => void;
 }
 
 export function InfoPanel({ onClose }: InfoPanelProps) {
+  const { __ } = useLanguage();
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className={cn(
@@ -23,7 +26,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-xl font-semibold',
               'text-foreground'
             )}>
-              Rich Editor - Instructions
+              {__('Rich Editor - Instructions')}
             </h2>
             <button
               onClick={onClose}
@@ -49,7 +52,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-lg font-semibold mb-3',
               'text-foreground'
             )}>
-              Main features
+              {__('Main features')}
             </h3>
             <ul className={cn(
               'space-y-2 text-sm',
@@ -57,31 +60,31 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
             )}>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Editing Markdown and MDX files with rich-text interface</span>
+                <span>{__('Editing Markdown and MDX files with rich-text interface')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Managing article metadata (title, slug, excerpt, categories)</span>
+                <span>{__('Managing article metadata (title, slug, excerpt, categories)')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Full-screen preview with MDX rendering</span>
+                <span>{__('Full-screen preview with MDX rendering')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Switching between multiple files</span>
+                <span>{__('Switching between multiple files')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Automatic saving in context.json and menu.json</span>
+                <span>{__('Automatic saving in context.json and menu.json')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Export to MDX format</span>
+                <span>{__('Export to MDX format')}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary mt-1">✓</span>
-                <span>Dark and light themes</span>
+                <span>{__('Dark and light themes')}</span>
               </li>
             </ul>
           </section>
@@ -92,18 +95,18 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-lg font-semibold mb-3',
               'text-foreground'
             )}>
-              Quick start
+              {__('Quick start')}
             </h3>
             <ol className={cn(
               'space-y-2 text-sm list-decimal list-inside',
               'text-muted-foreground'
             )}>
-              <li>Drag and drop .md or .mdx files to the left panel or use the "Upload" button</li>
-              <li>Select a file for editing from the list</li>
-              <li>Use the toolbar to format text</li>
-              <li>Fill in the metadata in the right panel (or switch to the "Metadata" view)</li>
-              <li>Click "Preview" for full-screen view</li>
-              <li>Use "Save" to save a single file or "Update" to update all data</li>
+              <li>{__('Drag and drop .md or .mdx files to the left panel or use the "Upload" button')}</li>
+              <li>{__('Select a file for editing from the list')}</li>
+              <li>{__('Use the toolbar to format text')}</li>
+              <li>{__('Fill in the metadata in the right panel (or switch to the "Metadata" view)')}</li>
+              <li>{__('Click "Preview" for full-screen view')}</li>
+              <li>{__('Use "Save" to save a single file or "Update" to update all data')}</li>
             </ol>
           </section>
 
@@ -113,23 +116,23 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-lg font-semibold mb-3',
               'text-foreground'
             )}>
-              Automatic functions
+              {__('Automatic functions')}
             </h3>
             <div className={cn(
               'space-y-3 text-sm',
               'text-white dark:text-secondary-foreground'
             )}>
               <div className="p-3 rounded-lg bg-accent border border-border">
-                <strong className="text-accent-foreground">Slug auto-generation:</strong>
-                <p className="mt-1">If slug is not specified, it is automatically generated from the title</p>
+                <strong className="text-accent-foreground">{__('Slug auto-generation:')}</strong>
+                <p className="mt-1">{__('If slug is not specified, it is automatically generated from the title')}</p>
               </div>
               <div className="p-3 rounded-lg bg-accent border border-border">
-                <strong className="text-accent-foreground">Excerpt auto-generation:</strong>
-                <p className="mt-1">If excerpt is not specified, it is automatically generated from the first 160 characters of the content</p>
+                <strong className="text-accent-foreground">{__('Excerpt auto-generation:')}</strong>
+                <p className="mt-1">{__('If excerpt is not specified, it is automatically generated from the first 160 characters of the content')}</p>
               </div>
               <div className="p-3 rounded-lg bg-accent border border-border">
-                <strong className="text-accent-foreground">ID auto-generation:</strong>
-                <p className="mt-1">Each file is automatically assigned a unique ID</p>
+                <strong className="text-accent-foreground">{__('ID auto-generation:')}</strong>
+                <p className="mt-1">{__('Each file is automatically assigned a unique ID')}</p>
               </div>
             </div>
           </section>
@@ -140,7 +143,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-lg font-semibold mb-3',
               'text-foreground'
             )}>
-              Saving data
+              {__('Saving data')}
             </h3>
             <div className={cn(
               'p-4 rounded-lg',
@@ -151,7 +154,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
                 'text-sm mb-2',
                 'text-muted-foreground'
               )}>
-                In the current version, data is saved in the browser's localStorage:
+                {__('In the current version, data is saved in the browser\'s localStorage:')}
               </p>
               <ul className={cn(
                 'space-y-1 text-sm',
@@ -163,7 +166,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               <p className={cn(
                 'text-xs mt-2 text-secondary-foreground'
               )}>
-                In the production version, data will be saved in the files src/~data/context.json and src/~data/menu.json
+                {__('In the production version, data will be saved in the files src/~data/context.json and src/~data/menu.json')}
               </p>
             </div>
           </section>
@@ -174,7 +177,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-lg font-semibold mb-3',
               'text-foreground'
             )}>
-              Hotkeys
+              {__('Hotkeys')}
             </h3>
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="space-y-2">
@@ -220,7 +223,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
               'text-xs',
               'text-muted-foreground'
             )}>
-              Rich Editor v1.0.0 - Powered by TipTap & MDX
+              {__('Rich Editor v.0.0.1 - Powered by TipTap & MDX')}
             </span>
             <button
               onClick={onClose}
@@ -232,7 +235,7 @@ export function InfoPanel({ onClose }: InfoPanelProps) {
                 'transition-colors'
               )}
             >
-              I understand
+              {__('I understand')}
             </button>
           </div>
         </div>

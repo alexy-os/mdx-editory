@@ -14,7 +14,7 @@ import { Aside } from '@ui8kit/components/aside';
 import { cn } from '@/lib/utils';
 
 import { renderContext } from '@/data';
-import { quickStartExamples } from '@/data/examples/welcome';
+//import { quickStartExamples } from '@/data/examples/welcome';
 
 import {
   RichEditor,
@@ -262,7 +262,7 @@ export const EditoryLayout = () => {
                             }
                             items={[
                               {
-                                id: 'view-mode',
+                                id: 'view-mode', 
                                 label: viewMode === 'visual' ? __('View mode: Visual') : __('View mode: Markdown'),
                                 onClick: handleViewModeToggle,
                                 variant: 'default',
@@ -286,6 +286,30 @@ export const EditoryLayout = () => {
                                 )
                               },
                               {
+                                id: 'import',
+                                label: __('Import Context'),
+                                onClick: handleImport,
+                                variant: 'success' as const,
+                                title: 'Import context.json and clear localStorage',
+                                icon: (
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l3-3m0 0l-3-3m3 3H3m15 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m15-4V7a2 2 0 00-2-2H7a2 2 0 00-2 2v3" />
+                                  </svg>
+                                )
+                              },
+                              {
+                                id: 'export',
+                                label: __('Export Context'),
+                                onClick: handleExport,
+                                variant: 'success' as const,
+                                title: 'Export context.json from localStorage',
+                                icon: (
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                  </svg>
+                                )
+                              },
+                              {
                                 id: 'save',
                                 label: __('Save MDX'),
                                 onClick: handleSave,
@@ -298,32 +322,8 @@ export const EditoryLayout = () => {
                                 )
                               },
                               {
-                                id: 'export',
-                                label: 'Export Context',
-                                onClick: handleExport,
-                                variant: 'success' as const,
-                                title: 'Export context.json from localStorage',
-                                icon: (
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                  </svg>
-                                )
-                              },
-                              {
-                                id: 'import',
-                                label: 'Import Context',
-                                onClick: handleImport,
-                                variant: 'success' as const,
-                                title: 'Import context.json and clear localStorage',
-                                icon: (
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l3-3m0 0l-3-3m3 3H3m15 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2m15-4V7a2 2 0 00-2-2H7a2 2 0 00-2 2v3" />
-                                  </svg>
-                                )
-                              },
-                              {
                                 id: 'update',
-                                label: 'Update',
+                                label: __('Update'),
                                 onClick: actions.saveAllData,
                                 variant: 'warning' as const,
                                 title: 'Update context.json and menu.json',
@@ -343,6 +343,11 @@ export const EditoryLayout = () => {
                                 },
                                 variant: 'danger' as const,
                                 title: __('Clear localStorage and reset editor'),
+                                icon: (
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m16 22-1-4"/><path d="M19 13.99a1 1 0 0 0 1-1V12a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v.99a1 1 0 0 0 1 1"/><path d="M5 14h14l1.973 6.767A1 1 0 0 1 20 22H4a1 1 0 0 1-.973-1.233z"/><path d="m8 22 1-4"/>
+                                  </svg>
+                                )
                               }
                             ]}
                           />
@@ -445,7 +450,7 @@ export const EditoryLayout = () => {
                             variant="cards"
                             className="flex-1 mt-8 w-full max-w-4xl"
                             showHeader={false}
-                            examples={quickStartExamples}
+                            //examples={quickStartExamples}
                           />
                         </div>
                       </>
