@@ -26,7 +26,7 @@ export const FileDropdown: React.FC<FileDropdownProps> = ({
       >
         <FileText size={16} />
         <span className="text-sm font-medium">
-          {currentFile ? (currentFile.frontmatter?.title || currentFile.name) : 'Выберите файл'}
+          {currentFile ? (currentFile.frontmatter?.title || currentFile.name) : 'Add file'}
         </span>
         <ChevronDown size={16} />
       </button>
@@ -43,7 +43,7 @@ export const FileDropdown: React.FC<FileDropdownProps> = ({
           >
             <Plus size={16} className="text-green-600 dark:text-green-400" />
             <span className="text-sm font-medium text-green-600 dark:text-green-400">
-              Создать новую запись
+            {__('Create New Post')}
             </span>
           </button>
 
@@ -80,7 +80,7 @@ export const FileDropdown: React.FC<FileDropdownProps> = ({
             </div>
           ) : (
             <div className="px-3 py-4 text-sm text-muted-foreground text-center">
-              Нет загруженных файлов
+              Not found files
             </div>
           )}
         </div>

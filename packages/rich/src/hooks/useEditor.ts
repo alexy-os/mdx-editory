@@ -361,18 +361,18 @@ export function useEditor() {
   const createNewPost = useCallback(() => {
     const newPostId = generateId().toString();
     const currentDate = new Date();
-    const defaultTitle = `Новая запись ${state.files.length + 1}`;
+    const defaultTitle = `New post ${state.files.length + 1}`;
     
     const newFile: EditorFile = {
       id: newPostId,
       name: `new-post-${newPostId.slice(0, 8)}.mdx`,
       path: `new-post-${newPostId.slice(0, 8)}.mdx`,
-      htmlContent: '<p>Начните писать вашу новую запись...</p>',
-      markdownContent: 'Начните писать вашу новую запись...',
+      htmlContent: '<p>Create new post...</p>',
+      markdownContent: 'Create new post...',
       frontmatter: {
         title: defaultTitle,
         slug: generateSlug(defaultTitle),
-        excerpt: 'Новая запись создана в редакторе',
+        excerpt: '',
         id: parseInt(newPostId),
         date: formatDate(currentDate),
         status: 'draft',

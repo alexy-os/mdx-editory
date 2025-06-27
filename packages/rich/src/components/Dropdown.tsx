@@ -37,7 +37,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       >
         <FileText size={16} />
         <span className="text-sm font-medium">
-          {currentFile ? currentFile.name : 'Выберите файл'}
+          {currentFile ? currentFile.name : 'Include File'}
         </span>
         <ChevronDown size={16} />
       </button>
@@ -54,7 +54,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           >
             <Plus size={16} className="text-green-600 dark:text-green-400" />
             <span className="text-sm font-medium text-green-600 dark:text-green-400">
-              Создать новую запись
+            {__('Create New Post')}
             </span>
           </button>
 
@@ -89,7 +89,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             </div>
           ) : (
             <div className="px-3 py-4 text-sm text-gray-500 dark:text-gray-400 text-center">
-              Нет загруженных файлов
+              Is not files upload
             </div>
           )}
         </div>
