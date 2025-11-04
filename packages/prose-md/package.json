@@ -1,0 +1,57 @@
+{
+  "name": "@editory/prose-md",
+  "version": "1.0.0",
+  "description": "Convert HTML prose content from JSON to Markdown files using Editory Rich converters",
+  "type": "module",
+  "main": "./dist/prose-md.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/prose-md.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "prose-md": "./cli.js"
+  },
+  "files": [
+    "dist",
+    "cli.js",
+    "README.md",
+    "config.example.json"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "help": "node cli.js --help",
+    "init": "node cli.js --init",
+    "convert": "node cli.js"
+  },
+  "dependencies": {
+    "@editory/rich": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vite-node": "^2.1.3"
+  },
+  "keywords": [
+    "editory",
+    "markdown",
+    "converter",
+    "html-to-markdown",
+    "prose",
+    "cli"
+  ],
+  "author": {
+    "name": "buildy-ui",
+    "url": "https://github.com/buildy-ui/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buildy-ui/editory.git"
+  }
+}
