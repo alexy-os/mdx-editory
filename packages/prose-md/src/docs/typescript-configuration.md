@@ -1,7 +1,7 @@
 ---
 {
   "title": "TypeScript Configuration",
-  "generatedAt": "2025-11-04T09:53:49.301Z"
+  "generatedAt": "2025-11-04T11:57:49.067Z"
 }
 ---
 
@@ -10,7 +10,6 @@
 Relevant source files
 
 - [package.json](https://github.com/ui8kit/core/blob/2afe2195/package.json)
-
 - [tsconfig.json](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json)
 
 This document provides a detailed explanation of the TypeScript configuration in `@ui8kit/core`, covering compilation settings, type generation, path aliases, and module resolution. The configuration is defined in [tsconfig.json1-26](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L1-L26) and integrates with the build system documented in [Build System](#3.6).
@@ -25,4 +24,590 @@ The TypeScript configuration serves three primary functions: compiling source co
 
 **Diagram: TypeScript Compilation Pipeline**
 
+```
 Output Artifacts
+
+Build Process
+
+tsconfig.json Settings
+
+Source Files
+
+src/core/ui/*.tsx
+Primitive components
+
+src/components/ui/*.tsx
+Composite components
+
+src/layouts/*.tsx
+Layout templates
+
+src/core/variants/*.ts
+CVA variant definitions
+
+src/themes/**/*.tsx
+Theme system
+
+src/index.ts
+Main entry point
+
+rootDir: 'src'
+Source root directory
+
+outDir: './dist'
+Output directory
+
+target: 'ES2022'
+ECMAScript version
+
+module: 'ES2022'
+Module system
+
+declaration: true
+Generate .d.ts files
+
+declarationDir: './dist'
+Type definition output
+
+strict: true
+All strict checks enabled
+
+paths: @/* and @ui8kit/core
+Path alias mappings
+
+tsc -p tsconfig.json
+TypeScript compiler
+
+tsc --noEmit
+Type validation only
+
+dist/index.js
+Compiled JavaScript
+
+dist/index.d.ts
+Type definitions
+
+dist/components/**/*.js
+Component modules
+
+dist/components/**/*.d.ts
+Component types
+```
+
+**Sources**: [tsconfig.json1-26](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L1-L26) [package.json22-25](https://github.com/ui8kit/core/blob/2afe2195/package.json#L22-L25)
+
+---
+
+## Compilation Target Settings
+
+The configuration targets modern JavaScript environments with ES2022 output, avoiding transpilation of recent language features while maintaining broad compatibility.
+
+**Compilation Settings Table**
+
+| Setting            | Value                         | Purpose                                         | Line Reference                                                                        |
+| ------------------ | ----------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `target`           | `ES2022`                      | Compile to ECMAScript 2022 syntax               | [tsconfig.json5](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L5-L5)    |
+| `module`           | `ES2022`                      | Use ES2022 module system                        | [tsconfig.json6](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L6-L6)    |
+| `lib`              | `["DOM", "ESNext", "ES2022"]` | Include DOM APIs and latest JavaScript features | [tsconfig.json14](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L14-L14) |
+| `jsx`              | `react-jsx`                   | Use React 17+ automatic JSX runtime             | [tsconfig.json15](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L15-L15) |
+| `moduleResolution` | `Bundler`                     | Modern bundler-compatible resolution            | [tsconfig.json7](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L7-L7)    |
+
+### Target: ES2022
+
+The `target: "ES2022"` setting [tsconfig.json5](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L5-L5) compiles TypeScript to ECMAScript 2022, which includes:
+
+- Top-level await
+- Class fields and private methods
+- Static initialization blocks
+- Error cause property
+- `at()` method for arrays
+
+This assumes consumers use modern browsers or Node.js 16+ environments.
+
+### Module System: ES2022
+
+The `module: "ES2022"` setting [tsconfig.json6](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L6-L6) generates ES modules with `.js` extensions, enabling tree-shaking in consumer applications. This aligns with the `"type": "module"` declaration in [package.json8](https://github.com/ui8kit/core/blob/2afe2195/package.json#L8-L8)
+
+### Module Resolution: Bundler
+
+The `moduleResolution: "Bundler"` setting [tsconfig.json7](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L7-L7) uses bundler-specific resolution that supports:
+
+- Extensionless imports (`import { Button } from "./Button"`)
+- Package exports field resolution
+- Conditional exports for different environments
+- Subpath patterns
+
+This works seamlessly with modern bundlers like Vite, Webpack 5, and esbuild.
+
+**Sources**: [tsconfig.json5-7](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L5-L7) [tsconfig.json14-15](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L14-L15) [package.json8](https://github.com/ui8kit/core/blob/2afe2195/package.json#L8-L8)
+
+---
+
+## Type System Configuration
+
+The configuration enables all strict type checking options and generates declaration files for IDE integration.
+
+**Type System Settings Table**
+
+| Setting           | Value    | Purpose                                    | Line Reference                                                                        |
+| ----------------- | -------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `strict`          | `true`   | Enable all strict type checks              | [tsconfig.json8](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L8-L8)    |
+| `declaration`     | `true`   | Generate `.d.ts` type declarations         | [tsconfig.json17](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L17-L17) |
+| `declarationDir`  | `./dist` | Output directory for type definitions      | [tsconfig.json18](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L18-L18) |
+| `composite`       | `true`   | Enable project references                  | [tsconfig.json16](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L16-L16) |
+| `skipLibCheck`    | `true`   | Skip type checking of declaration files    | [tsconfig.json10](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L10-L10) |
+| `esModuleInterop` | `true`   | Enable CommonJS/ES module interoperability | [tsconfig.json9](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L9-L9)    |
+
+### Strict Mode
+
+The `strict: true` flag [tsconfig.json8](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L8-L8) enables all strict type checking options:
+
+- `strictNullChecks`: Null and undefined are not assignable to other types
+- `strictFunctionTypes`: Function parameters are checked contravariantly
+- `strictBindCallApply`: Type-check `bind`, `call`, and `apply` methods
+- `strictPropertyInitialization`: Class properties must be initialized
+- `noImplicitAny`: Variables must have explicit types
+- `noImplicitThis`: `this` expressions require explicit type
+- `alwaysStrict`: Parse in strict mode and emit `"use strict"`
+
+This prevents common errors and ensures type safety across the component library.
+
+### Declaration Generation
+
+The `declaration: true` setting [tsconfig.json17](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L17-L17) generates `.d.ts` files alongside compiled JavaScript. These type definitions:
+
+- Enable IDE autocomplete for all exported components
+- Provide inline documentation from JSDoc comments
+- Support type checking in consumer TypeScript projects
+- Power the `"types": "./dist/index.d.ts"` entry in [package.json32](https://github.com/ui8kit/core/blob/2afe2195/package.json#L32-L32)
+
+**Diagram: Type Definition Generation Flow**
+
+```
+Consumer Usage
+
+Generated Artifacts
+
+Compiler Processing
+
+Source TypeScript
+
+*.tsx components
+with JSDoc comments
+
+*.ts utilities
+with type exports
+
+interface declarations
+export type ButtonProps
+
+tsc --declaration
+Extract type information
+
+Parse JSDoc comments
+Convert to type annotations
+
+dist/**/*.d.ts
+Type declaration files
+
+dist/index.d.ts
+Main type entry point
+
+VSCode IntelliSense
+Autocomplete props
+
+tsc type checking
+in consumer projects
+
+IDE hover tooltips
+Show documentation
+```
+
+### Composite Projects
+
+The `composite: true` flag [tsconfig.json16](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L16-L16) enables TypeScript project references, which:
+
+- Allow faster incremental builds
+- Enable dependency graphs between TypeScript projects
+- Support monorepo architectures documented in [SUBMODULE\_GUIDE.md](https://github.com/ui8kit/core/blob/2afe2195/SUBMODULE_GUIDE.md)
+
+**Sources**: [tsconfig.json8-10](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L8-L10) [tsconfig.json16-18](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L16-L18) [package.json32](https://github.com/ui8kit/core/blob/2afe2195/package.json#L32-L32)
+
+---
+
+## Path Alias Configuration
+
+Path aliases enable clean imports using `@/` prefix and `@ui8kit/core` package reference.
+
+**Path Alias Settings**
+
+```
+// From tsconfig.json:20-24
+{
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["./src/*"],
+    "@ui8kit/core": ["./src/index"]
+  }
+}
+```
+
+### Base URL
+
+The `baseUrl: "."` setting [tsconfig.json20](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L20-L20) establishes the project root as the base for all non-relative imports. This enables path resolution relative to the repository root.
+
+### Path Mappings
+
+The `paths` object [tsconfig.json21-24](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L21-L24) defines two alias patterns:
+
+**Alias Table**
+
+| Alias Pattern  | Resolves To   | Usage Example                                     | Purpose                  |
+| -------------- | ------------- | ------------------------------------------------- | ------------------------ |
+| `@/*`          | `./src/*`     | `import { Button } from "@/components/ui/Button"` | Internal source imports  |
+| `@ui8kit/core` | `./src/index` | `import { Button } from "@ui8kit/core"`           | Main package entry point |
+
+### Internal Imports: `@/*`
+
+The `@/*` alias maps to `./src/*` [tsconfig.json22](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L22-L22) enabling imports like:
+
+- `import { Block } from "@/core/ui/Block"`
+- `import { spacingVariants } from "@/core/variants/spacing"`
+- `import { ThemeProvider } from "@/themes/providers/ThemeProvider"`
+
+This eliminates brittle relative paths (`../../../core/ui/Block`) and makes refactoring safer.
+
+### Package Entry Point: `@ui8kit/core`
+
+The `@ui8kit/core` alias maps to `./src/index` [tsconfig.json23](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L23-L23) allowing internal files to import from the package as consumers would. This is useful in:
+
+- Example code and documentation
+- Testing component composition
+- Verifying the public API surface
+
+**Diagram: Path Resolution Flow**
+
+```
+Runtime Module Resolution
+
+Resolved File Paths
+
+Path Resolution (tsconfig.json paths)
+
+Import Statements
+
+import { Button } from '@/components/ui/Button'
+
+import { Block } from '@/core/ui/Block'
+
+import { spacingVariants } from '@/core/variants/spacing'
+
+import { ThemeProvider } from '@ui8kit/core'
+
+baseUrl: '.'
+Project root reference
+
+@/* → ./src/*
+Internal source mapping
+
+@ui8kit/core → ./src/index
+Package entry point
+
+./src/components/ui/Button.tsx
+
+./src/core/ui/Block.tsx
+
+./src/core/variants/spacing.ts
+
+./src/index.ts
+
+dist/index.js
+Compiled package entry
+
+dist/components/ui/Button.js
+Compiled component
+```
+
+**Sources**: [tsconfig.json20-24](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L20-L24)
+
+---
+
+## Build Output Configuration
+
+The configuration controls where compiled files and type definitions are written.
+
+**Output Settings Table**
+
+| Setting          | Value    | Purpose                    | Line Reference                                                                        |
+| ---------------- | -------- | -------------------------- | ------------------------------------------------------------------------------------- |
+| `rootDir`        | `src`    | Source directory root      | [tsconfig.json13](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L13-L13) |
+| `outDir`         | `./dist` | Compiled JavaScript output | [tsconfig.json19](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L19-L19) |
+| `declarationDir` | `./dist` | Type definition output     | [tsconfig.json18](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L18-L18) |
+
+### Root Directory
+
+The `rootDir: "src"` setting [tsconfig.json13](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L13-L13) establishes `src/` as the root for compilation. This ensures the output directory structure mirrors the source:
+
+```
+src/
+├── index.ts              → dist/index.js + dist/index.d.ts
+├── core/
+│   └── ui/
+│       └── Block.tsx     → dist/core/ui/Block.js + dist/core/ui/Block.d.ts
+└── components/
+    └── ui/
+        └── Button.tsx    → dist/components/ui/Button.js + dist/components/ui/Button.d.ts
+```
+
+### Output Directory
+
+The `outDir: "./dist"` setting [tsconfig.json19](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L19-L19) writes compiled JavaScript to `dist/`. This directory is:
+
+- Included in NPM package via `"files": ["dist/**/*"]` in [package.json39-43](https://github.com/ui8kit/core/blob/2afe2195/package.json#L39-L43)
+- Referenced by `"main": "./dist/index.js"` in [package.json31](https://github.com/ui8kit/core/blob/2afe2195/package.json#L31-L31)
+- Excluded from version control via `.gitignore`
+- Generated by the `npm run build` script in [package.json22](https://github.com/ui8kit/core/blob/2afe2195/package.json#L22-L22)
+
+### Declaration Directory
+
+The `declarationDir: "./dist"` setting [tsconfig.json18](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L18-L18) writes `.d.ts` files alongside `.js` files in the same directory structure. This colocation:
+
+- Simplifies package distribution (single `dist/` folder)
+- Matches consumer expectations for type locations
+- Enables the `"types": "./dist/index.d.ts"` entry in [package.json32](https://github.com/ui8kit/core/blob/2afe2195/package.json#L32-L32)
+
+**Sources**: [tsconfig.json13](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L13-L13) [tsconfig.json18-19](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L18-L19) [package.json31-32](https://github.com/ui8kit/core/blob/2afe2195/package.json#L31-L32) [package.json39-43](https://github.com/ui8kit/core/blob/2afe2195/package.json#L39-L43)
+
+---
+
+## Include and Exclude Patterns
+
+The configuration specifies which files to compile and which to ignore.
+
+**File Pattern Settings**
+
+```
+// From tsconfig.json:2-3
+{
+  "include": ["./src"],
+  "exclude": ["./lib", "./dist"]
+}
+```
+
+### Include Pattern
+
+The `include: ["./src"]` setting [tsconfig.json2](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L2-L2) compiles all TypeScript files within the `src/` directory:
+
+- `src/**/*.ts` - All TypeScript files
+- `src/**/*.tsx` - All React component files
+- `src/**/*.json` - JSON modules (via `resolveJsonModule: true`)
+
+This captures:
+
+- Core primitives in `src/core/ui/`
+- Variant definitions in `src/core/variants/`
+- UI components in `src/components/ui/`
+- Layout templates in `src/layouts/`
+- Theme system in `src/themes/`
+- Registry metadata in `src/registry.json`
+
+### Exclude Pattern
+
+The `exclude: ["./lib", "./dist"]` setting [tsconfig.json3](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L3-L3) prevents compilation of:
+
+- `./lib/` - Generated artifacts like `core-classes.json` documented in [Build System](#3.6)
+- `./dist/` - Previously compiled output to avoid recursive compilation
+
+**Sources**: [tsconfig.json2-3](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L2-L3)
+
+---
+
+## Special Compiler Options
+
+Several additional options configure TypeScript's behavior for specific use cases.
+
+**Special Options Table**
+
+| Setting             | Value                  | Purpose                    | Line Reference                                                                        |
+| ------------------- | ---------------------- | -------------------------- | ------------------------------------------------------------------------------------- |
+| `types`             | `["bun-types"]`        | Include Bun runtime types  | [tsconfig.json11](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L11-L11) |
+| `resolveJsonModule` | `true`                 | Allow importing JSON files | [tsconfig.json12](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L12-L12) |
+| `esModuleInterop`   | `true`                 | Enable CommonJS interop    | [tsconfig.json9](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L9-L9)    |
+| `skipLibCheck`      | `true`                 | Skip library type checking | [tsconfig.json10](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L10-L10) |
+| `sideEffects`       | `false` (package.json) | Enable tree-shaking        | [package.json30](https://github.com/ui8kit/core/blob/2afe2195/package.json#L30-L30)   |
+
+### Bun Runtime Types
+
+The `types: ["bun-types"]` setting [tsconfig.json11](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L11-L11) includes type definitions for the Bun runtime. This enables:
+
+- Type checking for Bun-specific APIs
+- Support for `bun` commands in scripts like `bunx buildy-ui@latest scan` in [package.json26](https://github.com/ui8kit/core/blob/2afe2195/package.json#L26-L26)
+- Development with Bun's fast TypeScript transpiler
+
+The `bun-types` dependency is declared in [package.json62](https://github.com/ui8kit/core/blob/2afe2195/package.json#L62-L62)
+
+### JSON Module Resolution
+
+The `resolveJsonModule: true` setting [tsconfig.json12](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L12-L12) allows importing JSON files as typed modules:
+
+```
+// Import registry metadata with types
+import registry from "@/registry.json";
+
+// TypeScript infers type from JSON structure
+const component = registry.registry.find(c => c.name === "button");
+```
+
+This is used to import `src/registry.json` throughout the codebase, as documented in [Component Registry](#3.7).
+
+### CommonJS Interoperability
+
+The `esModuleInterop: true` setting [tsconfig.json9](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L9-L9) enables seamless imports of CommonJS modules in ES module syntax:
+
+```
+// Works even if package uses module.exports
+import cva from "class-variance-authority";
+```
+
+This is essential for compatibility with dependencies like `class-variance-authority` and `clsx` declared in [package.json48-53](https://github.com/ui8kit/core/blob/2afe2195/package.json#L48-L53)
+
+### Library Type Checking
+
+The `skipLibCheck: true` setting [tsconfig.json10](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L10-L10) skips type checking of `.d.ts` files in `node_modules/`. This:
+
+- Speeds up compilation significantly
+- Avoids errors from incompatible library types
+- Focuses type checking on project source code
+
+The library declares peer dependencies for React 18/19 in [package.json55-58](https://github.com/ui8kit/core/blob/2afe2195/package.json#L55-L58) relying on consumer projects to provide compatible versions.
+
+**Sources**: [tsconfig.json9-12](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L9-L12) [package.json30](https://github.com/ui8kit/core/blob/2afe2195/package.json#L30-L30) [package.json48-53](https://github.com/ui8kit/core/blob/2afe2195/package.json#L48-L53) [package.json55-58](https://github.com/ui8kit/core/blob/2afe2195/package.json#L55-L58) [package.json62](https://github.com/ui8kit/core/blob/2afe2195/package.json#L62-L62)
+
+---
+
+## Integration with Build Scripts
+
+The TypeScript configuration integrates with several build scripts defined in `package.json`.
+
+**Build Script Integration Diagram**
+
+```
+Output/Validation
+
+tsconfig.json Settings Applied
+
+TypeScript Compiler Modes
+
+npm Scripts (package.json)
+
+npm run build
+tsc -p tsconfig.json
+
+npm run type-check
+tsc --noEmit
+
+npm run lint
+eslint src --ext .ts,.tsx
+
+npm run lint:fix
+eslint src --ext .ts,.tsx --fix
+
+Full Compilation
+Generate .js + .d.ts
+
+Type Validation Only
+No output files
+
+All 20+ settings
+from tsconfig.json
+
+Strict type checks
+strict: true
+
+Declaration generation
+declaration: true
+
+Path resolution
+@/* and @ui8kit/core
+
+dist/
+Compiled modules
+
+Type errors reported
+Exit code 1 on error
+
+ESLint errors
+Coding standards
+```
+
+### Build Script
+
+The `npm run build` command [package.json22](https://github.com/ui8kit/core/blob/2afe2195/package.json#L22-L22) executes:
+
+```
+tsc -p tsconfig.json
+```
+
+This:
+
+1. Reads all settings from `tsconfig.json`
+2. Compiles `src/**/*.ts` and `src/**/*.tsx` to `dist/`
+3. Generates `.d.ts` type definitions in `dist/`
+4. Applies path alias transformations
+5. Enables strict type checking
+6. Exits with code 1 if any type errors are found
+
+The output is consumed by the NPM package distribution documented in [Package Structure](#3.5).
+
+### Type Check Script
+
+The `npm run type-check` command [package.json23](https://github.com/ui8kit/core/blob/2afe2195/package.json#L23-L23) executes:
+
+```
+tsc --noEmit
+```
+
+The `--noEmit` flag:
+
+- Performs full type checking without generating files
+- Validates types in local development
+- Runs faster than full compilation
+- Useful in CI/CD pipelines before deployment
+
+This script verifies type safety without the overhead of emitting JavaScript.
+
+### Lint Script Integration
+
+The `npm run lint` command [package.json24](https://github.com/ui8kit/core/blob/2afe2195/package.json#L24-L24) runs ESLint on TypeScript files:
+
+```
+eslint src --ext .ts,.tsx
+```
+
+ESLint respects the TypeScript configuration through:
+
+- Understanding path aliases defined in `tsconfig.json`
+- Parsing TypeScript syntax (`.ts`, `.tsx` extensions)
+- Accessing type information for advanced linting rules
+
+The `npm run lint:fix` variant [package.json25](https://github.com/ui8kit/core/blob/2afe2195/package.json#L25-L25) automatically fixes fixable issues.
+
+**Sources**: [package.json22-25](https://github.com/ui8kit/core/blob/2afe2195/package.json#L22-L25) [tsconfig.json1-26](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L1-L26)
+
+---
+
+## Summary
+
+The TypeScript configuration in `@ui8kit/core` establishes a modern, type-safe build pipeline:
+
+1. **Compilation Target**: ES2022 modules with bundler-friendly resolution
+2. **Type Generation**: Full declaration files (`.d.ts`) for IDE integration
+3. **Strict Checking**: All strict mode options enabled for type safety
+4. **Path Aliases**: `@/*` for internal imports, `@ui8kit/core` for package reference
+5. **Output Structure**: `dist/` directory mirroring `src/` structure
+6. **JSON Support**: Import registry metadata as typed modules
+7. **Build Integration**: Scripts for compilation, type checking, and linting
+
+This configuration supports the three-layer architecture documented in [Architecture](#3) while enabling multiple distribution methods described in [Package Structure](#3.5).
+
+**Sources**: [tsconfig.json1-26](https://github.com/ui8kit/core/blob/2afe2195/tsconfig.json#L1-L26) [package.json22-25](https://github.com/ui8kit/core/blob/2afe2195/package.json#L22-L25) [package.json30-43](https://github.com/ui8kit/core/blob/2afe2195/package.json#L30-L43)

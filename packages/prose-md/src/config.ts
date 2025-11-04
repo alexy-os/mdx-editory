@@ -18,6 +18,7 @@ export const DEFAULT_CONFIG: ConversionConfig = {
       },
     ],
     strict: true,
+    skipTags: ['svg'],
   },
   conversion: {
     preserveFrontmatter: true,
@@ -88,6 +89,7 @@ function mergeConfigs(defaults: ConversionConfig, userConfig: Partial<Conversion
       enabled: userConfig.validation?.enabled ?? defaults.validation.enabled,
       patterns: userConfig.validation?.patterns ?? defaults.validation.patterns,
       strict: userConfig.validation?.strict ?? defaults.validation.strict,
+      skipTags: userConfig.validation?.skipTags ?? defaults.validation.skipTags,
     },
     conversion: {
       preserveFrontmatter: userConfig.conversion?.preserveFrontmatter ?? defaults.conversion.preserveFrontmatter,
@@ -147,6 +149,10 @@ export function validateConfig(config: ConversionConfig): { isValid: boolean; er
     if (!pattern.pattern) {
       errors.push('Validation pattern: pattern is required');
     }
+  }
+
+  if (config.validation.skipTags && !Array.isArray(config.validation.skipTags)) {
+    errors.push('validation.skipTags must be an array of strings when provided');
   }
 
   return {

@@ -15,6 +15,7 @@ export interface ConversionConfig {
     enabled: boolean;
     patterns: ValidationPattern[];
     strict: boolean; // If true, all patterns must match
+    skipTags?: string[]; // Tags to skip during AST traversal (e.g., ['svg'])
   };
   
   // Conversion options

@@ -1,5 +1,10 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { unified } from 'unified';
+import rehypeParse from 'rehype-parse';
+import rehypeRemark from 'rehype-remark';
+import remarkGfm from 'remark-gfm';
+import remarkStringify from 'remark-stringify';
 import type { ConversionConfig, ConversionResult, ProseJsonSource, ConversionReport } from './types';
 import { validateProseContent, validateJsonSource, sanitizeFileName, validateFileName } from './validator';
 
@@ -55,10 +60,68 @@ function simpleHtmlToMarkdown(html: string): string {
 }
 
 /**
+ * Robust HTML to Markdown conversion using unified/rehype/remark with GFM
+ */
+async function htmlToMarkdown(html: string, extractPattern?: { tag: string; attribute: string; pattern: string | RegExp }, skipTags: string[] = []): Promise<string> {
+  const processor = unified()
+    .use(rehypeParse, { fragment: true })
+    // Optionally extract matched container before converting
+    .use(function rehypeExtractByPattern() {
+      return (tree: any) => {
+        if (!extractPattern) return;
+        let matched: any | null = null;
+        const p = extractPattern;
+        function toCamelCase(name: string): string {
+          return name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+        }
+        function mapAttributeName(attr: string): string {
+          const lower = attr.toLowerCase();
+          if (lower === 'class') return 'className';
+          return toCamelCase(attr);
+        }
+        function visit(node: any) {
+          if (matched) return;
+          if (node && node.type === 'element' && typeof node.tagName === 'string') {
+            if (skipTags.includes(node.tagName.toLowerCase())) return; // skip subtree
+            if (node.tagName.toLowerCase() === p.tag.toLowerCase()) {
+              const props = (node.properties || {}) as Record<string, unknown>;
+              const propKey = mapAttributeName(p.attribute);
+              const value = (props as any)[propKey] ?? (props as any)[p.attribute];
+              const attrStr = Array.isArray(value) ? value.join(' ') : value == null ? '' : String(value);
+              const ok = typeof p.pattern === 'string' ? attrStr.includes(p.pattern) : (p.pattern as RegExp).test(attrStr);
+              if (ok) matched = node;
+            }
+          }
+          const children: any[] = Array.isArray(node?.children) ? node.children : [];
+          for (const child of children) visit(child);
+        }
+        visit(tree);
+        if (matched && Array.isArray(matched.children)) {
+          tree.children = matched.children;
+        }
+      };
+    })
+    .use(rehypeRemark)
+    .use(remarkGfm)
+    .use(remarkStringify, {
+      bullet: '-',
+      fences: true,
+      rule: '-',
+      strong: '*',
+      emphasis: '_',
+      listItemIndent: 'one',
+    })
+  const file = await processor.process(html);
+
+  return String(file).trim();
+}
+
+/**
  * Main converter class
  */
 export class ProseMarkdownConverter {
   private config: ConversionConfig;
+  private usedFileNames: Set<string> = new Set();
 
   constructor(config: ConversionConfig) {
     this.config = config;
@@ -145,7 +208,12 @@ export class ProseMarkdownConverter {
 
       // Validate content with prose patterns
       if (this.config.validation.enabled) {
-        const validation = validateProseContent(source.content, this.config.validation.patterns);
+        const validation = validateProseContent(
+          source.content,
+          this.config.validation.patterns,
+          this.config.validation.strict,
+          this.config.validation.skipTags || []
+        );
         if (!validation.isValid) {
           return {
             success: false,
@@ -156,16 +224,16 @@ export class ProseMarkdownConverter {
         }
       }
 
-      // Clean HTML if needed
-      let htmlContent = source.content;
-      if (this.config.conversion.cleanHtml) {
-        htmlContent = this.cleanHtmlContent(htmlContent);
-      }
+      // Prepare HTML and optional extraction pattern
+      const htmlContent = source.content;
+      const extract = this.config.conversion.cleanHtml && this.config.validation.patterns.length > 0
+        ? this.config.validation.patterns[0]
+        : undefined;
 
-      // Convert HTML to Markdown using simple converter
+      // Convert HTML to Markdown using unified pipeline
       let markdown: string;
       try {
-        markdown = simpleHtmlToMarkdown(htmlContent);
+        markdown = await htmlToMarkdown(htmlContent, extract, this.config.validation.skipTags || []);
       } catch (error) {
         return {
           success: false,
@@ -184,7 +252,15 @@ export class ProseMarkdownConverter {
         fileName = sanitizeFileName(fileName);
       }
 
-      const outputFileName = `${fileName}.md`;
+      // Ensure unique filename within the run
+      let uniqueName = fileName;
+      let suffix = 1;
+      while (this.usedFileNames.has(uniqueName)) {
+        uniqueName = `${fileName}-${suffix++}`;
+      }
+      this.usedFileNames.add(uniqueName);
+
+      const outputFileName = `${uniqueName}.md`;
       const outputPath = path.join(this.config.outputDir, outputFileName);
 
       // Create output directory if needed
@@ -224,17 +300,16 @@ export class ProseMarkdownConverter {
     const results: ConversionResult[] = [];
 
     try {
-      // Read source directory
-      const files = await fs.readdir(this.config.sourceDir);
-      const jsonFiles = files.filter(f => f.endsWith('.json'));
+      // Collect JSON files recursively
+      const jsonFiles = await this.collectJsonFiles(this.config.sourceDir);
 
       if (jsonFiles.length === 0) {
         console.warn(`No JSON files found in ${this.config.sourceDir}`);
       }
 
       // Process each file
-      for (const jsonFile of jsonFiles) {
-        const filePath = path.join(this.config.sourceDir, jsonFile);
+      for (const filePath of jsonFiles) {
+        const jsonFile = path.relative(this.config.sourceDir, filePath) || path.basename(filePath);
         
         try {
           const content = await fs.readFile(filePath, 'utf-8');
@@ -293,6 +368,32 @@ export class ProseMarkdownConverter {
       endTime,
       duration,
     };
+  }
+
+  /**
+   * Recursively collect all JSON files under a directory
+   */
+  private async collectJsonFiles(dir: string): Promise<string[]> {
+    const resolvedDir = path.resolve(dir);
+    const resolvedOutput = path.resolve(this.config.outputDir);
+    const results: string[] = [];
+
+    const entries = await fs.readdir(resolvedDir, { withFileTypes: true } as any);
+    for (const entry of entries as any) {
+      const entryPath = path.join(resolvedDir, entry.name);
+      if (entry.isDirectory && entry.isDirectory()) {
+        // Skip output directory if inside source
+        if (entryPath === resolvedOutput) continue;
+        const nested = await this.collectJsonFiles(entryPath);
+        results.push(...nested);
+      } else {
+        if (entry.name.toLowerCase().endsWith('.json')) {
+          results.push(entryPath);
+        }
+      }
+    }
+
+    return results;
   }
 
   /**

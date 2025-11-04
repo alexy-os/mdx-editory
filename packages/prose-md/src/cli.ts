@@ -59,7 +59,7 @@ function parseArgs(argv: string[]): CliArgs {
  */
 function printHelp(): void {
   console.log(`
-@editory/prose-md - Convert HTML prose content from JSON to Markdown
+@editory/prose-md - Convert HTML prose content from JSON to Markdown (GFM)
 
 Usage:
   prose-md [options]
@@ -72,6 +72,10 @@ Options:
   -v, --version          Show version
   -h, --help             Show this help message
   --verbose              Enable verbose logging
+
+Notes:
+  - Recursively processes all .json files under the source directory
+  - Uses unified/rehype/remark with GFM for robust HTML→Markdown
 
 Examples:
   # Use default config
@@ -102,7 +106,8 @@ Configuration File Format:
           "pattern": "prose"
         }
       ],
-      "strict": true
+      "strict": true,
+      "skipTags": ["svg"]
     },
     "conversion": {
       "preserveFrontmatter": true,

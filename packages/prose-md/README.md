@@ -1,11 +1,11 @@
 # @editory/prose-md
 
-🚀 Convert HTML prose content from JSON to Markdown files using **Editory Rich** converters.
+🚀 Convert HTML prose content from JSON to Markdown files with a robust Unified/Remark pipeline.
 
 **Key Features:**
-- ✅ Validates HTML against customizable prose patterns
-- ✅ Uses `@editory/rich` for consistent HTML↔Markdown conversion
-- ✅ Batch process JSON files with configurable patterns
+- ✅ Validates HTML against customizable prose patterns (strict/non-strict)
+- ✅ Robust HTML→Markdown via unified + rehype + remark (GFM support: tables, lists, etc.)
+- ✅ Recursively discovers and converts all JSON files in source directory
 - ✅ CLI tool for command-line integration
 - ✅ Programmable API for custom workflows
 - ✅ TypeScript support
@@ -86,7 +86,8 @@ console.log(`Converted ${report.successfulConversions} files`);
         "pattern": "prose"
       }
     ],
-    "strict": true
+    "strict": true,
+    "skipTags": ["svg"]
   },
   "conversion": {
     "preserveFrontmatter": true,
@@ -122,6 +123,7 @@ Validate HTML content structure
   - `attribute`: Attribute name (e.g., `class`)
   - `pattern`: Pattern to match in attribute value (e.g., `prose`)
 - **strict:** Require all patterns to match (default: `true`)
+- **skipTags:** Tags to skip during traversal (default: `["svg"]`)
 
 #### `conversion`
 Control HTML→Markdown conversion
@@ -359,19 +361,13 @@ prose-md --init --config articles.config.json
 prose-md --config articles.config.json --verbose
 ```
 
-## Integration with @editory/rich
+## Conversion Engine
 
-This package uses converters from `@editory/rich`:
+This package uses a standardized pipeline:
 
-- **htmlToMarkdown** - Convert HTML to Markdown
-- **prepareHtmlForMarkdown** - Prepare and clean HTML before conversion
-- **sanitizeHtmlForMarkdown** - Remove TipTap-specific attributes
+- rehype-parse → rehype-remark → remark-gfm → remark-stringify
 
-This ensures **consistency** between:
-- Editory Rich editor conversions
-- Document exports
-- Format conversions
-- Various converter tools
+This ensures consistent, high-quality Markdown output and support for GFM features.
 
 ## Advanced Features
 

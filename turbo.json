@@ -53,6 +53,11 @@
       "dependsOn": ["^analyze"],
       "outputs": ["dist/**"],
       "cache": true
+    },
+    "convert": {
+      "dependsOn": ["^convert"],
+      "outputs": ["dist/**"],
+      "cache": true
     }
   },
   "ui": "tui"

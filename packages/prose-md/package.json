@@ -1,7 +1,7 @@
 {
   "name": "@editory/prose-md",
   "version": "1.0.0",
-  "description": "Convert HTML prose content from JSON to Markdown files using Editory Rich converters",
+  "description": "Convert HTML prose content from JSON to Markdown files (recursive, GFM)",
   "type": "module",
   "main": "./dist/prose-md.js",
   "types": "./dist/index.d.ts",
@@ -29,7 +29,11 @@
     "convert": "node cli.js"
   },
   "dependencies": {
-    "@editory/rich": "workspace:*"
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-stringify": "^11.0.0",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@types/node": "^22.15.30",

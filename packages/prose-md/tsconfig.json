@@ -18,10 +18,6 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["node"],
     "baseUrl": ".",
-    "paths": {
-      "@editory/rich": ["../rich/src"],
-      "@editory/rich/utils/markdown": ["../rich/src/utils/markdown"]
-    }
   },
   "include": ["src", "bin"],
   "exclude": ["dist", "node_modules", "test"]

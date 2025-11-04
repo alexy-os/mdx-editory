@@ -10,7 +10,8 @@
         "pattern": "prose"
       }
     ],
-    "strict": true
+    "strict": true,
+    "skipTags": ["svg"]
   },
   "conversion": {
     "preserveFrontmatter": true,

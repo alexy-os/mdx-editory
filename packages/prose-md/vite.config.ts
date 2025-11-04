@@ -9,22 +9,16 @@ export default defineConfig({
       fileName: (format) => `prose-md.${format === 'es' ? 'mjs' : 'js'}`,
       formats: ['es', 'cjs']
     },
+    target: 'node18',
     rollupOptions: {
-      external: ['@editory/rich', 'fs', 'path'],
-      output: {
-        globals: {
-          '@editory/rich': 'EditoryRich',
-          'fs': 'fs',
-          'path': 'path'
-        }
-      }
+      // Externalize all non-relative, non-absolute imports so Node resolves them at runtime
+      external: (id) => !id.startsWith('.') && !path.isAbsolute(id),
+      output: { globals: {} }
     },
     sourcemap: true,
     minify: false
   },
   resolve: {
-    alias: {
-      '@editory/rich': path.resolve(__dirname, '../rich/src')
-    }
+    alias: {}
   }
 });
