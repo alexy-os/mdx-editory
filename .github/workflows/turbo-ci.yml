@@ -1,0 +1,107 @@
+name: Turbo Monorepo CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build all packages
+        run: bun run build
+
+      - name: Run tests
+        run: bun run test
+        continue-on-error: true
+
+      - name: Run linting
+        run: bun run lint
+        continue-on-error: true
+
+  build-admin:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'apps/admin') || github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-admin-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-admin-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build admin
+        run: bun run build:admin
+
+  build-blog:
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'apps/blog') || github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-blog-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-blog-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build blog
+        run: bun run build:blog

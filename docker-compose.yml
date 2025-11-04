@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # Development environment with Bun and all dependencies
+  dev:
+    image: node:20-alpine
+    container_name: editory-dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/.turbo
+    ports:
+      - "5173:5173"  # Vite dev server
+      - "4173:4173"  # Vite preview
+      - "3000:3000"  # Admin/other apps
+    environment:
+      - NODE_ENV=development
+      - TURBO_HASH_ALL=true
+    command: |
+      sh -c "
+      npm install -g bun &&
+      bun install &&
+      echo 'Development environment ready. Run: bun run dev'
+      sleep infinity
+      "
+
+  # Build environment for production builds
+  build:
+    image: node:20-alpine
+    container_name: editory-build
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/.turbo
+    environment:
+      - NODE_ENV=production
+      - TURBO_HASH_ALL=true
+    command: |
+      sh -c "
+      npm install -g bun &&
+      bun install &&
+      bun run build
+      "
+
+  # Admin app isolated environment
+  admin:
+    image: node:20-alpine
+    container_name: editory-admin
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/.turbo
+      - /workspace/apps/admin/node_modules
+    ports:
+      - "5174:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+    command: |
+      sh -c "
+      npm install -g bun &&
+      bun install &&
+      bun run dev:admin
+      "
+
+  # Blog app isolated environment
+  blog:
+    image: node:20-alpine
+    container_name: editory-blog
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/.turbo
+      - /workspace/apps/blog/node_modules
+    ports:
+      - "5175:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+    command: |
+      sh -c "
+      npm install -g bun &&
+      bun install &&
+      bun run dev:blog
+      "
+
+  # Rich editor package environment
+  rich:
+    image: node:20-alpine
+    container_name: editory-rich
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /workspace/node_modules
+      - /workspace/.turbo
+      - /workspace/packages/rich/node_modules
+    ports:
+      - "5176:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+    command: |
+      sh -c "
+      npm install -g bun &&
+      bun install &&
+      bun run dev:rich
+      "
+
+volumes:
+  turbo-cache:
+    driver: local

@@ -1,5 +1,5 @@
 {
-  "name": "editory",
+  "name": "@editory/root",
   "version": "0.0.3",
   "private": true,
   "license": "MIT",
@@ -16,18 +16,27 @@
     "packages/*"
   ],
   "scripts": {
-    "blog:dev":      "bun run --cwd apps/blog dev",
-    "blog:build":    "bun run --cwd apps/blog build",
-    "blog:preview":  "bun run --cwd apps/blog preview",
-    "admin:dev":      "bun run --cwd apps/admin dev",
-    "admin:build":    "bun run --cwd apps/admin build",
-    "admin:preview":  "bun run --cwd apps/admin preview",
-    "rich:dev":      "bun run --cwd packages/rich dev",
-    "rich:build":    "bun run --cwd packages/rich build",
-    "rich:preview":  "bun run --cwd packages/rich preview",
-    "ui:init":  "bun run --cwd packages/ui bun x buildy-ui@latest init",
-    "ui:add":   "bun run --cwd packages/ui bun x buildy-ui@latest add",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "preview": "turbo preview",
+    "build:admin": "turbo build --filter=@editory/admin",
+    "dev:admin": "turbo dev --filter=@editory/admin",
+    "build:blog": "turbo build --filter=@editory/blog",
+    "dev:blog": "turbo dev --filter=@editory/blog",
+    "build:rich": "turbo build --filter=@editory/rich",
+    "dev:rich": "turbo dev --filter=@editory/rich",
+    "build:ui": "turbo build --filter=@editory/ui",
+    "dev:ui": "turbo dev --filter=@editory/ui",
     "optimize:images": "tsx scripts/optimize-images.ts",
-    "generate": "bun run build && tsx scripts/public-generate.tsx"
+    "generate": "turbo build && tsx scripts/public-generate.tsx",
+    "clean": "turbo clean && rm -rf node_modules",
+    "clean:cache": "turbo prune --scope=@editory/root",
+    "vercel-build": "turbo build --filter=@editory/admin"
+  },
+  "packageManager": "bun@1.1.30",
+  "devDependencies": {
+    "turbo": "latest"
   }
 }

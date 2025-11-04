@@ -13,3 +13,6 @@ package-lock.json
 .cursor/
 .cursorignore
 .helper/
+.turbo/
+.turbo-cache/
+*.tsbuildinfo

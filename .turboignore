@@ -1,0 +1,47 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# Node and package managers
+node_modules
+package-lock.json
+yarn.lock
+bun.lockb
+
+# IDE and editors
+.vscode
+.idea
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Build and dist
+dist
+build
+.next
+.turbo
+
+# Logs
+*.log
+logs
+
+# Environment
+.env.local
+.env.*.local
+
+# Documentation
+*.md
+README.md
+CONTRIBUTING.md
+docs
+
+# Examples
+examples
+test
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.circleci
